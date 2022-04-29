@@ -1,18 +1,19 @@
 # **Takım İsmi**
 
-Takım X
+Takım 177
 
 # Ürün İle İlgili Bilgiler
 
 ## Takım Elemanları
 
-- John Doe: Product Owner
-- Jane Doe: Scrum Master
-- Atıl Samancıoğlu: Team Member/Developer
+- Ceren Altınkeser: Product Owner
+- [Ladin Hastürel](https://github.com/lhasturel): Scrum Master
+- [Selçuk Söğüt](https://github.com/ssogut26): Developer
+- [Burak KALAYCI](https://github.com/torukobyte): Developer
 
 ## Ürün İsmi
 
---Movie App--
+--**H**uman **R**esource **M**anagement **S**ystem--
 
 ## Ürün Açıklaması
 
