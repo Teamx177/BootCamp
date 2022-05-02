@@ -6,7 +6,7 @@ Takım 177
 
 ## Takım Elemanları
 
-- Ceren Altınkeser: Product Owner
+- [Ceren Altınkeser](https://github.com/cerenal): Product Owner
 - [Ladin Hastürel](https://github.com/lhasturel): Scrum Master
 - [Selçuk Söğüt](https://github.com/ssogut26): Developer
 - [Burak KALAYCI](https://github.com/torukobyte): Developer
@@ -17,26 +17,25 @@ Takım 177
 
 ## Ürün Açıklaması
 
-- Movie App uygulamamız ile insanların izlemek istediği filmlere ve dizilere daha kolay karar vermesini sağlayacağız. İçerisinde binlerce filmi barındıran uygulamamız aynı zamanda Netflix, Prime vb. platformlarda yayınlanıp yayınlanmadığını ve IMDB puanlarını da gösterecek.
+- HRMS uygulamamız ile iş arayanlar ve işe en uygun çalışanı seçmek isteyen işverenleri
+  buluşturuyoruz. İşe alım sürecindeki zaman alan prosedürleri de ortadan kaldırarak hem iş adayı
+  hem de işveren için daha verimli bir ortam yaratmayı amaçlıyoruz
 
 ## Ürün Özellikleri
 
-- Filmleri türüne göre ayırma
-- Filmlerin yönetmen, aktör, aktris vb. bilgilerini posteriyle birlikte gösterme
-- IMDB ve Rotten Tomatoes puanlarını gösterme
-- Netflix'te ve Prime'da bulunurluğunu gösterme
+- İş ilanlarını sektörlere göre sınıflandırma
+- İş başvurusunda bulunan kişileri iletişim bilgileri ile görüntüleme
+- İş ilanını, ilan sahibinin belirlediği maksimum maaş ile görüntüleme
+- İş adayı ve işveren adına yapılan değerlendirmeleri görüntüleme
 
 ## Hedef Kitle
 
-- Netflix kullanıcıları
-- Prime kullanıcıları
-- Sinema severler
-- Dizi severler
-- 15 - 65 yaş arası kullanıcılar
+- İş arayanlar
+- Eleman arayanlar
 
 ## Product Backlog URL
 
-[Miro Backlog Board](https://miro.com/app/board/uXjVOSSCpsI=/)
+[Miro Backlog Board](https://miro.com/app/board/uXjVO4JxoEI=/)
 
 ---
 
