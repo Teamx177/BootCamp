@@ -20,11 +20,13 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  late bool isPasswordVisible;
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    isPasswordVisible = false;
     super.initState();
   }
 
@@ -138,10 +140,24 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: _passwordController,
         textInputAction: TextInputAction.done,
-        decoration: const InputDecoration(
-          hintText: 'Şifre',
-          prefixIcon: Icon(Icons.lock_outline),
-        ),
+        obscureText: !isPasswordVisible,
+        decoration: InputDecoration(
+            hintText: 'Şifre',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            prefixIcon: Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: Icon(
+                // Based on passwordVisible state choose the icon
+                isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordVisible = !isPasswordVisible;
+                });
+              },
+            )),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
             return ValidateTexts.emptyPassword;
@@ -165,8 +181,11 @@ class _LoginPageState extends State<LoginPage> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         controller: _emailController,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: 'example@gmail.com',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           prefixIcon: Icon(Icons.email_outlined),
         ),
         validator: (value) {

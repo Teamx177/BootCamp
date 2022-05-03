@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData.dark().copyWith(
+          textTheme: ThemeData.dark().textTheme.apply(
+                fontFamily: 'Ubuntu',
+              ),
           primaryColor: const Color.fromARGB(255, 59, 66, 82),
           scaffoldBackgroundColor: const Color.fromARGB(255, 59, 66, 82),
           appBarTheme: _custimizedAppBar(),
@@ -28,7 +31,8 @@ class MyApp extends StatelessWidget {
           inputDecorationTheme: _customizedInputDecoration(),
           bottomNavigationBarTheme: _customizedBottomNavBar(),
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
 
           // useMaterial3: true, //Waiting for release material desing 3 for flutter
           ),
@@ -44,7 +48,8 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  ProgressIndicatorThemeData _customizedProgressIndicator() => const ProgressIndicatorThemeData(
+  ProgressIndicatorThemeData _customizedProgressIndicator() =>
+      const ProgressIndicatorThemeData(
         color: Colors.white,
       );
 
@@ -55,7 +60,8 @@ class MyApp extends StatelessWidget {
         borderSide: const BorderSide(color: Colors.red),
         borderRadius: BorderRadius.circular(20),
       ),
-      errorStyle: const TextStyle(color: Colors.red, height: 0.7, overflow: TextOverflow.ellipsis),
+      errorStyle: const TextStyle(
+          color: Colors.red, height: 0.7, overflow: TextOverflow.ellipsis),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
         borderSide: const BorderSide(

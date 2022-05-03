@@ -21,6 +21,8 @@ class _SingUpState extends State<SingUp> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _passwordConfirmController;
+  late bool isPasswordVisible;
+  late bool isPasswordConfirmVisible;
 
   @override
   void initState() {
@@ -28,6 +30,8 @@ class _SingUpState extends State<SingUp> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _passwordConfirmController = TextEditingController();
+    isPasswordVisible = false;
+    isPasswordConfirmVisible = false;
     super.initState();
   }
 
@@ -80,8 +84,11 @@ class _SingUpState extends State<SingUp> {
         controller: _nameController,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         textInputAction: TextInputAction.next,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: 'Tam Adınız',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           prefixIcon: Icon(Icons.person_outlined),
         ),
         validator: (value) {
@@ -104,8 +111,11 @@ class _SingUpState extends State<SingUp> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         controller: _emailController,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: 'example@gmail.com',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           prefixIcon: Icon(Icons.email_outlined),
         ),
         validator: (value) {
@@ -129,10 +139,24 @@ class _SingUpState extends State<SingUp> {
       child: TextFormField(
         controller: _passwordController,
         textInputAction: TextInputAction.next,
-        decoration: const InputDecoration(
-          hintText: 'Şifre',
-          prefixIcon: Icon(Icons.lock_outline),
-        ),
+        obscureText: !isPasswordVisible,
+        decoration: InputDecoration(
+            hintText: 'Şifre',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            prefixIcon: Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: Icon(
+                // Based on passwordVisible state choose the icon
+                isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordVisible = !isPasswordVisible;
+                });
+              },
+            )),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
             return ValidateTexts.emptyPassword;
@@ -154,10 +178,24 @@ class _SingUpState extends State<SingUp> {
       child: TextFormField(
         controller: _passwordConfirmController,
         textInputAction: TextInputAction.done,
-        decoration: const InputDecoration(
-          hintText: 'Şifrenizi Tekrar Giriniz',
-          prefixIcon: Icon(Icons.lock_outline),
-        ),
+        obscureText: !isPasswordConfirmVisible,
+        decoration: InputDecoration(
+            hintText: 'Şifrenizi Tekrar Giriniz',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            prefixIcon: Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: Icon(
+                // Based on passwordVisible state choose the icon
+                isPasswordConfirmVisible ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordConfirmVisible = !isPasswordConfirmVisible;
+                });
+              },
+            )),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return ValidateTexts.emptyPasswordControl;
