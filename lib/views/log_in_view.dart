@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/bottom_screens/home_page.dart';
-import 'package:hrms/screens/sing_up.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/themes/padding.dart';
+import 'package:hrms/views/main_screen_view.dart';
+import 'package:hrms/views/sing_up_view.dart';
 
 import '../static_storage/texts.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  late bool isPasswordVisible;
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    isPasswordVisible = false;
     super.initState();
   }
 
@@ -50,19 +52,27 @@ class _LoginPageState extends State<LoginPage> {
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(
-                      height: 120,
+                      height: 100,
                     ),
                     _emailInput(),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     _passwordInput(),
-                    const SizedBox(
-                      height: 25,
+                    Row(
+                      children: [
+                        _goToSingUp(context),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/forgot');
+                          },
+                          child: Text(AuthStatusTexts.forgotPassword),
+                        ),
+                      ],
                     ),
-                    _goToSingUp(context),
                     const SizedBox(
                       height: 10,
+                    ),
+                    const SizedBox(
+                      height: 5,
                     ),
                     _loginButton(context),
                   ],
@@ -76,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   ElevatedButton _loginButton(BuildContext context) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: () async {
         final email = _emailController.text;
         final password = _passwordController.text;
@@ -90,29 +100,31 @@ class _LoginPageState extends State<LoginPage> {
             if (user != null) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+                  builder: (context) => const MainView(),
                 ),
               );
             }
           } on UserNotFoundAuthException {
             await showErrorDialog(
               context,
-              'Kullanıcı Bulunamadı',
+              ErrorTexts.userNotFound,
             );
           } on WrongPasswordAuthException {
             await showErrorDialog(
               context,
-              'Şifre Hatalı',
+              ErrorTexts.wrongPassword,
             );
           } on GenericAuthException {
             await showErrorDialog(
               context,
-              'Bilinmeyen bir hata oluştu',
+              ErrorTexts.error,
             );
           }
         }
       },
-      child: Text(AuthStatusTexts.signIn),
+      label: Text(AuthStatusTexts.signIn),
+      icon: const Icon(Icons.arrow_forward_sharp),
+      // hoverColor: Colors.blue,
     );
   }
 
@@ -122,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const SingUp(),
+            builder: (context) => const SingUpView(),
           ),
         );
       },
@@ -138,9 +150,23 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: _passwordController,
         textInputAction: TextInputAction.done,
-        decoration: const InputDecoration(
-          hintText: 'Şifre',
-          prefixIcon: Icon(Icons.lock_outline),
+        obscureText: !isPasswordVisible,
+        decoration: InputDecoration(
+          hintText: HintTexts.passwordHint,
+          prefixIcon: const Icon(Icons.lock_outline),
+          suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: () {
+              setState(
+                () {
+                  isPasswordVisible = !isPasswordVisible;
+                },
+              );
+            },
+          ),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -165,9 +191,9 @@ class _LoginPageState extends State<LoginPage> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         controller: _emailController,
-        decoration: const InputDecoration(
-          hintText: 'example@gmail.com',
-          prefixIcon: Icon(Icons.email_outlined),
+        decoration: InputDecoration(
+          hintText: HintTexts.emailHint,
+          prefixIcon: const Icon(Icons.email_outlined),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {

@@ -21,4 +21,22 @@ class AuthStatusTexts {
   static String forgotPassword = 'Şifremi Unuttum';
   static String successRegister =
       'Hesabınız oluşturuldu. Lütfen mail adresinize gönderilen linke tıklayarak hesabınızı doğrulayınız.';
+  static String send = 'Gönder';
+  static String createAnAccount = 'Hesap Oluştur';
+}
+
+class HintTexts {
+  static String nameHint = 'İsminiz';
+  static String emailHint = 'email@adres.com';
+  static String passwordHint = 'Şifreniz';
+  static String passwordControlHint = 'Şifrenizi tekrar giriniz';
+}
+
+class ErrorTexts {
+  static String error = 'Bir hata oluştu.';
+  static String emailAlreadyUse = 'Bu email adresi zaten kullanılıyor.';
+  static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
+  static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
+  static String userNotFound = 'Girilen parametrelere ait bir kullanıcı bulunamadı.';
+  static String wrongPassword = 'Girilen şifre hatalı.';
 }

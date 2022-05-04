@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/screens/sing_up.dart';
 import 'package:hrms/static_storage/texts.dart';
+import 'package:hrms/views/sing_up_view.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class WelcomeView extends StatefulWidget {
+  const WelcomeView({Key? key}) : super(key: key);
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  State<WelcomeView> createState() => _WelcomeViewState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _WelcomeViewState extends State<WelcomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +43,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SingUp(),
+                        builder: (context) => const SingUpView(),
                       ),
                     );
                   },

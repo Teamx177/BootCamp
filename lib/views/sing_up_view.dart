@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/screens/log_in.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/static_storage/texts.dart';
 import 'package:hrms/themes/padding.dart';
+import 'package:hrms/views/log_in_view.dart';
 
-class SingUp extends StatefulWidget {
-  const SingUp({Key? key}) : super(key: key);
+class SingUpView extends StatefulWidget {
+  const SingUpView({Key? key}) : super(key: key);
 
   @override
-  State<SingUp> createState() => _SingUpState();
+  State<SingUpView> createState() => _SingUpViewState();
 }
 
-class _SingUpState extends State<SingUp> {
+class _SingUpViewState extends State<SingUpView> {
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _passwordConfirmController;
+  late bool isPasswordVisible;
+  late bool isPasswordConfirmVisible;
 
   @override
   void initState() {
@@ -28,6 +30,8 @@ class _SingUpState extends State<SingUp> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _passwordConfirmController = TextEditingController();
+    isPasswordVisible = false;
+    isPasswordConfirmVisible = false;
     super.initState();
   }
 
@@ -48,7 +52,7 @@ class _SingUpState extends State<SingUp> {
                       height: 100,
                     ),
                     Text(
-                      'Hesap Oluştur',
+                      AuthStatusTexts.createAnAccount,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(
@@ -80,9 +84,9 @@ class _SingUpState extends State<SingUp> {
         controller: _nameController,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         textInputAction: TextInputAction.next,
-        decoration: const InputDecoration(
-          hintText: 'Tam Adınız',
-          prefixIcon: Icon(Icons.person_outlined),
+        decoration: InputDecoration(
+          hintText: HintTexts.nameHint,
+          prefixIcon: const Icon(Icons.person_outlined),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -104,9 +108,9 @@ class _SingUpState extends State<SingUp> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         controller: _emailController,
-        decoration: const InputDecoration(
-          hintText: 'example@gmail.com',
-          prefixIcon: Icon(Icons.email_outlined),
+        decoration: InputDecoration(
+          hintText: HintTexts.emailHint,
+          prefixIcon: const Icon(Icons.email_outlined),
         ),
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -129,10 +133,24 @@ class _SingUpState extends State<SingUp> {
       child: TextFormField(
         controller: _passwordController,
         textInputAction: TextInputAction.next,
-        decoration: const InputDecoration(
-          hintText: 'Şifre',
-          prefixIcon: Icon(Icons.lock_outline),
+        decoration: InputDecoration(
+          hintText: HintTexts.passwordHint,
+          prefixIcon: const Icon(Icons.lock_outline),
+          suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: () {
+              setState(
+                () {
+                  isPasswordVisible = !isPasswordVisible;
+                },
+              );
+            },
+          ),
         ),
+        obscureText: !isPasswordVisible,
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
             return ValidateTexts.emptyPassword;
@@ -153,11 +171,22 @@ class _SingUpState extends State<SingUp> {
       padding: ProjectPadding.inputPaddingVertical,
       child: TextFormField(
         controller: _passwordConfirmController,
+        obscureText: !isPasswordConfirmVisible,
         textInputAction: TextInputAction.done,
-        decoration: const InputDecoration(
-          hintText: 'Şifrenizi Tekrar Giriniz',
-          prefixIcon: Icon(Icons.lock_outline),
-        ),
+        decoration: InputDecoration(
+            hintText: HintTexts.passwordControlHint,
+            prefixIcon: const Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: Icon(
+                // Based on passwordVisible state choose the icon
+                isPasswordConfirmVisible ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordConfirmVisible = !isPasswordConfirmVisible;
+                });
+              },
+            )),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return ValidateTexts.emptyPasswordControl;
@@ -174,19 +203,11 @@ class _SingUpState extends State<SingUp> {
     );
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _passwordConfirmController.dispose();
-    super.dispose();
-  }
-
   TextButton _alreadyHaveAccountButton() => TextButton(
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const LoginPage(),
+              builder: (context) => const LoginView(),
             ),
           );
         },
@@ -211,23 +232,31 @@ class _SingUpState extends State<SingUp> {
             );
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const LoginPage(),
+                builder: (context) => const LoginView(),
               ),
             );
           } on EmailAlreadyInUseAuthException {
             await showErrorDialog(
               context,
-              'Bu mail adresi ile daha önce hesap oluşturulmuş.',
+              ErrorTexts.emailAlreadyUse,
             );
           } on GenericAuthException {
             await showErrorDialog(
               context,
-              'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.',
+              ErrorTexts.error,
             );
           }
         }
       },
       child: Text(AuthStatusTexts.signUp),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _passwordConfirmController.dispose();
+    super.dispose();
   }
 }
