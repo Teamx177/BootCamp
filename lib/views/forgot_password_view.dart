@@ -15,7 +15,7 @@ class ForgotView extends StatefulWidget {
 
 class _ForgotViewState extends State<ForgotView> {
   final _formKey = GlobalKey<FormState>();
-  late final _emailController;
+  late final TextEditingController _emailController;
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -92,13 +92,17 @@ class _ForgotViewState extends State<ForgotView> {
               email: email,
             );
           }
+          await showSuccessDialog(
+            context,
+            AuthStatusTexts.passwordResetSend,
+          );
         } on UserNotFoundAuthException {
-          showErrorDialog(
+          await showErrorDialog(
             context,
             ErrorTexts.userNotFound,
           );
         } on GenericAuthException {
-          showErrorDialog(
+          await showErrorDialog(
             context,
             ErrorTexts.error,
           );

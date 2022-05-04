@@ -5,7 +5,6 @@ import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/static_storage/texts.dart';
 import 'package:hrms/themes/padding.dart';
-import 'package:hrms/views/log_in_view.dart';
 
 class SingUpView extends StatefulWidget {
   const SingUpView({Key? key}) : super(key: key);
@@ -205,11 +204,7 @@ class _SingUpViewState extends State<SingUpView> {
 
   TextButton _alreadyHaveAccountButton() => TextButton(
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const LoginView(),
-            ),
-          );
+          Navigator.pushNamed(context, '/login');
         },
         child: Text(AuthStatusTexts.hasAccount),
       );
@@ -230,11 +225,7 @@ class _SingUpViewState extends State<SingUpView> {
               context,
               AuthStatusTexts.successRegister,
             );
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const LoginView(),
-              ),
-            );
+            await Navigator.pushNamed(context, '/login');
           } on EmailAlreadyInUseAuthException {
             await showErrorDialog(
               context,

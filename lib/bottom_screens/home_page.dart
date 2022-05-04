@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
+import 'package:hrms/static_storage/texts.dart';
 import 'package:hrms/views/log_in_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,13 +21,13 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
-            onPressed: () async {
+            onPressed: () {
               try {
-                await AuthService.firebase().logOut();
+                AuthService.firebase().logOut();
               } on UserNotFoundAuthException {
-                return showErrorDialog(
+                showErrorDialog(
                   context,
-                  'Çıkış yapılırken bir sorun oluştu.',
+                  ErrorTexts.errorOnExit,
                 );
               }
               final user = AuthService.firebase().currentUser;
@@ -37,16 +38,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else {
-                await showErrorDialog(
+                showErrorDialog(
                   context,
-                  'Çıkış yapılırken bir sorun oluştu.',
+                  ErrorTexts.errorOnExit,
                 );
               }
             },
           ),
         ],
       ),
-      body: const Text('Welcome'),
+      body: Text(WelcomeTexts.welcome),
     );
   }
 }

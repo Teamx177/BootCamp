@@ -214,7 +214,6 @@ class _LoginViewState extends State<LoginView> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    print('dispose');
     super.dispose();
   }
 }

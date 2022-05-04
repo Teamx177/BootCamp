@@ -1,6 +1,7 @@
 class WelcomeTexts {
   static String welcomeText = 'Lorem ipsum dolor sit amet.';
   static String buttonText = 'Başla';
+  static String welcome = 'Hosgeldiniz';
 }
 
 class ValidateTexts {
@@ -23,6 +24,7 @@ class AuthStatusTexts {
       'Hesabınız oluşturuldu. Lütfen mail adresinize gönderilen linke tıklayarak hesabınızı doğrulayınız.';
   static String send = 'Gönder';
   static String createAnAccount = 'Hesap Oluştur';
+  static String passwordResetSend = 'Girmiş olduğunuz mail adresine şifre sıfırlama linki gönderilmiştir.';
 }
 
 class HintTexts {
@@ -39,4 +41,6 @@ class ErrorTexts {
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
   static String userNotFound = 'Girilen parametrelere ait bir kullanıcı bulunamadı.';
   static String wrongPassword = 'Girilen şifre hatalı.';
+  static String tryAgainLater = 'Lütfen daha sonra tekrar deneyiniz.';
+  static String errorOnExit = 'Çıkış yapılırken bir hata oluştu.';
 }

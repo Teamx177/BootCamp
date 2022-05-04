@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/bottom_screens/home_page.dart';
-import 'package:hrms/views/log_in_view.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -15,7 +14,6 @@ class _MainViewState extends State<MainView> {
 
   List<Widget> tabPages = [
     const HomePage(),
-    const LoginView(),
   ];
 
   @override
