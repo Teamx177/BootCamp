@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
@@ -20,8 +23,9 @@ class _SingUpViewState extends State<SingUpView> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _passwordConfirmController;
-  late bool isPasswordVisible;
-  late bool isPasswordConfirmVisible;
+  late bool _isPasswordVisible;
+  late bool _isPasswordConfirmVisible;
+  late bool _isEmployer;
 
   @override
   void initState() {
@@ -29,8 +33,9 @@ class _SingUpViewState extends State<SingUpView> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _passwordConfirmController = TextEditingController();
-    isPasswordVisible = false;
-    isPasswordConfirmVisible = false;
+    _isPasswordVisible = false;
+    _isPasswordConfirmVisible = false;
+    _isEmployer = false; // default employee
     super.initState();
   }
 
@@ -40,39 +45,103 @@ class _SingUpViewState extends State<SingUpView> {
       appBar: AppBar(),
       body: Padding(
         padding: ProjectPadding.pagePaddingHorizontal,
-        child: SingleChildScrollView(
+        child: Column(
+          children: [
+            AnimatedToggleSwitch<bool>.dual(
+              current: _isEmployer,
+              first: true,
+              second: false,
+              dif: 50.0,
+              borderColor: Colors.transparent,
+              borderWidth: 5.0,
+              height: 55,
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 1.5),
+                ),
+              ],
+              onChanged: (b) => setState(() => _isEmployer = b),
+              colorBuilder: (b) => b ? Colors.red : Colors.green,
+              iconBuilder: (value) =>
+                  value ? const Icon(Icons.work) : const Icon(Icons.person),
+              textBuilder: (value) => value
+                  ? const Center(child: Text('İş veren'))
+                  : const Center(child: Text('İş arayan')),
+            ),
+            SingleChildScrollView(
+              child: _isEmployer ? employer(context) : employee(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Column employee(BuildContext context) {
+    return Column(
+      children: [
+        Form(
+          key: _formKey,
           child: Column(
             children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    Text(
-                      AuthStatusTexts.createAnAccount,
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    _nameInput(),
-                    _emailInput(),
-                    _passwordInput(),
-                    _passwordControlInput(),
-                    _alreadyHaveAccountButton(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _registerButton(),
-                  ],
-                ),
-              )
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                AuthStatusTexts.createAnAccount,
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              _emailInput(),
+              _passwordInput(),
+              _passwordControlInput(),
+              _alreadyHaveAccountButton(),
+              const SizedBox(
+                height: 20,
+              ),
+              _registerButton(),
             ],
           ),
         ),
-      ),
+      ],
+    );
+  }
+
+  Column employer(BuildContext context) {
+    return Column(
+      children: [
+        Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                AuthStatusTexts.createAnAccount,
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              _nameInput(),
+              _emailInput(),
+              _passwordInput(),
+              _passwordControlInput(),
+              _alreadyHaveAccountButton(),
+              const SizedBox(
+                height: 20,
+              ),
+              _registerButton(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -138,18 +207,18 @@ class _SingUpViewState extends State<SingUpView> {
           suffixIcon: IconButton(
             icon: Icon(
               // Based on passwordVisible state choose the icon
-              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
               setState(
                 () {
-                  isPasswordVisible = !isPasswordVisible;
+                  _isPasswordVisible = !_isPasswordVisible;
                 },
               );
             },
           ),
         ),
-        obscureText: !isPasswordVisible,
+        obscureText: !_isPasswordVisible,
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
             return ValidateTexts.emptyPassword;
@@ -170,7 +239,7 @@ class _SingUpViewState extends State<SingUpView> {
       padding: ProjectPadding.inputPaddingVertical,
       child: TextFormField(
         controller: _passwordConfirmController,
-        obscureText: !isPasswordConfirmVisible,
+        obscureText: !_isPasswordConfirmVisible,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
             hintText: HintTexts.passwordControlHint,
@@ -178,11 +247,11 @@ class _SingUpViewState extends State<SingUpView> {
             suffixIcon: IconButton(
               icon: Icon(
                 // Based on passwordVisible state choose the icon
-                isPasswordConfirmVisible ? Icons.visibility : Icons.visibility_off,
+                _isPasswordConfirmVisible ? Icons.visibility : Icons.visibility_off,
               ),
               onPressed: () {
                 setState(() {
-                  isPasswordConfirmVisible = !isPasswordConfirmVisible;
+                  _isPasswordConfirmVisible = !_isPasswordConfirmVisible;
                 });
               },
             )),
@@ -203,11 +272,11 @@ class _SingUpViewState extends State<SingUpView> {
   }
 
   TextButton _alreadyHaveAccountButton() => TextButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/login');
-        },
-        child: Text(AuthStatusTexts.hasAccount),
-      );
+    onPressed: () {
+      Navigator.pushNamed(context, '/login');
+    },
+    child: Text(AuthStatusTexts.hasAccount),
+  );
 
   ElevatedButton _registerButton() {
     return ElevatedButton(

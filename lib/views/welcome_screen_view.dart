@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/static_storage/texts.dart';
+import 'package:hrms/views/sing_up_view.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -39,9 +40,11 @@ class _WelcomeViewState extends State<WelcomeView> {
                 padding: const EdgeInsets.only(right: 20),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      '/signUp',
+                      MaterialPageRoute(
+                        builder: (context) => const SingUpView(),
+                      ),
                     );
                   },
                   icon: const Icon(Icons.arrow_forward_outlined),
