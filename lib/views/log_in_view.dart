@@ -121,7 +121,6 @@ class _LoginViewState extends State<LoginView> {
               Navigator.pushReplacementNamed(
                 context,
                 '/main',
-                arguments: currentUserType,
               );
             }
           } on UserNotFoundAuthException {
@@ -192,11 +191,8 @@ class _LoginViewState extends State<LoginView> {
           if (value == null || value.trim().isEmpty) {
             return ValidateTexts.emptyPassword;
           }
-          // Şifre en az 8 karakter gerektiriyor değişebilir.
-          if (value.trim().length < 8) {
-            return ValidateTexts.passwordLenght;
-          }
           return null;
+          // Şifre en az 8 karakter gerektiriyor değişebilir.
         },
         onChanged: (value) => userPassword = value,
       ),
