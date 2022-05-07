@@ -26,16 +26,18 @@ class Hrms extends StatelessWidget {
   Hrms({Key? key}) : super(key: key);
 
   String currentUserType = '';
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
         valueListenable: themeNotifier,
         builder: (_, ThemeMode currentMode, __) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             themeMode: currentMode,
             title: 'HRMS',
             theme: ThemeData.light().copyWith(
-              scaffoldBackgroundColor: const Color(0x00f6f7ee),
+              scaffoldBackgroundColor: const Color.fromARGB(255, 174, 185, 209),
               appBarTheme: _custimizedAppBarLight(),
               elevatedButtonTheme: _customizedElevatedButtonLight(),
               progressIndicatorTheme: _customizedProgressIndicatorLight(),
@@ -56,16 +58,15 @@ class Hrms extends StatelessWidget {
                 inputDecorationTheme: _customizedInputDecoration(),
                 bottomNavigationBarTheme: _customizedBottomNavBar(),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
-                colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
+                colorScheme:
+                    ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
                 // useMaterial3: true, //Waiting for release material desing 3 for flutter
                 ),
             // Created routes management is in here
             // initialroute made if users logged in starts with home page
             initialRoute: user != null ? '/main' : '/welcome',
             routes: {
-              '/main': (context) => MainView(
-                    currentUserType: currentUserType,
-                  ),
+              '/main': (context) => const MainView(),
               '/welcome': (context) => const WelcomeView(),
               '/login': (context) => const LoginView(),
               '/singup': (context) => const SingUpView(),
@@ -143,7 +144,7 @@ class Hrms extends StatelessWidget {
         ),
         side: MaterialStateProperty.all(
           const BorderSide(
-            color: Colors.white,
+            color: Color.fromARGB(255, 174, 185, 209),
             width: 0,
           ),
         ),
@@ -181,6 +182,7 @@ BottomNavigationBarThemeData _customizedBottomNavBarLight() {
 ProgressIndicatorThemeData _customizedProgressIndicatorLight() => const ProgressIndicatorThemeData(
       color: Colors.white,
     );
+
 AppBarTheme _custimizedAppBarLight() {
   return const AppBarTheme(
     iconTheme: IconThemeData(
@@ -204,7 +206,7 @@ ElevatedButtonThemeData _customizedElevatedButtonLight() {
       ),
       side: MaterialStateProperty.all(
         const BorderSide(
-          color: Colors.white,
+          color: Color.fromARGB(255, 142, 153, 176),
           width: 0,
         ),
       ),

@@ -48,41 +48,36 @@ class _SingUpViewState extends State<SingUpView> {
       appBar: AppBar(),
       body: Padding(
         padding: ProjectPadding.pagePaddingHorizontal,
-        child: Column(
-          children: [
-            AnimatedToggleSwitch<bool>.dual(
-              current: _isEmployer,
-              first: true,
-              second: false,
-              dif: 50.0,
-              borderColor: Colors.transparent,
-              borderWidth: 5.0,
-              height: 55,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  spreadRadius: 1,
-                  blurRadius: 2,
-                  offset: Offset(0, 1.5),
-                ),
-              ],
-              onChanged: (b) => setState(() => _isEmployer = b),
-              colorBuilder: (b) => b ? Colors.red : Colors.green,
-              iconBuilder: (value) => value ? const Icon(Icons.work) : const Icon(Icons.person),
-              textBuilder: (value) =>
-                  value ? const Center(child: Text('İş veren')) : const Center(child: Text('İş arayan')),
-            ),
-            SingleChildScrollView(
-              child: AnimatedPhysicalModel(
-                shadowColor: Colors.transparent,
-                color: Colors.transparent,
-                shape: BoxShape.rectangle,
-                elevation: _isEmployer ? 0 : 5,
-                duration: const Duration(seconds: 300),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              AnimatedToggleSwitch<bool>.dual(
+                current: _isEmployer,
+                first: true,
+                second: false,
+                dif: 50.0,
+                borderColor: const Color.fromARGB(255, 99, 121, 146),
+                borderWidth: 2,
+                height: 55,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                    offset: Offset(0, 1.5),
+                  ),
+                ],
+                onChanged: (b) => setState(() => _isEmployer = b),
+                colorBuilder: (b) => b ? Colors.red : Colors.green,
+                iconBuilder: (value) => value ? const Icon(Icons.work) : const Icon(Icons.person),
+                textBuilder: (value) =>
+                    value ? const Center(child: Text('İş veren')) : const Center(child: Text('İş arayan')),
+              ),
+              SingleChildScrollView(
                 child: _isEmployer ? employer(context) : employee(context),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

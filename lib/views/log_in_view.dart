@@ -61,14 +61,14 @@ class _LoginViewState extends State<LoginView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 100,
+                      height: 70,
                     ),
                     Text(
                       AuthStatusTexts.signIn,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     const SizedBox(
-                      height: 100,
+                      height: 50,
                     ),
                     _emailInput(),
                     _passwordInput(),
