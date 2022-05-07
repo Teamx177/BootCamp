@@ -1,6 +1,6 @@
-import 'dart:math';
-
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
@@ -18,6 +18,9 @@ class SingUpView extends StatefulWidget {
 
 class _SingUpViewState extends State<SingUpView> {
   final _formKey = GlobalKey<FormState>();
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
@@ -104,7 +107,7 @@ class _SingUpViewState extends State<SingUpView> {
               const SizedBox(
                 height: 20,
               ),
-              _registerButton(),
+              _registerButton("employee"),
             ],
           ),
         ),
@@ -137,7 +140,7 @@ class _SingUpViewState extends State<SingUpView> {
               const SizedBox(
                 height: 20,
               ),
-              _registerButton(),
+              _registerButton("employer"),
             ],
           ),
         ),
@@ -278,17 +281,21 @@ class _SingUpViewState extends State<SingUpView> {
     child: Text(AuthStatusTexts.hasAccount),
   );
 
-  ElevatedButton _registerButton() {
+  ElevatedButton _registerButton(type) {
     return ElevatedButton(
       onPressed: () async {
         final email = _emailController.text;
         final password = _passwordController.text;
         if (_formKey.currentState!.validate()) {
           try {
-            await AuthService.firebase().createUser(
+            var employer = await _auth.createUserWithEmailAndPassword(
               email: email,
               password: password,
             );
+            await _firestore.collection("users").doc(employer.user?.uid).set({
+              "email": email,
+              "type": type,
+            });
             await AuthService.firebase().sendEmailVerification();
             await showSuccessDialog(
               context,

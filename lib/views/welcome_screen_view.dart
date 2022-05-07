@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/static_storage/texts.dart';
-import 'package:hrms/views/sing_up_view.dart';
+import 'package:hrms/views/log_in_view.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -43,7 +43,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SingUpView(),
+                        builder: (context) => const LoginView(),
                       ),
                     );
                   },
