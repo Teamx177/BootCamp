@@ -12,8 +12,7 @@ final userRef = _firestore.collection('users');
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
+  const HomePage({Key? key, currentUserType}) : super(key: key);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -77,7 +76,7 @@ class _HomePageState extends State<HomePage> {
           ? Column(
               children: const [
                 Image(image: NetworkImage("https://cdn-icons-png.flaticon.com/128/1308/1308491.png")),
-                Text("Hoşgeldin Employee"),
+                Text("Hoşgeldin Employee"), // isim aldiktan sonra employee yerine kullanıcının ismini yazacak.
               ],
             )
           : Column(
