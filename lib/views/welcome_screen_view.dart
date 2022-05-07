@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/main.dart';
 import 'package:hrms/static_storage/texts.dart';
-import 'package:hrms/views/log_in_view.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -13,15 +13,24 @@ class _WelcomeViewState extends State<WelcomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        // backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                icon: Icon(Hrms.themeNotifier.value == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
+                onPressed: () {
+                  Hrms.themeNotifier.value =
+                      Hrms.themeNotifier.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+                })
+          ],
+        ),
         body: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 100,
+              Image.asset(
+                'assets/images/welcomeFirst.png',
+                fit: BoxFit.fitHeight,
               ),
-              Image.network('https://picsum.photos/seed/picsum/200/300'),
               const SizedBox(
                 height: 30,
               ),
@@ -40,12 +49,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                 padding: const EdgeInsets.only(right: 20),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginView(),
-                      ),
-                    );
+                    Navigator.pushReplacementNamed(context, '/login');
                   },
                   icon: const Icon(Icons.arrow_forward_outlined),
                   label: Text(WelcomeTexts.buttonText),

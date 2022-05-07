@@ -6,10 +6,13 @@ import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/themes/padding.dart';
-import 'package:hrms/views/main_screen_view.dart';
 import 'package:hrms/views/sing_up_view.dart';
 
 import '../static_storage/texts.dart';
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final userRef = _firestore.collection('users');
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -19,10 +22,21 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  String currentUserType = '';
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late bool isPasswordVisible;
+
+  getUserById() async {
+    final User? user = _auth.currentUser;
+    userRef.doc(user?.uid).get().then((doc) {
+      var userType = doc.data();
+      setState(() {
+        currentUserType = userType!['type'].toString();
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -93,17 +107,20 @@ class _LoginViewState extends State<LoginView> {
         final email = _emailController.text;
         final password = _passwordController.text;
         if (_formKey.currentState!.validate()) {
+          Future.delayed(
+            const Duration(seconds: 2),
+          );
           try {
             await AuthService.firebase().logIn(
               email: email,
               password: password,
             );
+            const Center(child: CircularProgressIndicator());
             final user = AuthService.firebase().currentUser;
             if (user != null) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const MainView(),
-                ),
+              Navigator.pushReplacementNamed(
+                context,
+                '/main',
               );
             }
           } on UserNotFoundAuthException {
@@ -175,6 +192,7 @@ class _LoginViewState extends State<LoginView> {
             return ValidateTexts.emptyPassword;
           }
           return null;
+          // Şifre en az 8 karakter gerektiriyor değişebilir.
         },
         onChanged: (value) => userPassword = value,
       ),

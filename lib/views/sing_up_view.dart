@@ -68,14 +68,19 @@ class _SingUpViewState extends State<SingUpView> {
               ],
               onChanged: (b) => setState(() => _isEmployer = b),
               colorBuilder: (b) => b ? Colors.red : Colors.green,
-              iconBuilder: (value) =>
-                  value ? const Icon(Icons.work) : const Icon(Icons.person),
-              textBuilder: (value) => value
-                  ? const Center(child: Text('İş veren'))
-                  : const Center(child: Text('İş arayan')),
+              iconBuilder: (value) => value ? const Icon(Icons.work) : const Icon(Icons.person),
+              textBuilder: (value) =>
+                  value ? const Center(child: Text('İş veren')) : const Center(child: Text('İş arayan')),
             ),
             SingleChildScrollView(
-              child: _isEmployer ? employer(context) : employee(context),
+              child: AnimatedPhysicalModel(
+                shadowColor: Colors.transparent,
+                color: Colors.transparent,
+                shape: BoxShape.rectangle,
+                elevation: _isEmployer ? 0 : 5,
+                duration: const Duration(seconds: 300),
+                child: _isEmployer ? employer(context) : employee(context),
+              ),
             ),
           ],
         ),
@@ -275,11 +280,11 @@ class _SingUpViewState extends State<SingUpView> {
   }
 
   TextButton _alreadyHaveAccountButton() => TextButton(
-    onPressed: () {
-      Navigator.pushNamed(context, '/login');
-    },
-    child: Text(AuthStatusTexts.hasAccount),
-  );
+        onPressed: () {
+          Navigator.pushNamed(context, '/login');
+        },
+        child: Text(AuthStatusTexts.hasAccount),
+      );
 
   ElevatedButton _registerButton(type) {
     return ElevatedButton(
@@ -288,11 +293,11 @@ class _SingUpViewState extends State<SingUpView> {
         final password = _passwordController.text;
         if (_formKey.currentState!.validate()) {
           try {
-            var employer = await _auth.createUserWithEmailAndPassword(
+            var employer = await AuthService.firebase().createUser(
               email: email,
               password: password,
             );
-            await _firestore.collection("users").doc(employer.user?.uid).set({
+            await _firestore.collection("users").doc(employer.uid).set({
               "email": email,
               "type": type,
             });

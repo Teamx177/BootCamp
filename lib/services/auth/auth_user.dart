@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class AuthUser {
-  final bool isAnon;
-  const AuthUser(this.isAnon);
-  factory AuthUser.fromFirebase(User user) => AuthUser(user.isAnonymous);
+  final String uid;
+  const AuthUser(this.uid);
+  factory AuthUser.fromFirebase(User user) => AuthUser(user.uid);
 }

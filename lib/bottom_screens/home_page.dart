@@ -14,8 +14,7 @@ final userRef = _firestore.collection('users');
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
+  const HomePage({Key? key, currentUserType}) : super(key: key);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -72,6 +71,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+<<<<<<< HEAD
       body: FutureBuilder<String>(
         future: getUserById(), // async work
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -95,6 +95,21 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
+=======
+      body: currentUserType == "employee"
+          ? Column(
+              children: const [
+                Image(image: NetworkImage("https://cdn-icons-png.flaticon.com/128/1308/1308491.png")),
+                Text("Hoşgeldin Employee"), // isim aldiktan sonra employee yerine kullanıcının ismini yazacak.
+              ],
+            )
+          : Column(
+              children: const [
+                Image(image: NetworkImage("https://cdn-icons-png.flaticon.com/128/1869/1869679.png")),
+                Text("Hoşgeldin Employer"),
+              ],
+            ),
+>>>>>>> 0f25e032b5e2d9dd528b37f51308d3ab1c92c543
     );
   }
 }

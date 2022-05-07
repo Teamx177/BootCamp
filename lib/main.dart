@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hrms/firebase_options.dart';
 import 'package:hrms/static_storage/firebase.dart';
+import 'package:hrms/themes/light_theme.dart';
 import 'package:hrms/views/forgot_password_view.dart';
 import 'package:hrms/views/log_in_view.dart';
 import 'package:hrms/views/main_screen_view.dart';
@@ -16,43 +17,63 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(Hrms());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Hrms extends StatelessWidget {
+  static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
+
+  Hrms({Key? key}) : super(key: key);
+
+  String currentUserType = '';
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HRMS',
-      theme: ThemeData.dark().copyWith(
-          textTheme: ThemeData.dark().textTheme.apply(
-                fontFamily: 'Ubuntu',
-              ),
-          dialogTheme: _customDialog(),
-          scaffoldBackgroundColor: const Color.fromARGB(255, 46, 52, 64),
-          primaryColor: const Color.fromARGB(255, 59, 66, 82),
-          appBarTheme: _custimizedAppBar(),
-          elevatedButtonTheme: _customizedElevatedButton(),
-          progressIndicatorTheme: _customizedProgressIndicator(),
-          inputDecorationTheme: _customizedInputDecoration(),
-          bottomNavigationBarTheme: _customizedBottomNavBar(),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
-          // useMaterial3: true, //Waiting for release material desing 3 for flutter
-          ),
-      // Created routes management is in here
-      // initialroute made if users logged in starts with home page
-      initialRoute: user != null ? '/main' : '/welcome',
-      routes: {
-        '/main': (context) => const MainView(),
-        '/welcome': (context) => const WelcomeView(),
-        '/login': (context) => const LoginView(),
-        '/singup': (context) => const SingUpView(),
-        '/main/home': (context) => const HomePage(),
-        '/forgot': (context) => const ForgotView(),
-      },
-    );
+    return ValueListenableBuilder<ThemeMode>(
+        valueListenable: themeNotifier,
+        builder: (_, ThemeMode currentMode, __) {
+          return MaterialApp(
+            themeMode: currentMode,
+            title: 'HRMS',
+            theme: ThemeData.light().copyWith(
+              scaffoldBackgroundColor: const Color(0x00f6f7ee),
+              appBarTheme: _custimizedAppBarLight(),
+              elevatedButtonTheme: _customizedElevatedButtonLight(),
+              progressIndicatorTheme: _customizedProgressIndicatorLight(),
+              inputDecorationTheme: _customizedInputDecoration(),
+              bottomNavigationBarTheme: LightTheme().theme.bottomNavigationBarTheme,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            darkTheme: ThemeData.dark().copyWith(
+                textTheme: ThemeData.dark().textTheme.apply(
+                      fontFamily: 'Ubuntu',
+                    ),
+                dialogTheme: _customDialog(),
+                scaffoldBackgroundColor: const Color.fromARGB(255, 46, 52, 64),
+                primaryColor: const Color.fromARGB(255, 59, 66, 82),
+                appBarTheme: _custimizedAppBar(),
+                elevatedButtonTheme: _customizedElevatedButton(),
+                progressIndicatorTheme: _customizedProgressIndicator(),
+                inputDecorationTheme: _customizedInputDecoration(),
+                bottomNavigationBarTheme: _customizedBottomNavBar(),
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
+                // useMaterial3: true, //Waiting for release material desing 3 for flutter
+                ),
+            // Created routes management is in here
+            // initialroute made if users logged in starts with home page
+            initialRoute: user != null ? '/main' : '/welcome',
+            routes: {
+              '/main': (context) => MainView(
+                    currentUserType: currentUserType,
+                  ),
+              '/welcome': (context) => const WelcomeView(),
+              '/login': (context) => const LoginView(),
+              '/singup': (context) => const SingUpView(),
+              '/main/home': (context) => const HomePage(),
+              '/forgot': (context) => const ForgotView(),
+            },
+          );
+        });
   }
 
   DialogTheme _customDialog() {
@@ -123,16 +144,16 @@ class MyApp extends StatelessWidget {
         side: MaterialStateProperty.all(
           const BorderSide(
             color: Colors.white,
-            width: 1,
+            width: 0,
           ),
         ),
-        visualDensity: VisualDensity.compact,
+        visualDensity: VisualDensity.standard,
         backgroundColor: MaterialStateProperty.all(
           const Color.fromARGB(255, 94, 129, 172),
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(5),
           ),
         ),
       ),
@@ -147,4 +168,55 @@ class MyApp extends StatelessWidget {
       systemOverlayStyle: SystemUiOverlayStyle.light,
     );
   }
+}
+
+BottomNavigationBarThemeData _customizedBottomNavBarLight() {
+  return const BottomNavigationBarThemeData(
+    backgroundColor: Colors.black,
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Colors.white,
+  );
+}
+
+ProgressIndicatorThemeData _customizedProgressIndicatorLight() => const ProgressIndicatorThemeData(
+      color: Colors.white,
+    );
+AppBarTheme _custimizedAppBarLight() {
+  return const AppBarTheme(
+    iconTheme: IconThemeData(
+      color: Colors.black,
+    ),
+    color: Colors.transparent,
+    elevation: 0,
+    centerTitle: true,
+    systemOverlayStyle: SystemUiOverlayStyle.light,
+  );
+}
+
+ElevatedButtonThemeData _customizedElevatedButtonLight() {
+  return ElevatedButtonThemeData(
+    style: ButtonStyle(
+      overlayColor: MaterialStateProperty.all(
+        Colors.green,
+      ),
+      fixedSize: MaterialStateProperty.all(
+        const Size(125, 40),
+      ),
+      side: MaterialStateProperty.all(
+        const BorderSide(
+          color: Colors.white,
+          width: 0,
+        ),
+      ),
+      visualDensity: VisualDensity.standard,
+      backgroundColor: MaterialStateProperty.all(
+        const Color.fromARGB(255, 94, 129, 172),
+      ),
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+    ),
+  );
 }
