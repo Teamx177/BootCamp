@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,16 +29,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  //provider ile giriş yap butonuna basıldığında çalışıp buraya değeri gönderecek.
-  //tek tek sayfadan sayfaya göndermek istemediğim için providera geçene kadar böyle bıraktım.
-  getUserById() async {
+  Future<String> getUserById() async {
     final User? user = _auth.currentUser;
-    userRef.doc(user?.uid).get().then((doc) {
+    await userRef.doc(user?.uid).get().then((doc) {
       var userType = doc.data();
-      setState(() {
-        currentUserType = userType!['type'].toString();
-      });
+      currentUserType = userType!['type'].toString();
     });
+    return currentUserType;
   }
 
   @override
@@ -73,19 +72,29 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: currentUserType == "employee"
-          ? Column(
-              children: const [
-                Image(image: NetworkImage("https://cdn-icons-png.flaticon.com/128/1308/1308491.png")),
-                Text("Hoşgeldin Employee"),
-              ],
-            )
-          : Column(
-              children: const [
-                Image(image: NetworkImage("https://cdn-icons-png.flaticon.com/128/1869/1869679.png")),
-                Text("Hoşgeldin Employer"),
-              ],
-            ),
+      body: FutureBuilder<String>(
+        future: getUserById(), // async work
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator());
+            case ConnectionState.done:
+              return Column(
+                children: [
+                  currentUserType == "employer"
+                      ? Text("Hoşgeldin: " + currentUserType)
+                      : Text("Hg: " + currentUserType),
+                ],
+              );
+            default:
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return Text('Result: ${snapshot.data}');
+              }
+          }
+        },
+      ),
     );
   }
 }

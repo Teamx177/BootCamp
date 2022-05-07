@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
@@ -171,10 +173,6 @@ class _LoginViewState extends State<LoginView> {
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
             return ValidateTexts.emptyPassword;
-          }
-          // Şifre en az 8 karakter gerektiriyor değişebilir.
-          if (value.trim().length < 8) {
-            return ValidateTexts.passwordLenght;
           }
           return null;
         },
