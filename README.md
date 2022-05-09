@@ -76,7 +76,7 @@ Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kıs�
 
 - **Sprint Retrospective:**
   - Ekip iletişimini güçlendirmek adına toplantı sayıları arttırılmalı
-  - Daily scrum toplantılarında developerlardan en az birinin katılması ve de bir sonraki sprint için planlama toplantısına developerlardan her   
+  - Daily scrum toplantılarında developerlardan en az birinin katılması ve de bir sonraki sprint için planlama toplantısına developerlardan her
     ikisinin de geri bildirimlerini almak amacıyla kesinlikle katılması gerektiğine karar verilmiştir.
   - Unit test'ler için ayrılan efor/saat arttırılmalı
 
