@@ -72,12 +72,13 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![4](https://user-images.githubusercontent.com/61664693/167292612-05e0e6f8-32a7-4118-a0c0-8e01186cfb16.png)
 
 - **Sprint Review**: 
-Alınan kararlar: Veritabanı oluşturması email ile toplanacak veriler için gerekli görülmüştür. Fakat bir yandan da veritabanı form sayfası için gerekli olmamıştır. O sebeple PBI bir sonraki sprint'e aktarılmıştır. Çıkan ürünün çalışmasında ve testlerinde bir problem görülmemiştir. Ekstra koyulması gereken özellikler belirlenmiştir. Sprint Review katılımcıları: ......
+Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kısımları düzenlenecek. Profil sayfası ve ayarlar sayfası oluşturulacak. Ana sayfa düzenlenecek. Sprint Review katılımcıları: Burak Kalaycı, Selçuk Söğüt, Ladin Hastürel
 
 - **Sprint Retrospective:**
-  - Takım içindeki görev dağılımıyla ilgili düzenleme yapılması kararı alınmıştır
-  - Tahmin puanları gözden geçirilmeli ve sprint planlama toplantılarında gerekli geri bildirimlerin developer'lar tarafından verildiğine emin olunmalı
-  - Unit test'ler için ayrılan efor/saat arttırılmalı 
+  - Ekip iletişimini güçlendirmek adına toplantı sayıları arttırılmalı
+  - Daily scrum toplantılarında developerlardan en az birinin katılması ve de bir sonraki sprint için planlama toplantısına developerlardan her   
+    ikisinin de geri bildirimlerini almak amacıyla kesinlikle katılması gerektiğine karar verilmiştir.
+  - Unit test'ler için ayrılan efor/saat arttırılmalı
 
 -**Diğer Notlar**:
 - N/A
