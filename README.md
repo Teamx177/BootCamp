@@ -53,6 +53,10 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 - **Daily Scrum**: Daily Scrum toplantılarının ekip üyelerinin oy birliği ile Discord üzerinden yapılmasına karar verilmiştir. Daily Scrum toplantısı örneği jpeg veya word olarak Readme'de tarafımızdan paylaşılmaktadır:![1651582373676](https://user-images.githubusercontent.com/100482891/166457600-310661c5-9770-45a2-8b17-30353b4d5d88.jpg)
 
 - ![1651582373668](https://user-images.githubusercontent.com/100482891/166457539-49835715-3038-4e29-9357-00f914f81313.png)
+- ![1652114118865](https://user-images.githubusercontent.com/100482891/167456662-9d52f911-773b-4412-b058-0f1c6263b856.jpg)
+- ![1652114118847](https://user-images.githubusercontent.com/100482891/167456719-4043c5f4-f989-4964-b4fc-7f9d4cc0c05e.jpg)
+- ![1652114118885](https://user-images.githubusercontent.com/100482891/167456777-7f9331d8-8b5f-4b52-a311-2c5e904c38e0.jpg)
+
 
 - **Sprint board update**: Sprint board screenshotları: 
 ![sprint board 1](https://user-images.githubusercontent.com/100482891/166457442-644282e1-b6c7-4d83-9bb8-f6856fd23363.jpg)
