@@ -56,12 +56,15 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 - **Sprint board update**: Sprint board screenshotları: 
 ![sprint board 1](https://user-images.githubusercontent.com/100482891/166457442-644282e1-b6c7-4d83-9bb8-f6856fd23363.jpg)
-![sprint board 2]
+![sprint board 2](https://user-images.githubusercontent.com/100482891/167455509-d967e519-55d8-4a96-a8da-e019041916a6.jpg)
+
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
-  ![Screenshot 1](https://github.com/OyunveUygulamaAkademisi/BootcampScrumTemplate/blob/main/ProjectManagement/Sprint1Documents/productss1.png?raw=true)
-  ![Screenshot 2](https://github.com/OyunveUygulamaAkademisi/BootcampScrumTemplate/blob/main/ProjectManagement/Sprint1Documents/productss2.png?raw=true)
+![1](https://user-images.githubusercontent.com/61664693/167292613-c9ac940a-58ca-47a8-bb32-125dd8faba24.png)
+![2](https://user-images.githubusercontent.com/61664693/167292614-59b0fca3-75c9-4941-806a-b2d7da8f0368.png)
+![3](https://user-images.githubusercontent.com/61664693/167292615-15f1a526-413c-43de-a571-87e7a2e58c47.png)
+![4](https://user-images.githubusercontent.com/61664693/167292612-05e0e6f8-32a7-4118-a0c0-8e01186cfb16.png)
 
 - **Sprint Review**: 
 Alınan kararlar: Veritabanı oluşturması email ile toplanacak veriler için gerekli görülmüştür. Fakat bir yandan da veritabanı form sayfası için gerekli olmamıştır. O sebeple PBI bir sonraki sprint'e aktarılmıştır. Çıkan ürünün çalışmasında ve testlerinde bir problem görülmemiştir. Ekstra koyulması gereken özellikler belirlenmiştir. Sprint Review katılımcıları: ......
