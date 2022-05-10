@@ -3,6 +3,8 @@ class UserNotFoundAuthException implements Exception {}
 
 class WrongPasswordAuthException implements Exception {}
 
+class TooManyRequestsAuthException implements Exception {}
+
 // register exceptions
 class EmailAlreadyInUseAuthException implements Exception {}
 
@@ -15,3 +17,7 @@ class InvalidEmailAuthException implements Exception {}
 class GenericAuthException implements Exception {}
 
 class UserNotLoggedInException implements Exception {}
+
+class InternalErrorException implements Exception {}
+
+class NetworkErrorException implements Exception {}

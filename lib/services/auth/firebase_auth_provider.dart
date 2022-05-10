@@ -62,6 +62,12 @@ class FirebaseAuthprovider implements AuthProvider {
         throw UserNotFoundAuthException();
       } else if (e.code == 'wrong-password') {
         throw WrongPasswordAuthException();
+      } else if (e.code == 'too-many-requests') {
+        throw TooManyRequestsAuthException();
+      } else if (e.code == 'internal-error') {
+        throw InternalErrorException();
+      } else if (e.code == 'network-request-failed') {
+        throw NetworkErrorException();
       } else {
         throw GenericAuthException();
       }

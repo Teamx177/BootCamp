@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/bottom_screens/home_page.dart';
+import 'package:hrms/bottom_screens/profile_view.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class _MainViewState extends State<MainView> {
 
   List<Widget> tabPages = [
     const HomePage(),
+    const ProfileView(),
   ];
 
   @override
@@ -31,14 +33,31 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _pageIndex,
-        onTap: onTabTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ("Ana Sayfa")),
-          BottomNavigationBarItem(icon: Icon(Icons.search_outlined), label: ("Arama")),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: ("Hesabım")),
-        ],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add),
+        onPressed: () {},
+      ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 9,
+        notchMargin: 1,
+        shape: const CircularNotchedRectangle(),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.green,
+          iconSize: 20,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _pageIndex,
+          onTap: onTabTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ("Ana Sayfa")),
+            BottomNavigationBarItem(icon: Icon(Icons.search_outlined), label: ("Arama")),
+            BottomNavigationBarItem(icon: Icon(Icons.stop), label: ("Yeni ozellik")),
+            BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: ("Hesabım")),
+          ],
+          landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
+        ),
       ),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),

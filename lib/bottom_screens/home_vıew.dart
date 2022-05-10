@@ -1,17 +1,10 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
+import 'package:hrms/static_storage/firebase.dart';
 import 'package:hrms/static_storage/texts.dart';
-import 'package:hrms/views/log_in_view.dart';
-
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final userRef = _firestore.collection('users');
-final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, currentUserType}) : super(key: key);
@@ -20,19 +13,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future<String> userType;
   String currentUserType = "";
 
   @override
   void initState() {
-    getUserById();
+    userType = getUserById();
     super.initState();
   }
 
   Future<String> getUserById() async {
-    final User? user = _auth.currentUser;
+    await Future.delayed(const Duration(seconds: 1));
     await userRef.doc(user?.uid).get().then((doc) {
       var userType = doc.data();
-      currentUserType = userType!['type'].toString();
+      currentUserType = userType?['type'];
     });
     return currentUserType;
   }
@@ -56,11 +50,7 @@ class _HomePageState extends State<HomePage> {
               }
               final user = AuthService.firebase().currentUser;
               if (user == null) {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const LoginView(),
-                  ),
-                );
+                Navigator.pushNamed(context, '/login');
               } else {
                 showErrorDialog(
                   context,
@@ -72,7 +62,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: FutureBuilder<String>(
-        future: getUserById(), // async work
+        future: userType, // async work
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -82,7 +72,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   currentUserType == "employer"
                       ? Text("Hoşgeldin: " + currentUserType)
-                      : Text("Hg: " + currentUserType),
+                      : Text(
+                          "Hg: " + currentUserType,
+                        )
                 ],
               );
             default:

@@ -17,15 +17,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(Hrms());
+  runApp(const Hrms());
 }
 
 class Hrms extends StatelessWidget {
   static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
-  Hrms({Key? key}) : super(key: key);
-
-  String currentUserType = '';
+  const Hrms({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class Hrms extends StatelessWidget {
             title: 'HRMS',
             theme: ThemeData.light().copyWith(
               scaffoldBackgroundColor: const Color.fromARGB(255, 174, 185, 209),
-              appBarTheme: _custimizedAppBarLight(),
+              appBarTheme: LightTheme().theme.appBarTheme,
               elevatedButtonTheme: _customizedElevatedButtonLight(),
               progressIndicatorTheme: _customizedProgressIndicatorLight(),
               inputDecorationTheme: _customizedInputDecoration(),
@@ -58,8 +56,7 @@ class Hrms extends StatelessWidget {
                 inputDecorationTheme: _customizedInputDecoration(),
                 bottomNavigationBarTheme: _customizedBottomNavBar(),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
-                colorScheme:
-                    ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
+                colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 59, 66, 82))
                 // useMaterial3: true, //Waiting for release material desing 3 for flutter
                 ),
             // Created routes management is in here
@@ -191,7 +188,7 @@ AppBarTheme _custimizedAppBarLight() {
     color: Colors.transparent,
     elevation: 0,
     centerTitle: true,
-    systemOverlayStyle: SystemUiOverlayStyle.light,
+    systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
   );
 }
 
@@ -216,7 +213,7 @@ ElevatedButtonThemeData _customizedElevatedButtonLight() {
       ),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
     ),

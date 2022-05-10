@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.0.2
   google_fonts: ^2.3.2
   animated_toggle_switch: ^0.5.2
+  universal_html: ^2.0.8
 
 dev_dependencies:
   flutter_test:

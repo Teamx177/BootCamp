@@ -6,7 +6,6 @@ import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/themes/padding.dart';
-import 'package:hrms/views/sing_up_view.dart';
 
 import '../static_storage/texts.dart';
 
@@ -44,6 +43,12 @@ class _LoginViewState extends State<LoginView> {
     _passwordController = TextEditingController();
     isPasswordVisible = false;
     super.initState();
+  }
+
+  void isVisable() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
   }
 
   @override
@@ -118,10 +123,7 @@ class _LoginViewState extends State<LoginView> {
             const Center(child: CircularProgressIndicator());
             final user = AuthService.firebase().currentUser;
             if (user != null) {
-              Navigator.pushReplacementNamed(
-                context,
-                '/main',
-              );
+              Navigator.pushNamed(context, '/main');
             }
           } on UserNotFoundAuthException {
             await showErrorDialog(
@@ -132,6 +134,11 @@ class _LoginViewState extends State<LoginView> {
             await showErrorDialog(
               context,
               ErrorTexts.wrongPassword,
+            );
+          } on NetworkErrorException {
+            await showErrorDialog(
+              context,
+              ErrorTexts.networkError,
             );
           } on GenericAuthException {
             await showErrorDialog(
@@ -150,12 +157,7 @@ class _LoginViewState extends State<LoginView> {
   TextButton _goToSingUp(BuildContext context) {
     return TextButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SingUpView(),
-          ),
-        );
+        Navigator.pushNamed(context, '/singup');
       },
       child: Text(
         AuthStatusTexts.noAccount,
@@ -179,11 +181,7 @@ class _LoginViewState extends State<LoginView> {
               isPasswordVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
-              setState(
-                () {
-                  isPasswordVisible = !isPasswordVisible;
-                },
-              );
+              isVisable();
             },
           ),
         ),
@@ -192,7 +190,6 @@ class _LoginViewState extends State<LoginView> {
             return ValidateTexts.emptyPassword;
           }
           return null;
-          // Şifre en az 8 karakter gerektiriyor değişebilir.
         },
         onChanged: (value) => userPassword = value,
       ),

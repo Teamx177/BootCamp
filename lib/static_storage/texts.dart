@@ -43,4 +43,5 @@ class ErrorTexts {
   static String wrongPassword = 'Girilen şifre hatalı.';
   static String tryAgainLater = 'Lütfen daha sonra tekrar deneyiniz.';
   static String errorOnExit = 'Çıkış yapılırken bir hata oluştu.';
+  static String networkError = 'Lütfen internet bağlantınızı kontrol ediniz.';
 }
