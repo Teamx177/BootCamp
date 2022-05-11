@@ -1,5 +1,5 @@
 class WelcomeTexts {
-  static String welcomeText = 'asdwqdwqwq';
+  static String welcomeText = 'Lorem ipsum dolor sit amet.';
   static String buttonText = 'Başla';
   static String welcome = 'Hosgeldiniz';
 }

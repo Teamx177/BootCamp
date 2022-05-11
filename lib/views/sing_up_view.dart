@@ -9,6 +9,8 @@ import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/static_storage/texts.dart';
 import 'package:hrms/themes/padding.dart';
 
+import '../static_storage/firebase.dart';
+
 class SingUpView extends StatefulWidget {
   const SingUpView({Key? key}) : super(key: key);
 
@@ -18,9 +20,6 @@ class SingUpView extends StatefulWidget {
 
 class _SingUpViewState extends State<SingUpView> {
   final _formKey = GlobalKey<FormState>();
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
@@ -40,6 +39,18 @@ class _SingUpViewState extends State<SingUpView> {
     _isPasswordConfirmVisible = false;
     _isEmployer = false; // default employee
     super.initState();
+  }
+
+  void isVisible() {
+    setState(() {
+      _isPasswordVisible = !_isPasswordVisible;
+    });
+  }
+
+  void isVisibleConfirm() {
+    setState(() {
+      _isPasswordConfirmVisible = !_isPasswordConfirmVisible;
+    });
   }
 
   @override
@@ -217,7 +228,7 @@ class _SingUpViewState extends State<SingUpView> {
             onPressed: () {
               setState(
                 () {
-                  _isPasswordVisible = !_isPasswordVisible;
+                  isVisible();
                 },
               );
             },
@@ -256,7 +267,7 @@ class _SingUpViewState extends State<SingUpView> {
               ),
               onPressed: () {
                 setState(() {
-                  _isPasswordConfirmVisible = !_isPasswordConfirmVisible;
+                  isVisibleConfirm();
                 });
               },
             )),
@@ -294,7 +305,7 @@ class _SingUpViewState extends State<SingUpView> {
               email: email,
               password: password,
             );
-            await _firestore.collection("users").doc(employer.uid).set({
+            await firestore.collection("users").doc(employer.uid).set({
               "email": email,
               "type": type,
             });

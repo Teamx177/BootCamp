@@ -9,10 +9,6 @@ import 'package:hrms/themes/padding.dart';
 
 import '../static_storage/texts.dart';
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final userRef = _firestore.collection('users');
-final FirebaseAuth _auth = FirebaseAuth.instance;
-
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
 
@@ -24,19 +20,19 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
-  late bool isPasswordVisible;
+  late bool _isPasswordVisible;
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    isPasswordVisible = false;
+    _isPasswordVisible = false;
     super.initState();
   }
 
   void isVisable() {
     setState(() {
-      isPasswordVisible = !isPasswordVisible;
+      _isPasswordVisible = !_isPasswordVisible;
     });
   }
 
@@ -160,14 +156,14 @@ class _LoginViewState extends State<LoginView> {
       child: TextFormField(
         controller: _passwordController,
         textInputAction: TextInputAction.done,
-        obscureText: !isPasswordVisible,
+        obscureText: !_isPasswordVisible,
         decoration: InputDecoration(
           hintText: HintTexts.passwordHint,
           prefixIcon: const Icon(Icons.lock_outline),
           suffixIcon: IconButton(
             icon: Icon(
               // Based on passwordVisible state choose the icon
-              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
               isVisable();
