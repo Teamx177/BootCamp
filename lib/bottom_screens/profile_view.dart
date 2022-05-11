@@ -16,10 +16,15 @@ class _ProfileViewState extends State<ProfileView> {
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(Hrms.themeNotifier.value == ThemeMode.light ? Icons.dark_mode : Icons.light_mode),
+              icon: Icon(Hrms.themeNotifier.value == ThemeMode.light
+                  ? Icons.dark_mode
+                  : Icons.light_mode),
               onPressed: () {
-                Hrms.themeNotifier.value =
-                    Hrms.themeNotifier.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+                setState(() {
+                  Hrms.themeNotifier.value = Hrms.themeNotifier.value == ThemeMode.light
+                      ? ThemeMode.dark
+                      : ThemeMode.light;
+                });
               })
         ],
       ),

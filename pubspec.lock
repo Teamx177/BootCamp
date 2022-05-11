@@ -371,6 +371,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  stylish_bottom_bar:
+    dependency: "direct main"
+    description:
+      name: stylish_bottom_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   term_glyph:
     dependency: transitive
     description:
