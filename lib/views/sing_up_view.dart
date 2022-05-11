@@ -42,18 +42,6 @@ class _SingUpViewState extends State<SingUpView> {
     super.initState();
   }
 
-  void isVisable() {
-    setState(() {
-      _isPasswordVisible = !_isPasswordVisible;
-    });
-  }
-
-  void isConfirmVis() {
-    setState(() {
-      _isPasswordConfirmVisible = !_isPasswordConfirmVisible;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +51,30 @@ class _SingUpViewState extends State<SingUpView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _switch(),
+              AnimatedToggleSwitch<bool>.dual(
+                current: _isEmployer,
+                first: true,
+                second: false,
+                dif: 50.0,
+                borderColor: const Color.fromARGB(255, 99, 121, 146),
+                borderWidth: 2,
+                height: 55,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                    offset: Offset(0, 1.5),
+                  ),
+                ],
+                onChanged: (b) => setState(() => _isEmployer = b),
+                colorBuilder: (b) => b ? Colors.red : Colors.green,
+                iconBuilder: (value) =>
+                    value ? const Icon(Icons.work) : const Icon(Icons.person),
+                textBuilder: (value) => value
+                    ? const Center(child: Text('İş veren'))
+                    : const Center(child: Text('İş arayan')),
+              ),
               SingleChildScrollView(
                 child: _isEmployer ? employer(context) : employee(context),
               ),
@@ -71,30 +82,6 @@ class _SingUpViewState extends State<SingUpView> {
           ),
         ),
       ),
-    );
-  }
-
-  AnimatedToggleSwitch<bool> _switch() {
-    return AnimatedToggleSwitch<bool>.dual(
-      current: _isEmployer,
-      first: true,
-      second: false,
-      dif: 50.0,
-      borderColor: const Color.fromARGB(255, 99, 121, 146),
-      borderWidth: 2,
-      height: 55,
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black26,
-          spreadRadius: 1,
-          blurRadius: 2,
-          offset: Offset(0, 1.5),
-        ),
-      ],
-      onChanged: (b) => setState(() => _isEmployer = b),
-      colorBuilder: (b) => b ? Colors.red : Colors.green,
-      iconBuilder: (value) => value ? const Icon(Icons.work) : const Icon(Icons.person),
-      textBuilder: (value) => value ? const Center(child: Text('İş veren')) : const Center(child: Text('İş arayan')),
     );
   }
 
@@ -114,13 +101,6 @@ class _SingUpViewState extends State<SingUpView> {
               ),
               const SizedBox(
                 height: 30,
-              ),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                inputFormatters: const [],
               ),
               _emailInput(),
               _passwordInput(),
@@ -235,7 +215,11 @@ class _SingUpViewState extends State<SingUpView> {
               _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
-              isVisable();
+              setState(
+                () {
+                  _isPasswordVisible = !_isPasswordVisible;
+                },
+              );
             },
           ),
         ),
@@ -271,7 +255,9 @@ class _SingUpViewState extends State<SingUpView> {
                 _isPasswordConfirmVisible ? Icons.visibility : Icons.visibility_off,
               ),
               onPressed: () {
-                isConfirmVis();
+                setState(() {
+                  _isPasswordConfirmVisible = !_isPasswordConfirmVisible;
+                });
               },
             )),
         validator: (value) {

@@ -10,7 +10,7 @@ import 'package:hrms/views/main_screen_view.dart';
 import 'package:hrms/views/sing_up_view.dart';
 import 'package:hrms/views/welcome_screen_view.dart';
 
-import 'bottom_screens/home_page.dart';
+import 'bottom_screens/home_vıew.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

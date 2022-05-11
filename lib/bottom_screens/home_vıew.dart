@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<String> getUserById() async {
-    await Future.delayed(const Duration(seconds: 1));
+    final User? user = auth.currentUser;
     await userRef.doc(user?.uid).get().then((doc) {
       var userType = doc.data();
       currentUserType = userType?['type'];

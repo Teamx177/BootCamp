@@ -21,21 +21,10 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  String currentUserType = '';
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late bool isPasswordVisible;
-
-  getUserById() async {
-    final User? user = _auth.currentUser;
-    userRef.doc(user?.uid).get().then((doc) {
-      var userType = doc.data();
-      setState(() {
-        currentUserType = userType!['type'].toString();
-      });
-    });
-  }
 
   @override
   void initState() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/bottom_screens/home_page.dart';
 import 'package:hrms/bottom_screens/profile_view.dart';
+
+import '../bottom_screens/home_vıew.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
