@@ -87,6 +87,20 @@ Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kıs�
 
 # Sprint 2
 
+- Sprint Notları: User Story'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
+
+- Sprint içinde tamamlanması tahmin edilen puan: 70 Puan
+
+- Puan tamamlama mantığı: Toplamda proje boyunca tamamlanması gereken 190 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 70 ile başlaması gerektiğine karar verildi.
+
+- Backlog düzeni ve Story seçimleri: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur.
+
+Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her bir task ve onlara ait story'ler farklı renkler ile temsil edilmektedir.
+
+- Daily Scrum: Daily Scrum toplantılarının ekip üyelerinin oy birliği ile Discord üzerinden yapılmasına karar verilmiştir. Daily Scrum toplantısı örneği jpeg veya word olarak Readme'de tarafımızdan paylaşılmaktadır:
+12.05.2022 (https://user-images.githubusercontent.com/100482891/168445504-3df2659a-e2c0-41f1-8cce-01798116c026.jpg)
+14.05.2022 (https://user-images.githubusercontent.com/100482891/168445536-502de8f4-a802-48e9-bc85-f0375c911879.jpg)
+
 
 ---
 
