@@ -98,8 +98,9 @@ Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kıs�
 Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her bir task ve onlara ait story'ler farklı renkler ile temsil edilmektedir.
 
 - Daily Scrum: Daily Scrum toplantılarının ekip üyelerinin oy birliği ile Discord üzerinden yapılmasına karar verilmiştir. Daily Scrum toplantısı örneği jpeg veya word olarak Readme'de tarafımızdan paylaşılmaktadır:
-12.05.2022 (https://user-images.githubusercontent.com/100482891/168445504-3df2659a-e2c0-41f1-8cce-01798116c026.jpg)
-14.05.2022 (https://user-images.githubusercontent.com/100482891/168445536-502de8f4-a802-48e9-bc85-f0375c911879.jpg)
+12.05.2022 ![1652544458007](https://user-images.githubusercontent.com/100482891/168445607-aac82d62-0c3d-4aab-b8a0-e9d213db2c1a.jpg)
+14.05.2022 ![1652544457976](https://user-images.githubusercontent.com/100482891/168445614-34d3b136-f373-440f-ab88-94a29282282d.jpg)
+
 
 
 ---
