@@ -1,12 +1,11 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/static_storage/texts.dart';
+import 'package:hrms/static_storage/validate.dart';
 import 'package:hrms/themes/padding.dart';
 
 import '../static_storage/firebase.dart';
@@ -19,7 +18,8 @@ class SingUpView extends StatefulWidget {
 }
 
 class _SingUpViewState extends State<SingUpView> {
-  final _formKey = GlobalKey<FormState>();
+  final _employeeFormKey = GlobalKey<FormState>();
+  final _employerFormKey = GlobalKey<FormState>();
 
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
@@ -100,7 +100,7 @@ class _SingUpViewState extends State<SingUpView> {
     return Column(
       children: [
         Form(
-          key: _formKey,
+          key: _employeeFormKey,
           child: Column(
             children: [
               const SizedBox(
@@ -132,7 +132,7 @@ class _SingUpViewState extends State<SingUpView> {
     return Column(
       children: [
         Form(
-          key: _formKey,
+          key: _employerFormKey,
           child: Column(
             children: [
               const SizedBox(
@@ -235,16 +235,7 @@ class _SingUpViewState extends State<SingUpView> {
           ),
         ),
         obscureText: !_isPasswordVisible,
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return ValidateTexts.emptyPassword;
-          }
-          // Şifre en az 8 karakter gerektiriyor değişebilir.
-          if (value.trim().length < 8) {
-            return ValidateTexts.passwordLenght;
-          }
-          return null;
-        },
+        validator: ValidationConstants.singUpPasswordValidator,
         onChanged: (value) => userPassword = value,
       ),
     );
@@ -258,19 +249,20 @@ class _SingUpViewState extends State<SingUpView> {
         obscureText: !_isPasswordConfirmVisible,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-            hintText: HintTexts.passwordControlHint,
-            prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(
-                // Based on passwordVisible state choose the icon
-                _isPasswordConfirmVisible ? Icons.visibility : Icons.visibility_off,
-              ),
-              onPressed: () {
-                setState(() {
-                  isVisibleConfirm();
-                });
-              },
-            )),
+          hintText: HintTexts.passwordControlHint,
+          prefixIcon: const Icon(Icons.lock_outline),
+          suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              _isPasswordConfirmVisible ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: () {
+              setState(() {
+                isVisibleConfirm();
+              });
+            },
+          ),
+        ),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return ValidateTexts.emptyPasswordControl;
@@ -299,7 +291,10 @@ class _SingUpViewState extends State<SingUpView> {
       onPressed: () async {
         final email = _emailController.text;
         final password = _passwordController.text;
-        if (_formKey.currentState!.validate()) {
+
+        if (_isEmployer
+            ? _employerFormKey.currentState!.validate()
+            : _employeeFormKey.currentState!.validate()) {
           try {
             var employer = await AuthService.firebase().createUser(
               email: email,

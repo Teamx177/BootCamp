@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hrms/main.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
+import 'package:hrms/static_storage/validate.dart';
 import 'package:hrms/themes/padding.dart';
 
 import '../static_storage/texts.dart';
@@ -21,12 +22,21 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late bool _isPasswordVisible;
+  String? value;
+  bool isChecked = false;
+  late Box box1;
+
+  void createOpenBox() async {
+    box1 = await Hive.openBox('logindata');
+    getdata();
+  }
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _isPasswordVisible = false;
+    createOpenBox();
     super.initState();
   }
 
@@ -34,6 +44,14 @@ class _LoginViewState extends State<LoginView> {
     setState(() {
       _isPasswordVisible = !_isPasswordVisible;
     });
+  }
+
+  void getdata() async {
+    if (box1.get('email') != null) {
+      _emailController.text = box1.get('email');
+      isChecked = true;
+      setState(() {});
+    }
   }
 
   @override
@@ -63,12 +81,36 @@ class _LoginViewState extends State<LoginView> {
                     _emailInput(),
                     _passwordInput(),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          activeColor: ThemeMode.dark == Hrms.themeNotifier.value
+                              ? Colors.deepOrangeAccent.shade200
+                              : Colors.blueAccent.shade100,
+                          value: isChecked,
+                          onChanged: (value) {
+                            isChecked = !isChecked;
+                            setState(() {});
+                          },
+                        ),
+                        TextButton(
+                            child: const Text(
+                              "Beni hatırla",
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isChecked = !isChecked;
+                              });
+                            }),
+                      ],
+                    ),
+                    Row(
                       children: [
                         _goToSingUp(context),
                         const Spacer(),
                         TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/forgot');
+                          onPressed: () async {
+                            await Navigator.pushNamed(context, '/forgot');
                           },
                           child: Text(AuthStatusTexts.forgotPassword),
                         ),
@@ -92,7 +134,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   ElevatedButton _loginButton(BuildContext context) {
-    return ElevatedButton.icon(
+    return ElevatedButton(
       onPressed: () async {
         final email = _emailController.text;
         final password = _passwordController.text;
@@ -108,7 +150,12 @@ class _LoginViewState extends State<LoginView> {
             const Center(child: CircularProgressIndicator());
             final user = AuthService.firebase().currentUser;
             if (user != null) {
-              Navigator.pushNamed(context, '/main');
+              Navigator.pushReplacementNamed(context, '/main');
+            }
+            if (isChecked) {
+              box1.put('email', _emailController.text);
+            } else {
+              box1.delete('email');
             }
           } on UserNotFoundAuthException {
             await showErrorDialog(
@@ -133,8 +180,8 @@ class _LoginViewState extends State<LoginView> {
           }
         }
       },
-      label: Text(AuthStatusTexts.signIn),
-      icon: const Icon(Icons.arrow_forward_sharp),
+      child: Text(AuthStatusTexts.signIn),
+
       // hoverColor: Colors.blue,
     );
   }
@@ -170,12 +217,7 @@ class _LoginViewState extends State<LoginView> {
             },
           ),
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return ValidateTexts.emptyPassword;
-          }
-          return null;
-        },
+        validator: ValidationConstants.loginPassowrdValidator,
         onChanged: (value) => userPassword = value,
       ),
     );
@@ -185,6 +227,7 @@ class _LoginViewState extends State<LoginView> {
     return Padding(
       padding: ProjectPadding.inputPaddingVertical,
       child: TextFormField(
+        autofillHints: const [AutofillHints.email],
         autovalidateMode: AutovalidateMode.onUserInteraction,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
@@ -193,16 +236,7 @@ class _LoginViewState extends State<LoginView> {
           hintText: HintTexts.emailHint,
           prefixIcon: const Icon(Icons.email_outlined),
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return ValidateTexts.emptyEmail;
-          }
-          // Mail adresinin geçerli formatında olup olmadığını kontrol ediyoruz.
-          if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-            return ValidateTexts.emailNotValid;
-          }
-          return null;
-        },
+        validator: ValidationConstants.emailValidator,
         onChanged: (value) => userMail = value,
       ),
     );

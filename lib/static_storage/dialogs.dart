@@ -9,14 +9,14 @@ Future<void> showErrorDialog(
     builder: (context) => AlertDialog(
       title: const Text('Bir hata oluştu'),
       content: Text(text),
-      backgroundColor: const Color.fromRGBO(208, 135, 112, 1),
+      // backgroundColor: const Color.fromRGBO(208, 135, 112, 1),
       actions: <Widget>[
         TextButton(
           child: const Text(
             'Tamam',
             style: TextStyle(
-              color: Colors.black87,
-            ),
+                // color: Colors.black87,
+                ),
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -34,7 +34,7 @@ Future<void> showSuccessDialog(
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      backgroundColor: const Color.fromARGB(255, 163, 190, 140),
+      // backgroundColor: const Color.fromARGB(255, 163, 190, 140),
       title: const Text(
         'Başarılı',
       ),
@@ -43,7 +43,7 @@ Future<void> showSuccessDialog(
         TextButton(
           child: const Text(
             'Tamam',
-            style: TextStyle(color: Colors.black87),
+            // style: TextStyle(color: Colors.black87),
           ),
           onPressed: () {
             Navigator.of(context).pop();

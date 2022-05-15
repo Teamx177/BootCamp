@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/bottom_screens/home_view.dart';
 import 'package:hrms/bottom_screens/profile_view.dart';
+import 'package:hrms/main.dart';
+import 'package:hrms/views/log_in_view.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
-
-import '../bottom_screens/home_vıew.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -12,21 +13,25 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  var selected;
-  int _pageIndex = 0;
+  dynamic selected;
+  final int _pageIndex = 0;
   late PageController _pageController;
 
-  List<Widget> tabPages = [
-    const HomePage(),
-    const ProfileView(),
-    const HomePage(),
-    const ProfileView(),
-  ];
+  List<Widget> tabPages() {
+    return <Widget>[
+      const HomePage(),
+      const ProfileView(),
+      const HomePage(),
+      const ProfileView(),
+    ];
+  }
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _pageIndex);
+    _pageController = PageController(
+      initialPage: 0,
+    );
   }
 
   @override
@@ -40,49 +45,73 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) {
+                    return const LoginView();
+                  },
+                  fullscreenDialog: true),
+            );
+          }),
       bottomNavigationBar: StylishBottomBar(
-        backgroundColor: const Color.fromARGB(255, 24, 23, 28),
+        padding: EdgeInsets.zero,
+        backgroundColor: ThemeMode == Hrms.themeNotifier.value
+            ? const Color.fromARGB(255, 88, 88, 88)
+            : Colors.white,
         items: [
           AnimatedBarItems(
-              icon: const Icon(
-                Icons.home,
-              ),
-              selectedColor: Colors.deepPurple,
-              backgroundColor: Colors.amber,
-              title: const Text('Anasayfa')),
+            icon: const Icon(
+              Icons.home,
+            ),
+            selectedColor: Colors.deepPurple.shade200,
+            backgroundColor: Colors.amber,
+            title: const Text(
+              'Anasayfa',
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
           AnimatedBarItems(
-              icon: const Icon(
-                Icons.search,
-              ),
-              selectedColor: Colors.green,
-              backgroundColor: Colors.amber,
-              title: const Text('Arama')),
+            icon: const Icon(
+              Icons.search,
+            ),
+            selectedColor: Colors.green.shade200,
+            backgroundColor: Colors.amber,
+            title: const Text(
+              'Arama',
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
           AnimatedBarItems(
               icon: const Icon(
                 Icons.notifications,
               ),
               backgroundColor: Colors.amber,
-              selectedColor: Colors.pinkAccent,
-              title: const Text('Bildirimler')),
+              selectedColor: Colors.blueAccent.shade200,
+              title: const Text(
+                'Bildirimler',
+                style: TextStyle(fontSize: 12),
+              )),
           AnimatedBarItems(
               icon: const Icon(
                 Icons.person,
               ),
               backgroundColor: Colors.amber,
-              selectedColor: Colors.blueAccent,
-              title: const Text('Profilim')),
+              selectedColor: Colors.redAccent.shade200,
+              title: const Text(
+                'Profilim',
+                style: TextStyle(fontSize: 12),
+              )),
         ],
 
-        iconSize: 32,
-        barAnimation: BarAnimation.liquid,
+        iconSize: 24,
+        // barAnimation: BarAnimation.liquid,
 
-        // barAnimation: BarAnimation.blink,
-        // iconStyle: IconStyle.animated,
+        barAnimation: BarAnimation.blink,
+        iconStyle: IconStyle.animated,
 
         // iconStyle: IconStyle.simple,
         hasNotch: true,
@@ -97,31 +126,22 @@ class _MainViewState extends State<MainView> {
 
         onTap: (index) {
           setState(() {
-            selected = index;
-            onTabTapped(selected);
+            selected = index!;
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.fastLinearToSlowEaseIn,
+            );
           });
         },
       ),
       body: PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        children: tabPages,
-        onPageChanged: onPageChanged,
+        physics: const NeverScrollableScrollPhysics(
+          parent: BouncingScrollPhysics(),
+        ),
+        children: tabPages(),
         controller: _pageController,
       ),
     );
-  }
-
-  void onPageChanged(int page) {
-    setState(() {
-      _pageIndex = page;
-    });
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _pageIndex = index;
-      _pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 500), curve: Curves.ease);
-    });
   }
 }

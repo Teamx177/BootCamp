@@ -29,14 +29,14 @@ class _WelcomeViewState extends State<WelcomeView> {
                   values: const [0, 1],
                   borderWidth: 2,
                   iconOpacity: 0.2,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0, 1.5),
-                    ),
-                  ],
+                  // boxShadow: const [
+                  //   BoxShadow(
+                  //     color: Colors.black26,
+                  //     spreadRadius: 1,
+                  //     blurRadius: 2,
+                  //     offset: Offset(0, 1.5),
+                  //   ),
+                  // ],
                   // indicatorSize: const Size.fromWidth(60),
                   animationCurve: Curves.easeOutCubic,
                   animationDuration: const Duration(milliseconds: 300),
@@ -46,16 +46,13 @@ class _WelcomeViewState extends State<WelcomeView> {
                     if (value.isEven) data = Icons.brightness_4;
                     return Icon(data, size: min(size.width, size.height));
                   },
-                  borderColor: value.isEven
-                      ? const Color.fromARGB(255, 99, 121, 146)
-                      : const Color.fromARGB(255, 99, 121, 146),
-                  colorBuilder: (i) => i.isEven
-                      ? const Color.fromARGB(255, 255, 187, 0)
-                      : const Color.fromARGB(255, 98, 132, 172),
+                  borderColor:
+                      value.isEven ? const Color.fromARGB(255, 99, 121, 146) : const Color.fromARGB(255, 99, 121, 146),
+                  colorBuilder: (i) =>
+                      i.isEven ? const Color.fromARGB(255, 255, 187, 0) : const Color.fromARGB(255, 98, 132, 172),
                   onChanged: (i) => setState(() {
                     value = i;
-                    Hrms.themeNotifier.value =
-                        i.isEven ? ThemeMode.light : ThemeMode.dark;
+                    Hrms.themeNotifier.value = i.isEven ? ThemeMode.light : ThemeMode.dark;
                   }),
                 ),
               ),

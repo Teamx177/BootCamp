@@ -4,6 +4,8 @@ import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/static_storage/dialogs.dart';
 import 'package:hrms/static_storage/strings.dart';
 import 'package:hrms/static_storage/texts.dart';
+import 'package:hrms/static_storage/validate.dart';
+import 'package:hrms/themes/lib_color_schemes.g.dart';
 import 'package:hrms/themes/padding.dart';
 
 class ForgotView extends StatefulWidget {
@@ -25,31 +27,55 @@ class _ForgotViewState extends State<ForgotView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: ProjectPadding.pagePaddingHorizontal,
-        child: SingleChildScrollView(
-          child: SafeArea(
-            child: Form(
-              key: _formKey,
-              child: Center(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  const SizedBox(
-                    height: 100,
-                  ),
-                  Text(
-                    AuthStatusTexts.forgotPassword,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const SizedBox(
-                    height: 100,
-                  ),
-                  _emailInput(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _sendButton(context)
-                ]),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            // fit: BoxFit.contain,
+            image: AssetImage('assets/images/forgott.png'),
+          ),
+        ),
+        child: Padding(
+          padding: ProjectPadding.pagePaddingHorizontal,
+          child: SingleChildScrollView(
+            child: SafeArea(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const SizedBox(
+                        height: 100,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          backgroundBlendMode: BlendMode.dst,
+                          color: lightColorScheme.background,
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Text(
+                          AuthStatusTexts.forgotPassword,
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                      _emailInput(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      _sendButton(context)
+                    ]),
               ),
             ),
           ),
@@ -68,16 +94,7 @@ class _ForgotViewState extends State<ForgotView> {
         hintText: HintTexts.emailHint,
         prefixIcon: const Icon(Icons.email_outlined),
       ),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return ValidateTexts.emptyEmail;
-        }
-        // Mail adresinin geçerli formatında olup olmadığını kontrol ediyoruz.
-        if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-          return ValidateTexts.emailNotValid;
-        }
-        return null;
-      },
+      validator: ValidationConstants.emailValidator,
       onChanged: (value) => userMail = value,
     );
   }
@@ -86,26 +103,26 @@ class _ForgotViewState extends State<ForgotView> {
     return ElevatedButton(
       onPressed: () async {
         final email = _emailController.text;
-        try {
-          if (_formKey.currentState!.validate()) {
+        if (_formKey.currentState!.validate()) {
+          try {
             await AuthService.firebase().sendPasswordReset(
               email: email,
             );
+            await showSuccessDialog(
+              context,
+              AuthStatusTexts.forgotPassword,
+            );
+          } on UserNotFoundAuthException {
+            await showErrorDialog(
+              context,
+              ErrorTexts.userNotFound,
+            );
+          } on GenericAuthException {
+            await showErrorDialog(
+              context,
+              ErrorTexts.error,
+            );
           }
-          await showSuccessDialog(
-            context,
-            AuthStatusTexts.passwordResetSend,
-          );
-        } on UserNotFoundAuthException {
-          await showErrorDialog(
-            context,
-            ErrorTexts.userNotFound,
-          );
-        } on GenericAuthException {
-          await showErrorDialog(
-            context,
-            ErrorTexts.error,
-          );
         }
       },
       child: Text(AuthStatusTexts.send),

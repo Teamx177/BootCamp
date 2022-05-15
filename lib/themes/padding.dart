@@ -6,4 +6,9 @@ class ProjectPadding {
   static const inputPaddingVertical = EdgeInsets.symmetric(vertical: 10);
   static const inputPaddingBottom = EdgeInsets.only(bottom: 10);
   static const pagePaddingRightOnly = EdgeInsets.only(right: 20);
+  static const pagePaddingAll = EdgeInsets.only(
+    left: 20,
+    right: 20,
+    bottom: 20,
+  );
 }

@@ -12,6 +12,7 @@ class ValidateTexts {
   static String passwordNotMatch = 'Şifreler uyuşmuyor.';
   static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
+  static String passwordCharacter = 'Şifrenizde en az bir özel karakter olmalıdır.';
 }
 
 class AuthStatusTexts {
