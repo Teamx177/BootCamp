@@ -13,6 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Hive.initFlutter();
+  await Hive.openBox('themeData');
   runApp(const Hrms());
 }
 
@@ -23,12 +24,13 @@ class Hrms extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: themeNotifier,
-      builder: (_, ThemeMode currentMode, box) {
+    return ValueListenableBuilder(
+      valueListenable: Hive.box('themeData').listenable(),
+      builder: (_, currentMode, box) {
+        var darkMode = Hive.box('themeData').get('darkmode', defaultValue: false);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          themeMode: currentMode,
+          themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
           title: 'HRMS',
           theme: LightTheme().theme,
           darkTheme: DarkTheme().theme,

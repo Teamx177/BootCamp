@@ -1,6 +1,9 @@
 class User {
-  String? _email;
-  String? _password;
-  String? _phoneNumber;
-  String? _userType;
+  String? name;
+  String? email;
+  String? password;
+  String? phoneNumber;
+  String? userType;
+  String? city;
+  String? gender;
 }

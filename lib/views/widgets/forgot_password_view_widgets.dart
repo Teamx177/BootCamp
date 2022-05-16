@@ -4,6 +4,10 @@ import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/storage/text_storage.dart';
 import 'package:hrms/themes/lib_color_schemes.g.dart';
 
+import '../../storage/dialog_storage.dart';
+import '../../storage/string_storage.dart';
+import '../../storage/validation_storage.dart';
+
 class backgroundImage extends StatelessWidget {
   Widget child;
 

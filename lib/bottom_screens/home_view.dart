@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hrms/static_storage/firebase.dart';
+import 'package:hrms/storage/firebase.dart';
 import 'package:hrms/themes/padding.dart';
 
 class HomePage extends StatefulWidget {

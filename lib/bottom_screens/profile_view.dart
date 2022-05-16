@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:hrms/main.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
@@ -17,21 +18,20 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
+    bool value;
+    var darkMode = Hive.box('themeData').get('darkmode', defaultValue: false);
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
         actions: [
           IconButton(
               icon: Icon(
-                Hrms.themeNotifier.value == ThemeMode.light
-                    ? Icons.dark_mode
-                    : Icons.light_mode,
+                darkMode ? Icons.light_mode : Icons.dark_mode,
               ),
               onPressed: () {
                 setState(() {
-                  Hrms.themeNotifier.value = Hrms.themeNotifier.value == ThemeMode.light
-                      ? ThemeMode.dark
-                      : ThemeMode.light;
+                  value = !darkMode;
+                  Hive.box('themeData').put('darkmode',value);
                 });
               }),
         ],
@@ -39,7 +39,7 @@ class _ProfileViewState extends State<ProfileView> {
       body: Padding(
         padding: ProjectPadding.pagePaddingAll,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const CircleAvatar(
@@ -110,12 +110,13 @@ class _customContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var darkMode = Hive.box('themeData').get('darkmode', defaultValue: false);
     return Container(
-      height: 50,
+      height: 60,
       width: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: ThemeMode.dark == Hrms.themeNotifier.value
+        color: darkMode
             ? darkColorScheme.onPrimary
             : lightColorScheme.onPrimary,
       ),

@@ -3,12 +3,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hrms/main.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
-import 'package:hrms/static_storage/dialogs.dart';
-import 'package:hrms/static_storage/strings.dart';
-import 'package:hrms/static_storage/validate.dart';
+import 'package:hrms/storage/dialog_storage.dart';
+import 'package:hrms/storage/string_storage.dart';
+import 'package:hrms/storage/validation_storage.dart';
 import 'package:hrms/themes/padding.dart';
 
-import '../static_storage/texts.dart';
+import '../storage/text_storage.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);

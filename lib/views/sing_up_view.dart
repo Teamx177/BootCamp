@@ -2,13 +2,12 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
-import 'package:hrms/static_storage/dialogs.dart';
-import 'package:hrms/static_storage/strings.dart';
-import 'package:hrms/static_storage/texts.dart';
-import 'package:hrms/static_storage/validate.dart';
+import 'package:hrms/storage/dialog_storage.dart';
+import 'package:hrms/storage/string_storage.dart';
+import 'package:hrms/storage/validation_storage.dart';
 import 'package:hrms/themes/padding.dart';
-
-import '../static_storage/firebase.dart';
+import '../storage/firebase.dart';
+import '../storage/text_storage.dart';
 
 class SingUpView extends StatefulWidget {
   const SingUpView({Key? key}) : super(key: key);
