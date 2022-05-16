@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hrms/themes/lib_color_schemes.g.dart';
 
-class LightTheme {
+class DarkTheme {
   ThemeData theme = ThemeData(
-    scaffoldBackgroundColor: lightColorScheme.background,
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.black,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white,
-    ),
     appBarTheme: const AppBarTheme(
-      iconTheme: IconThemeData(
-        color: Colors.black,
-      ),
       color: Colors.transparent,
       elevation: 0,
       centerTitle: true,
-      systemOverlayStyle: SystemUiOverlayStyle.dark,
+      systemOverlayStyle: SystemUiOverlayStyle.light,
     ),
+    dialogTheme: DialogTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: Colors.white,
+    ),
+    scaffoldBackgroundColor: darkColorScheme.background,
+    colorScheme: darkColorScheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(
@@ -31,9 +32,6 @@ class LightTheme {
           ),
         ),
       ),
-    ),
-    progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: Colors.white,
     ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.symmetric(
@@ -58,22 +56,12 @@ class LightTheme {
           width: 1,
         ),
       ),
-      floatingLabelAlignment: FloatingLabelAlignment.start,
-      iconColor: Colors.white,
-      isDense: true,
-      isCollapsed: true,
       filled: true,
       fillColor: Colors.blueGrey,
       labelStyle: const TextStyle(
         color: Colors.black,
       ),
     ),
-    dialogTheme: DialogTheme(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-    colorScheme: lightColorScheme,
     useMaterial3: true,
   );
 }

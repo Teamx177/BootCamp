@@ -291,7 +291,6 @@ class _SingUpViewState extends State<SingUpView> {
       onPressed: () async {
         final email = _emailController.text;
         final password = _passwordController.text;
-
         if (_isEmployer
             ? _employerFormKey.currentState!.validate()
             : _employeeFormKey.currentState!.validate()) {

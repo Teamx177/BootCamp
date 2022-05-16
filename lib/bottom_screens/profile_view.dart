@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hrms/main.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
-import 'package:hrms/static_storage/texts.dart';
+import 'package:hrms/storage/dialog_storage.dart';
+import 'package:hrms/storage/text_storage.dart';
 import 'package:hrms/themes/lib_color_schemes.g.dart';
 import 'package:hrms/themes/padding.dart';
-
-import '../static_storage/dialogs.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
