@@ -6,6 +6,7 @@ import 'package:hrms/storage/dialog_storage.dart';
 import 'package:hrms/storage/string_storage.dart';
 import 'package:hrms/storage/validation_storage.dart';
 import 'package:hrms/themes/padding.dart';
+
 import '../storage/firebase.dart';
 import '../storage/text_storage.dart';
 
@@ -27,6 +28,8 @@ class _SingUpViewState extends State<SingUpView> {
   late bool _isPasswordVisible;
   late bool _isPasswordConfirmVisible;
   late bool _isEmployer;
+  late bool _isButtonEnabled;
+  late int _index;
 
   @override
   void initState() {
@@ -37,7 +40,25 @@ class _SingUpViewState extends State<SingUpView> {
     _isPasswordVisible = false;
     _isPasswordConfirmVisible = false;
     _isEmployer = false; // default employee
+    _isButtonEnabled = false;
+    _index = 0;
+    isButtonEnabledListener();
     super.initState();
+  }
+
+  void isButtonEnabledListener() {
+    _nameController.addListener(() {
+      var value = _nameController.text;
+      if (value.trim().isNotEmpty) {
+        setState(() {
+          _isButtonEnabled = true;
+        });
+      } else {
+        setState(() {
+          _isButtonEnabled = false;
+        });
+      }
+    });
   }
 
   void isVisible() {
@@ -144,15 +165,53 @@ class _SingUpViewState extends State<SingUpView> {
               const SizedBox(
                 height: 30,
               ),
-              _nameInput(),
-              _emailInput(),
-              _passwordInput(),
-              _passwordControlInput(),
-              _alreadyHaveAccountButton(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _index = 0;
+                        });
+                      },
+                      child: Text("1")),
+                  TextButton(
+                      onPressed: _isButtonEnabled
+                          ? () {
+                              setState(() {
+                                _index = 1;
+                              });
+                            }
+                          : null,
+                      child: Text("2")),
+                ],
+              ),
+              Column(
+                children: _index == 0
+                    ? [
+                        _nameInput(),
+                      ]
+                    : [
+                        _emailInput(),
+                        _passwordInput(),
+                        _passwordControlInput(),
+                        _alreadyHaveAccountButton(),
+                      ],
+              ),
               const SizedBox(
                 height: 20,
               ),
-              _registerButton("employer"),
+              _index == 0
+                  ? ElevatedButton(
+                      onPressed: _isButtonEnabled
+                          ? () {
+                              setState(() {
+                                _index = 1;
+                              });
+                            }
+                          : null,
+                      child: Text("Devam"))
+                  : _registerButton("employer"),
             ],
           ),
         ),

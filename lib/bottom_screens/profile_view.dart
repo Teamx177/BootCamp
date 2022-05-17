@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:hrms/main.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
 import 'package:hrms/storage/dialog_storage.dart';
@@ -31,7 +30,7 @@ class _ProfileViewState extends State<ProfileView> {
               onPressed: () {
                 setState(() {
                   value = !darkMode;
-                  Hive.box('themeData').put('darkmode',value);
+                  Hive.box('themeData').put('darkmode', value);
                 });
               }),
         ],
@@ -116,9 +115,7 @@ class _customContainer extends StatelessWidget {
       width: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: darkMode
-            ? darkColorScheme.onPrimary
-            : lightColorScheme.onPrimary,
+        color: darkMode ? darkColorScheme.onPrimary : lightColorScheme.onPrimary,
       ),
       child: child,
     );
