@@ -22,6 +22,7 @@ class _SingUpViewState extends State<SingUpView> {
   final _employerFormKey = GlobalKey<FormState>();
 
   late final TextEditingController _nameController;
+  late final TextEditingController _phoneNumberController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _passwordConfirmController;
@@ -30,10 +31,14 @@ class _SingUpViewState extends State<SingUpView> {
   late bool _isEmployer;
   late bool _isButtonEnabled;
   late int _index;
+  late String _selectedGender;
+  late String _city;
+  late List<String> _cities;
 
   @override
   void initState() {
     _nameController = TextEditingController();
+    _phoneNumberController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _passwordConfirmController = TextEditingController();
@@ -42,23 +47,37 @@ class _SingUpViewState extends State<SingUpView> {
     _isEmployer = false; // default employee
     _isButtonEnabled = false;
     _index = 0;
+    _selectedGender = 'male';
+    _city = 'Ankara';
+    _cities = ['Ankara', 'İstanbul', 'İzmir'];
     isButtonEnabledListener();
     super.initState();
   }
 
   void isButtonEnabledListener() {
     _nameController.addListener(() {
-      var value = _nameController.text;
-      if (value.trim().isNotEmpty) {
-        setState(() {
-          _isButtonEnabled = true;
-        });
-      } else {
-        setState(() {
-          _isButtonEnabled = false;
-        });
-      }
+      inputListener();
     });
+
+    _phoneNumberController.addListener(() {
+      inputListener();
+    });
+  }
+
+  void inputListener() {
+    var name = _nameController.text;
+    var phoneNumber = _phoneNumberController.text;
+    if (name.trim().isNotEmpty &&
+        phoneNumber.trim().isNotEmpty &&
+        RegExp(r'^5(?:9)?[0-9]{9}$').hasMatch(phoneNumber)) {
+      setState(() {
+        _isButtonEnabled = true;
+      });
+    } else {
+      setState(() {
+        _isButtonEnabled = false;
+      });
+    }
   }
 
   void isVisible() {
@@ -168,55 +187,163 @@ class _SingUpViewState extends State<SingUpView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _index = 0;
-                        });
-                      },
-                      child: Text("1")),
-                  TextButton(
-                      onPressed: _isButtonEnabled
-                          ? () {
-                              setState(() {
-                                _index = 1;
-                              });
-                            }
-                          : null,
-                      child: Text("2")),
+                  employerTextButton1(),
+                  employerTextButton2(),
                 ],
               ),
-              Column(
-                children: _index == 0
-                    ? [
-                        _nameInput(),
-                      ]
-                    : [
-                        _emailInput(),
-                        _passwordInput(),
-                        _passwordControlInput(),
-                        _alreadyHaveAccountButton(),
-                      ],
-              ),
+              employerColumn(),
               const SizedBox(
                 height: 20,
               ),
-              _index == 0
-                  ? ElevatedButton(
-                      onPressed: _isButtonEnabled
-                          ? () {
-                              setState(() {
-                                _index = 1;
-                              });
-                            }
-                          : null,
-                      child: Text("Devam"))
-                  : _registerButton("employer"),
+              _index == 0 ? employerElevatedButton() : _registerButton("employer"),
             ],
           ),
         ),
       ],
     );
+  }
+
+  ElevatedButton employerElevatedButton() {
+    return ElevatedButton(
+        onPressed: _isButtonEnabled
+            ? () {
+                setState(() {
+                  _index = 1;
+                });
+              }
+            : null,
+        child: const Text("Devam"));
+  }
+
+  Column employerColumn() {
+    return Column(
+      children: _index == 0
+          ? [
+              _nameInput(),
+              _phoneNumberInput(),
+              _cityDropDownButton(),
+              _genderRadioButton(),
+            ]
+          : [
+              _emailInput(),
+              _passwordInput(),
+              _passwordControlInput(),
+              _alreadyHaveAccountButton(),
+            ],
+    );
+  }
+
+  TextButton employerTextButton1() {
+    return TextButton(
+      onPressed: _index == 1
+          ? () {
+              setState(() {
+                _index = 0;
+              });
+            }
+          : null,
+      child: RichText(
+        text: TextSpan(
+            style: TextStyle(
+              color: _index == 0 ? const Color.fromARGB(255, 244, 67, 54) : Colors.grey,
+              fontSize: _index == 0 ? 27 : 16,
+            ),
+            children: [
+              _index == 0
+                  ? const TextSpan(
+                      text: "1",
+                    )
+                  : const WidgetSpan(
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: 19,
+                        color: Color.fromARGB(255, 244, 67, 54),
+                      ),
+                    ),
+            ]),
+      ),
+    );
+  }
+
+  TextButton employerTextButton2() {
+    return TextButton(
+      onPressed: _isButtonEnabled && _index == 0
+          ? () {
+              setState(() {
+                _index = 1;
+              });
+            }
+          : null,
+      child: Text(
+        "2",
+        style: TextStyle(
+          color: _index == 1 || _isButtonEnabled
+              ? const Color.fromARGB(255, 244, 67, 54)
+              : Colors.grey,
+          fontSize: _index == 1 ? 27 : 16,
+        ),
+      ),
+    );
+  }
+
+  Padding _cityDropDownButton() {
+    return Padding(
+      padding: ProjectPadding.inputPaddingVertical,
+      child: DropdownButtonFormField(
+        value: _city,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.location_on),
+          prefixText: "Şehir: ",
+          contentPadding: EdgeInsets.only(left: 10, right: 10),
+          constraints: BoxConstraints(maxWidth: 300),
+        ),
+        items: _cities.map((String items) {
+          return DropdownMenuItem(
+            value: items,
+            child: Text(items),
+          );
+        }).toList(),
+        onChanged: (String? value) {
+          setState(() {
+            _city = value!;
+          });
+        },
+      ),
+    );
+  }
+
+  Padding _genderRadioButton() {
+    return Padding(
+        padding: ProjectPadding.inputPaddingVertical,
+        child: Column(
+          children: [
+            const Text('Lütfen Cinsiyetinizi Belirtiniz:'),
+            ListTile(
+              leading: Radio<String>(
+                value: 'male',
+                groupValue: _selectedGender,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value!;
+                  });
+                },
+              ),
+              title: const Text('Erkek'),
+            ),
+            ListTile(
+              leading: Radio<String>(
+                value: 'female',
+                groupValue: _selectedGender,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value!;
+                  });
+                },
+              ),
+              title: const Text('Kadın'),
+            ),
+          ],
+        ));
   }
 
   Padding _nameInput() {
@@ -265,6 +392,33 @@ class _SingUpViewState extends State<SingUpView> {
           return null;
         },
         onChanged: (value) => userMail = value,
+      ),
+    );
+  }
+
+  Padding _phoneNumberInput() {
+    return Padding(
+      padding: ProjectPadding.inputPaddingVertical,
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autofocus: false,
+        keyboardType: TextInputType.phone,
+        textInputAction: TextInputAction.next,
+        controller: _phoneNumberController,
+        decoration: InputDecoration(
+          hintText: HintTexts.phoneNumberHint,
+          prefixIcon: const Icon(Icons.phone),
+        ),
+        validator: (value) {
+          if (value!.trim().isEmpty) {
+            return ValidateTexts.emptyPhoneNumber;
+          }
+          if (!RegExp(r'^5(?:9)?[0-9]{9}$').hasMatch(value)) {
+            return ValidateTexts.phoneNumberNotValid;
+          }
+          return null;
+        },
+        onChanged: (value) => userPhoneNumber = value,
       ),
     );
   }
@@ -349,6 +503,8 @@ class _SingUpViewState extends State<SingUpView> {
       onPressed: () async {
         final email = _emailController.text;
         final password = _passwordController.text;
+        final name = _nameController.text;
+        final phoneNumber = _phoneNumberController.text;
         if (_isEmployer
             ? _employerFormKey.currentState!.validate()
             : _employeeFormKey.currentState!.validate()) {
@@ -358,7 +514,11 @@ class _SingUpViewState extends State<SingUpView> {
               password: password,
             );
             await firestore.collection("users").doc(employer.uid).set({
+              "name": name,
               "email": email,
+              "phone": phoneNumber,
+              "gender": _selectedGender,
+              "city": _city,
               "type": type,
             });
             await AuthService.firebase().sendEmailVerification();

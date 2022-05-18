@@ -6,11 +6,13 @@ class WelcomeTexts {
 
 class ValidateTexts {
   static String emptyName = 'Lütfen isminizi giriniz.';
+  static String emptyPhoneNumber = 'Lütfen bir telefon numarası giriniz.';
   static String emptyEmail = 'Lütfen email adresinizi giriniz.';
   static String emptyPassword = 'Lütfen şifrenizi giriniz.';
   static String emptyPasswordControl = 'Lütfen şifrenizi tekrar giriniz.';
   static String passwordNotMatch = 'Şifreler uyuşmuyor.';
   static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
+  static String phoneNumberNotValid = 'Lütfen geçerli bir telefon numarası giriniz.';
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
   static String passwordCharacter = 'Şifrenizde en az bir özel karakter olmalıdır.';
 }
@@ -30,6 +32,7 @@ class AuthStatusTexts {
 
 class HintTexts {
   static String nameHint = 'İsminiz';
+  static String phoneNumberHint = 'Telefon No: 5554443322';
   static String emailHint = 'email@adres.com';
   static String passwordHint = 'Şifreniz';
   static String passwordControlHint = 'Şifrenizi tekrar giriniz';
