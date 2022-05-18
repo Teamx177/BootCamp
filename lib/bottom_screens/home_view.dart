@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late Future<String> userType;
   String currentUserType = "";
+  String currentUserName = "";
 
   @override
   void initState() {
@@ -25,12 +26,14 @@ class _HomePageState extends State<HomePage> {
     await userRef.doc(user?.uid).get().then((doc) {
       var userType = doc.data();
       currentUserType = userType?['type'];
+      currentUserName = userType?['name'];
     });
     return currentUserType;
   }
 
   @override
   Widget build(BuildContext context) {
+    currentUserName = currentUserName.split(" ")[0];
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -48,13 +51,13 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     currentUserType == "employer"
                         ? Text(
-                            "Hoşgeldin: " + currentUserType,
+                            "Hoşgeldin: " + currentUserName,
                             style: TextStyle(
                               fontFamily: GoogleFonts.mavenPro().fontFamily,
                             ),
                           )
                         : Text(
-                            "Hg: " + currentUserType,
+                            "Hg: " + currentUserName,
                           )
                   ],
                 );

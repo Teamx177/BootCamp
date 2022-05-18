@@ -1,4 +1,3 @@
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/services/auth/auth_exceptions.dart';
 import 'package:hrms/services/auth/auth_service.dart';
@@ -18,8 +17,7 @@ class SingUpView extends StatefulWidget {
 }
 
 class _SingUpViewState extends State<SingUpView> {
-  final _employeeFormKey = GlobalKey<FormState>();
-  final _employerFormKey = GlobalKey<FormState>();
+  final _userFormKey = GlobalKey<FormState>();
 
   late final TextEditingController _nameController;
   late final TextEditingController _phoneNumberController;
@@ -28,11 +26,12 @@ class _SingUpViewState extends State<SingUpView> {
   late final TextEditingController _passwordConfirmController;
   late bool _isPasswordVisible;
   late bool _isPasswordConfirmVisible;
-  late bool _isEmployer;
   late bool _isButtonEnabled;
   late int _index;
   late String _selectedGender;
   late String _city;
+  late String _userType;
+  late List<String> _userTypes;
   late List<String> _cities;
 
   @override
@@ -44,40 +43,30 @@ class _SingUpViewState extends State<SingUpView> {
     _passwordConfirmController = TextEditingController();
     _isPasswordVisible = false;
     _isPasswordConfirmVisible = false;
-    _isEmployer = false; // default employee
+    _userType = 'İş Arayan'; // default employer
     _isButtonEnabled = false;
     _index = 0;
     _selectedGender = 'male';
     _city = 'Ankara';
     _cities = ['Ankara', 'İstanbul', 'İzmir'];
+    _userTypes = ['İş Arayan', 'İş Veren'];
     isButtonEnabledListener();
     super.initState();
   }
 
   void isButtonEnabledListener() {
     _nameController.addListener(() {
-      inputListener();
+      var name = _nameController.text;
+      if (name.trim().isNotEmpty) {
+        setState(() {
+          _isButtonEnabled = true;
+        });
+      } else {
+        setState(() {
+          _isButtonEnabled = false;
+        });
+      }
     });
-
-    _phoneNumberController.addListener(() {
-      inputListener();
-    });
-  }
-
-  void inputListener() {
-    var name = _nameController.text;
-    var phoneNumber = _phoneNumberController.text;
-    if (name.trim().isNotEmpty &&
-        phoneNumber.trim().isNotEmpty &&
-        RegExp(r'^5(?:9)?[0-9]{9}$').hasMatch(phoneNumber)) {
-      setState(() {
-        _isButtonEnabled = true;
-      });
-    } else {
-      setState(() {
-        _isButtonEnabled = false;
-      });
-    }
   }
 
   void isVisible() {
@@ -101,32 +90,8 @@ class _SingUpViewState extends State<SingUpView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              AnimatedToggleSwitch<bool>.dual(
-                current: _isEmployer,
-                first: true,
-                second: false,
-                dif: 50.0,
-                borderColor: const Color.fromARGB(255, 99, 121, 146),
-                borderWidth: 2,
-                height: 55,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                    offset: Offset(0, 1.5),
-                  ),
-                ],
-                onChanged: (b) => setState(() => _isEmployer = b),
-                colorBuilder: (b) => b ? Colors.red : Colors.green,
-                iconBuilder: (value) =>
-                    value ? const Icon(Icons.work) : const Icon(Icons.person),
-                textBuilder: (value) => value
-                    ? const Center(child: Text('İş veren'))
-                    : const Center(child: Text('İş arayan')),
-              ),
               SingleChildScrollView(
-                child: _isEmployer ? employer(context) : employee(context),
+                child: user(context),
               ),
             ],
           ),
@@ -135,43 +100,11 @@ class _SingUpViewState extends State<SingUpView> {
     );
   }
 
-  Column employee(BuildContext context) {
+  Column user(BuildContext context) {
     return Column(
       children: [
         Form(
-          key: _employeeFormKey,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                AuthStatusTexts.createAnAccount,
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              _emailInput(),
-              _passwordInput(),
-              _passwordControlInput(),
-              _alreadyHaveAccountButton(),
-              const SizedBox(
-                height: 20,
-              ),
-              _registerButton("employee"),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column employer(BuildContext context) {
-    return Column(
-      children: [
-        Form(
-          key: _employerFormKey,
+          key: _userFormKey,
           child: Column(
             children: [
               const SizedBox(
@@ -187,15 +120,15 @@ class _SingUpViewState extends State<SingUpView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  employerTextButton1(),
-                  employerTextButton2(),
+                  userTextButton1(),
+                  userTextButton2(),
                 ],
               ),
-              employerColumn(),
+              userColumn(),
               const SizedBox(
                 height: 20,
               ),
-              _index == 0 ? employerElevatedButton() : _registerButton("employer"),
+              _index == 0 ? userElevatedButton() : _registerButton(),
             ],
           ),
         ),
@@ -203,29 +136,32 @@ class _SingUpViewState extends State<SingUpView> {
     );
   }
 
-  ElevatedButton employerElevatedButton() {
+  ElevatedButton userElevatedButton() {
     return ElevatedButton(
-        onPressed: _isButtonEnabled
-            ? () {
-                setState(() {
-                  _index = 1;
-                });
-              }
-            : null,
-        child: const Text("Devam"));
+      onPressed: _isButtonEnabled
+          ? () {
+              setState(() {
+                _index = 1;
+              });
+            }
+          : null,
+      child: const Text("Devam"),
+    );
   }
 
-  Column employerColumn() {
+  Column userColumn() {
     return Column(
       children: _index == 0
           ? [
               _nameInput(),
-              _phoneNumberInput(),
+              _userTypeDropDown(),
               _cityDropDownButton(),
               _genderRadioButton(),
+              _alreadyHaveAccountButton(),
             ]
           : [
               _emailInput(),
+              _phoneNumberInput(),
               _passwordInput(),
               _passwordControlInput(),
               _alreadyHaveAccountButton(),
@@ -233,7 +169,7 @@ class _SingUpViewState extends State<SingUpView> {
     );
   }
 
-  TextButton employerTextButton1() {
+  TextButton userTextButton1() {
     return TextButton(
       onPressed: _index == 1
           ? () {
@@ -265,7 +201,7 @@ class _SingUpViewState extends State<SingUpView> {
     );
   }
 
-  TextButton employerTextButton2() {
+  TextButton userTextButton2() {
     return TextButton(
       onPressed: _isButtonEnabled && _index == 0
           ? () {
@@ -282,6 +218,32 @@ class _SingUpViewState extends State<SingUpView> {
               : Colors.grey,
           fontSize: _index == 1 ? 27 : 16,
         ),
+      ),
+    );
+  }
+
+  Padding _userTypeDropDown() {
+    return Padding(
+      padding: ProjectPadding.inputPaddingVertical,
+      child: DropdownButtonFormField(
+        value: _userType,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.supervised_user_circle_rounded),
+          prefixText: "Kullanıcı Tipi: ",
+          contentPadding: EdgeInsets.only(left: 10, right: 10),
+          constraints: BoxConstraints(maxWidth: 300),
+        ),
+        items: _userTypes.map((String items) {
+          return DropdownMenuItem(
+            value: items,
+            child: Text(items),
+          );
+        }).toList(),
+        onChanged: (String? value) {
+          setState(() {
+            _userType = value!;
+          });
+        },
       ),
     );
   }
@@ -357,12 +319,7 @@ class _SingUpViewState extends State<SingUpView> {
           hintText: HintTexts.nameHint,
           prefixIcon: const Icon(Icons.person_outlined),
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return ValidateTexts.emptyName;
-          }
-          return null;
-        },
+        validator: ValidationConstants.nameValidator,
         onChanged: (value) => userName = value,
       ),
     );
@@ -407,17 +364,9 @@ class _SingUpViewState extends State<SingUpView> {
         controller: _phoneNumberController,
         decoration: InputDecoration(
           hintText: HintTexts.phoneNumberHint,
-          prefixIcon: const Icon(Icons.phone),
+          prefixIcon: const Icon(Icons.phone_android),
         ),
-        validator: (value) {
-          if (value!.trim().isEmpty) {
-            return ValidateTexts.emptyPhoneNumber;
-          }
-          if (!RegExp(r'^5(?:9)?[0-9]{9}$').hasMatch(value)) {
-            return ValidateTexts.phoneNumberNotValid;
-          }
-          return null;
-        },
+        validator: ValidationConstants.phoneValidator,
         onChanged: (value) => userPhoneNumber = value,
       ),
     );
@@ -498,16 +447,15 @@ class _SingUpViewState extends State<SingUpView> {
         child: Text(AuthStatusTexts.hasAccount),
       );
 
-  ElevatedButton _registerButton(type) {
+  ElevatedButton _registerButton() {
     return ElevatedButton(
       onPressed: () async {
         final email = _emailController.text;
         final password = _passwordController.text;
         final name = _nameController.text;
         final phoneNumber = _phoneNumberController.text;
-        if (_isEmployer
-            ? _employerFormKey.currentState!.validate()
-            : _employeeFormKey.currentState!.validate()) {
+        var type = _userType == 'İş Veren' ? 'employer' : 'employee';
+        if (_userFormKey.currentState!.validate()) {
           try {
             var employer = await AuthService.firebase().createUser(
               email: email,
