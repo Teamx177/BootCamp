@@ -297,7 +297,7 @@ class _SingUpViewState extends State<SingUpView> {
                 value: 'female',
                 groupValue: _selectedGender,
                 onChanged: (value) {
-                  setState(() {
+                  setState(() { // (((())))) {{{}}}} [[]]
                     _selectedGender = value!;
                   });
                 },
@@ -338,16 +338,7 @@ class _SingUpViewState extends State<SingUpView> {
           hintText: HintTexts.emailHint,
           prefixIcon: const Icon(Icons.email_outlined),
         ),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return ValidateTexts.emptyEmail;
-          }
-          // Mail adresinin geçerli formatında olup olmadığını kontrol ediyoruz.
-          if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-            return ValidateTexts.emailNotValid;
-          }
-          return null;
-        },
+        validator: ValidationConstants.emailValidator,
         onChanged: (value) => userMail = value,
       ),
     );
