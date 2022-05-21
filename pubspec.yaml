@@ -22,6 +22,7 @@ dependencies:
   stylish_bottom_bar: ^0.1.2
   animated_toggle_switch: ^0.5.2
   google_fonts: ^2.3.2
+  animated_splash_screen: ^1.2.0
 
  # StateManagement
   provider: ^6.0.2
