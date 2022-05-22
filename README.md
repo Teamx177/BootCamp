@@ -116,6 +116,13 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 - **Ürün Durumu**: Ekran görüntüleri:
 
+![splashscreen](https://user-images.githubusercontent.com/100482891/169692139-983919bd-c378-4ebf-9ee7-9205647a5fa0.png)
+![homepage](https://user-images.githubusercontent.com/100482891/169692157-16a6ce33-a7cd-42de-82ad-0f034226d0f8.png)
+![profilepage lightMode](https://user-images.githubusercontent.com/100482891/169692296-1ae694f6-3076-4664-996e-1ff6ab763845.png)
+![profilepage darkMode](https://user-images.githubusercontent.com/100482891/169692169-0a206cf5-7b0c-4896-94ab-aa3d1c05875e.png)
+
+
+
 
 
 
