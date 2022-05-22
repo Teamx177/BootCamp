@@ -45,7 +45,7 @@ Takım 177
 
 - **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan
 
-- **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 190 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 70 ile başlaması gerektiğine karar verildi.
+- **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 70 ile başlaması gerektiğine karar verildi.
 
 - **Backlog düzeni ve Story seçimleri**: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur. 
 
@@ -87,11 +87,11 @@ Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kıs�
 
 # Sprint 2
 
-- Sprint Notları: User Story'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
+- Sprint Notları: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
 
-- Sprint içinde tamamlanması tahmin edilen puan: 70 Puan
+- Sprint içinde tamamlanması tahmin edilen puan: 100 Puan
 
-- Puan tamamlama mantığı: Toplamda proje boyunca tamamlanması gereken 190 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 70 ile başlaması gerektiğine karar verildi.
+- Puan tamamlama mantığı: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. ilk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2 sprint için eşit olarak dağıtılmasına karar verildi. Bundan dolayı, 2. sprint için tamamlanması gereken puan 100 olarak kabul edildi.
 
 - Backlog düzeni ve Story seçimleri: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur.
 
@@ -104,6 +104,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 Sprint board update: Sprint board screenshotları:
 ![Kanban Framework](https://user-images.githubusercontent.com/100482891/168445693-98797679-3881-45d2-a8db-15d1950f1e89.jpg)
+![Kanban Framework2](https://user-images.githubusercontent.com/100482891/169690557-da137c7a-45ec-4bb0-a8ae-a00e0130d70a.jpg)
 
 
 
