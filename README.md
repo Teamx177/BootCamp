@@ -87,17 +87,18 @@ Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kıs�
 
 # Sprint 2
 
-- Sprint Notları: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
+- **Sprint Notları**: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
 
-- Sprint içinde tamamlanması tahmin edilen puan: 100 Puan
+- **Sprint içinde tamamlanması tahmin edilen puan**: 100 Puan
 
-- Puan tamamlama mantığı: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2 sprint için eşit olarak dağıtılmasına karar verildi. Bundan dolayı, 2. sprint için tamamlanması gereken puan 100 olarak kabul edildi.
+- **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2 sprint için eşit olarak dağıtılmasına karar verildi. Bundan dolayı, 2. sprint için tamamlanması gereken puan 100 olarak kabul edildi.
 
-- Backlog düzeni ve Story seçimleri: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur.
+
+- **Backlog düzeni ve Story seçimleri**: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur.
 
 Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her bir task ve onlara ait story'ler farklı renkler ile temsil edilmektedir.
 
-- Daily Scrum: Daily Scrum toplantılarının ekip üyelerinin oy birliği ile Discord üzerinden yapılmasına karar verilmiştir. Daily Scrum toplantısı örneği jpeg veya word olarak Readme'de tarafımızdan paylaşılmaktadır:
+- **Daily Scrum**: Daily Scrum toplantılarının ekip üyelerinin oy birliği ile Discord üzerinden yapılmasına karar verilmiştir. Daily Scrum toplantısı örneği jpeg veya word olarak Readme'de tarafımızdan paylaşılmaktadır:
 
 12.05.2022 ![1652544458007](https://user-images.githubusercontent.com/100482891/168445607-aac82d62-0c3d-4aab-b8a0-e9d213db2c1a.jpg)
 14.05.2022 ![1652544457976](https://user-images.githubusercontent.com/100482891/168445614-34d3b136-f373-440f-ab88-94a29282282d.jpg)
@@ -107,7 +108,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 21.05.2022 ![1653214934468](https://user-images.githubusercontent.com/100482891/169690891-afb9cd99-ca0f-4cd3-81d5-9d0204286237.jpg)
 
 
-Sprint board update: Sprint board screenshotları:
+
+- **Sprint board update**: Sprint board screenshotları:
 ![Kanban Framework](https://user-images.githubusercontent.com/100482891/168445693-98797679-3881-45d2-a8db-15d1950f1e89.jpg)
 ![Kanban Framework(2)](https://user-images.githubusercontent.com/100482891/169690684-ea41fe57-104f-42be-8d21-064dced217ba.jpg)
 
