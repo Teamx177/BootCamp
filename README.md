@@ -112,6 +112,10 @@ Sprint board update: Sprint board screenshotları:
 ![Kanban Framework(2)](https://user-images.githubusercontent.com/100482891/169690684-ea41fe57-104f-42be-8d21-064dced217ba.jpg)
 
 
+- **Ürün Durumu**: Ekran görüntüleri:
+
+
+
 
 
 
