@@ -122,7 +122,10 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![profilepage darkMode](https://user-images.githubusercontent.com/100482891/169692169-0a206cf5-7b0c-4896-94ab-aa3d1c05875e.png)
 
 
+- **Sprint Review**:
 
+
+- **Sprint Retrospective:**
 
 
 
