@@ -91,7 +91,7 @@ Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kıs�
 
 - Sprint içinde tamamlanması tahmin edilen puan: 100 Puan
 
-- Puan tamamlama mantığı: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. ilk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2 sprint için eşit olarak dağıtılmasına karar verildi. Bundan dolayı, 2. sprint için tamamlanması gereken puan 100 olarak kabul edildi.
+- Puan tamamlama mantığı: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2 sprint için eşit olarak dağıtılmasına karar verildi. Bundan dolayı, 2. sprint için tamamlanması gereken puan 100 olarak kabul edildi.
 
 - Backlog düzeni ve Story seçimleri: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur.
 
@@ -101,10 +101,16 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 12.05.2022 ![1652544458007](https://user-images.githubusercontent.com/100482891/168445607-aac82d62-0c3d-4aab-b8a0-e9d213db2c1a.jpg)
 14.05.2022 ![1652544457976](https://user-images.githubusercontent.com/100482891/168445614-34d3b136-f373-440f-ab88-94a29282282d.jpg)
+15.05.2022 ![1653214934497](https://user-images.githubusercontent.com/100482891/169690796-51db568f-fb6d-4b64-bdfc-63c19ade385d.jpg)
+17.05.2022 ![1653214934437](https://user-images.githubusercontent.com/100482891/169690847-505da46e-2ecc-4f37-ae4f-2ac7d54e232e.jpg)
+19.05.2022 ![1653214934484](https://user-images.githubusercontent.com/100482891/169690881-0bbf1f0c-7957-4e15-b157-16463e897338.jpg)
+21.05.2022 ![1653214934468](https://user-images.githubusercontent.com/100482891/169690891-afb9cd99-ca0f-4cd3-81d5-9d0204286237.jpg)
+
 
 Sprint board update: Sprint board screenshotları:
 ![Kanban Framework](https://user-images.githubusercontent.com/100482891/168445693-98797679-3881-45d2-a8db-15d1950f1e89.jpg)
-![Kanban Framework2](https://user-images.githubusercontent.com/100482891/169690557-da137c7a-45ec-4bb0-a8ae-a00e0130d70a.jpg)
+![Kanban Framework(2)](https://user-images.githubusercontent.com/100482891/169690684-ea41fe57-104f-42be-8d21-064dced217ba.jpg)
+
 
 
 
