@@ -89,9 +89,9 @@ Alınan kararlar: UI geliştirilecek. Şifre sıfırlama ve e-posta onayı kıs�
 
 - **Sprint Notları**: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
 
-- **Sprint içinde tamamlanması tahmin edilen puan**: 100 Puan
+- **Sprint içinde tamamlanması tahmin edilen puan**: 130 Puan
 
-- **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2 sprint için eşit olarak dağıtılmasına karar verildi. Bundan dolayı, 2. sprint için tamamlanması gereken puan 100 olarak kabul edildi.
+- **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2. sprint için 130, 3. sprint için ise 70 puan olarak dağıtılmasına karar verildi.
 
 
 - **Backlog düzeni ve Story seçimleri**: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur.
@@ -112,6 +112,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 - **Sprint board update**: Sprint board screenshotları: ("Done" kısmındaki "Kayıt sayfasını güncelle" görevi ve bu görevden sonra sıralanan görevler 2. sprint'e dahildir)
 ![Kanban Framework](https://user-images.githubusercontent.com/100482891/168445693-98797679-3881-45d2-a8db-15d1950f1e89.jpg)
 ![Kanban Framework(2)](https://user-images.githubusercontent.com/100482891/169690684-ea41fe57-104f-42be-8d21-064dced217ba.jpg)
+![Kanban Framework3](https://user-images.githubusercontent.com/100482891/169879281-3d09545b-5e6a-4175-9e61-eb33d8924c10.jpg)
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
@@ -125,10 +126,14 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![profilepage darkMode](https://user-images.githubusercontent.com/100482891/169692169-0a206cf5-7b0c-4896-94ab-aa3d1c05875e.png)
 
 
-- **Sprint Review**:
+- **Sprint Review**: ALınan Kararlar: Uygulama için logo tasarlanacak. UX design'a daha çok önem verilecek. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
 
 
 - **Sprint Retrospective:**
+  - 2. sprint süresi içinde ekipteki herkesin geliştirme kısmında katkısı oldu.
+  - Sesli ve görüntülü konuşmanın ekipteki kişiler için uygun olmadığı zamanlarda bazı görüşmelerin Discord üzerinden mesajlaşma aracılığıyla yapılmasına karar    
+    verildi.
+  
 
 
 
