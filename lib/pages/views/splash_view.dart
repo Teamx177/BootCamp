@@ -13,7 +13,7 @@ class SplashView extends StatelessWidget {
       splash: 'assets/images/welcomeFirst.png',
       splashIconSize: 120,
       backgroundColor: lightColorScheme.background,
-      nextScreen: const LoginView(),
+      nextScreen: const LoginView(), // fixed but not in here
       disableNavigation: false,
       splashTransition: SplashTransition.slideTransition,
       pageTransitionType: PageTransitionType.fade,
