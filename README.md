@@ -124,6 +124,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![homepage]![1653339003953](https://user-images.githubusercontent.com/100482891/169904827-75cc4785-bdc8-42e1-aee8-e58314527f1f.png)
 ![profilepage lightMode](https://user-images.githubusercontent.com/100482891/169692296-1ae694f6-3076-4664-996e-1ff6ab763845.png)
 ![profilepage darkMode](https://user-images.githubusercontent.com/100482891/169692169-0a206cf5-7b0c-4896-94ab-aa3d1c05875e.png)
+![1653339003938](https://user-images.githubusercontent.com/100482891/169904996-4b28110b-1a6c-495b-b9f2-1029b4060f1f.png)
+
 
 
 - **Sprint Review**: ALınan Kararlar: Uygulama için logo tasarlanacak. UX design'a daha çok önem verilecek. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
