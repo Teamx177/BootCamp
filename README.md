@@ -109,7 +109,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 
 
-- **Sprint board update**: Sprint board screenshotları:
+- **Sprint board update**: Sprint board screenshotları: ("Done" kısmındaki "Kayıt sayfasını güncelle" görevi ve bu görevden sonra sıralanan görevler 2. sprint'e dahildir)
 ![Kanban Framework](https://user-images.githubusercontent.com/100482891/168445693-98797679-3881-45d2-a8db-15d1950f1e89.jpg)
 ![Kanban Framework(2)](https://user-images.githubusercontent.com/100482891/169690684-ea41fe57-104f-42be-8d21-064dced217ba.jpg)
 
