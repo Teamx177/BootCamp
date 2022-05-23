@@ -4,6 +4,7 @@ import 'package:hrms/bottom_screens/profile_view.dart';
 import 'package:hrms/main.dart';
 import 'package:hrms/views/log_in_view.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
+import 'package:hrms/views/widgets/form_view.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class _MainViewState extends State<MainView> {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
                   builder: (BuildContext context) {
-                    return const LoginView();
+                    return const JobFormView();
                   },
                   fullscreenDialog: true),
             );
