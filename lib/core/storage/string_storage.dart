@@ -3,3 +3,4 @@ String userPassword = '';
 String userName = '';
 String userPhoneNumber = '';
 String userPasswordConfirm = '';
+String newPassword = '';

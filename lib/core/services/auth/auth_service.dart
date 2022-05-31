@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hrms/core/services/auth/auth_provider.dart';
 import 'package:hrms/core/services/auth/auth_user.dart';
 import 'package:hrms/core/services/auth/firebase_auth_provider.dart';
@@ -53,12 +54,28 @@ class AuthService implements AuthProvider {
       );
 
   @override
-  Future<void> phoneSignUp({
+  Future<void> phoneLogin({
     required String phoneNumber,
     required BuildContext context,
   }) =>
-      provider.phoneSignUp(
+      provider.phoneLogin(
         phoneNumber: phoneNumber,
         context: context,
       );
+
+  @override
+  Future<User?> updatePhone(String phoneNumber, BuildContext context) =>
+      provider.updatePhone(phoneNumber, context);
+
+  @override
+  Future<void> updateDisplayName(String displayName, BuildContext context) =>
+      provider.updateDisplayName(displayName, context);
+  @override
+  Future<void> updateEmail(
+          String newEmail, String currentEmail, String currentPassword) =>
+      provider.updateEmail(newEmail, currentEmail, currentPassword);
+  @override
+  Future<void> updatePassword(
+          String email, String currentPassword, String newPassword) =>
+      provider.updatePassword(email, currentPassword, newPassword);
 }

@@ -1,14 +1,13 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hrms/core/managers/route_manager.dart';
+import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/themes/dark_theme.dart';
 import 'package:hrms/core/themes/light_theme.dart';
 import 'package:hrms/firebase_options.dart';
-import 'package:page_transition/page_transition.dart';
-
-import 'core/themes/lib_color_schemes.g.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +16,7 @@ void main() async {
   );
   await Hive.initFlutter();
   await Hive.openBox('themeData');
+  GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
   runApp(const Hrms());
 }
 
@@ -30,22 +30,18 @@ class Hrms extends StatelessWidget {
       builder: (_, currentMode, box) {
         var darkMode =
             Hive.box('themeData').get('darkmode', defaultValue: false);
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: AnimatedSplashScreen(
-            splash: 'assets/images/welcomeFirst.png',
-            splashIconSize: 120,
-            splashTransition: SplashTransition.slideTransition,
-            pageTransitionType: PageTransitionType.fade,
-            backgroundColor: lightColorScheme.background,
-            nextScreen: MaterialApp.router(
-              themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
-              title: 'HRMS',
-              theme: LightTheme().theme,
-              darkTheme: DarkTheme().theme,
-              routeInformationParser: router.routeInformationParser,
-              routerDelegate: router.routerDelegate,
-            ),
+        return MultiProvider(
+          providers: [
+            Provider<AuthService>(create: (_) => AuthService.firebase())
+          ],
+          child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+            title: 'HRMS',
+            theme: LightTheme().theme,
+            darkTheme: DarkTheme().theme,
+            routeInformationParser: router.routeInformationParser,
+            routerDelegate: router.routerDelegate,
           ),
         );
       },

@@ -1,22 +1,43 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/lib_color_schemes.g.dart';
-import 'package:hrms/pages/views/log_in_view.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:hrms/core/managers/route_manager.dart';
+import 'package:lottie/lottie.dart';
 
-class SplashView extends StatelessWidget {
-  const SplashView({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: (5)),
+      vsync: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      splash: 'assets/images/welcomeFirst.png',
-      splashIconSize: 120,
-      backgroundColor: lightColorScheme.background,
-      nextScreen: const LoginView(), // fixed but not in here
-      disableNavigation: false,
-      splashTransition: SplashTransition.slideTransition,
-      pageTransitionType: PageTransitionType.fade,
+    return Scaffold(
+      body: Center(
+        child: Lottie.asset(
+          'assets/images/splash.json',
+          controller: _controller,
+          height: MediaQuery.of(context).size.height * 1,
+          animate: true,
+          onLoaded: (composition) {
+            _controller
+              ..duration = composition.duration
+              ..forward().whenComplete(() => router.go('/'));
+          },
+        ),
+      ),
     );
   }
 }

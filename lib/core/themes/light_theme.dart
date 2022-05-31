@@ -5,12 +5,25 @@ import 'package:hrms/core/themes/lib_color_schemes.g.dart';
 
 class LightTheme {
   ThemeData theme = ThemeData(
-    scaffoldBackgroundColor: lightColorScheme.background,
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.black,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white,
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        surfaceTintColor: lightColorScheme.onSecondary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      ),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: lightColorScheme.tertiary,
+      foregroundColor: lightColorScheme.onTertiary,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    ),
+    scaffoldBackgroundColor: lightColorScheme.background,
     appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(
         color: Colors.black,
@@ -22,8 +35,17 @@ class LightTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.all(const Color.fromARGB(255, 230, 181, 148)),
+        foregroundColor:
+            MaterialStateProperty.all(lightColorScheme.onSecondary),
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return lightColorScheme.onSecondary;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Colors.grey;
+          }
+          return lightColorScheme.tertiary;
+        }),
         fixedSize: MaterialStateProperty.all(
           const Size(125, 40),
         ),
@@ -65,6 +87,7 @@ class LightTheme {
       headline5: GoogleFonts.rubik(
         fontSize: 24,
         fontWeight: FontWeight.normal,
+        color: lightColorScheme.onBackground,
       ),
       headline6: GoogleFonts.rubik(
         fontSize: 20,

@@ -17,6 +17,9 @@ class EmailFormField extends StatelessWidget {
   TextInputAction? textInputAction;
   InputDecoration? decoration = const InputDecoration();
   Iterable<String>? autofillHints;
+  void Function(String?)? onSaved;
+  void Function(String)? onFieldSubmitted;
+  String? hintText;
 
   EmailFormField({
     Key? key,
@@ -28,7 +31,10 @@ class EmailFormField extends StatelessWidget {
     this.autovalidateMode,
     this.initialValue,
     this.onChanged,
+    this.hintText,
     this.controller,
+    this.onFieldSubmitted,
+    this.onSaved,
     this.textInputAction,
     this.keyboardType = TextInputType.emailAddress,
     this.title,
@@ -41,14 +47,16 @@ class EmailFormField extends StatelessWidget {
       initialValue: initialValue,
       onChanged: onChanged,
       controller: controller,
+      onSaved: onSaved,
       key: key,
+      onFieldSubmitted: onFieldSubmitted,
       enabled: enabled,
       textInputAction: TextInputAction.next,
       keyboardType: keyboardType,
       validator: ValidationConstants.emailValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: HintTexts.emailHint,
+        hintText: hintText,
         prefixIcon: const Icon(Icons.email_outlined),
       ),
     );
@@ -69,6 +77,9 @@ class PasswordFormField extends StatefulWidget {
   TextInputAction? textInputAction;
   InputDecoration? decoration = const InputDecoration();
   Iterable<String>? autofillHints;
+  void Function(String?)? onSaved;
+  String? hintText;
+  Widget? suffixIcon;
 
   PasswordFormField({
     Key? key,
@@ -81,8 +92,11 @@ class PasswordFormField extends StatefulWidget {
     this.onChanged,
     this.obscureText,
     this.controller,
+    this.hintText,
+    this.suffixIcon,
     this.title,
     this.textInputAction,
+    this.onSaved,
     this.decoration,
     this.keyboardType = TextInputType.visiblePassword,
   }) : super(key: key);
@@ -109,30 +123,34 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       initialValue: widget.initialValue,
+      onSaved: widget.onSaved,
       onChanged: widget.onChanged,
       obscureText: !_isPasswordVisible,
       keyboardType: widget.keyboardType,
       controller: widget.controller,
-      textInputAction: widget.textInputAction,
+      textInputAction: TextInputAction.next,
       validator: widget.validator,
+      key: widget.key,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: HintTexts.passwordHint,
+        hintText: widget.hintText,
         prefixIcon: const Icon(Icons.lock_outline),
-        suffixIcon: IconButton(
-          icon: Icon(
-            // Based on passwordVisible state choose the icon
-            _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-          ),
-          onPressed: () {
-            setState(
-              () {
-                isVisible();
-              },
-            );
-          },
-        ),
+        suffixIcon: widget.initialValue?.isEmpty ?? true
+            ? IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(
+                    () {
+                      isVisible();
+                    },
+                  );
+                },
+              )
+            : null,
       ),
     );
   }
@@ -152,6 +170,8 @@ class ConfirmPasswordFormField extends StatefulWidget {
   TextInputAction? textInputAction;
   InputDecoration? decoration = const InputDecoration();
   Iterable<String>? autofillHints;
+  void Function(String?)? onSaved;
+  String? hintText;
 
   ConfirmPasswordFormField({
     Key? key,
@@ -167,6 +187,8 @@ class ConfirmPasswordFormField extends StatefulWidget {
     this.title,
     this.textInputAction,
     this.decoration,
+    this.onSaved,
+    this.hintText,
     this.keyboardType = TextInputType.visiblePassword,
   }) : super(key: key);
 
@@ -196,13 +218,14 @@ class _ConfirmPasswordFormFieldState extends State<ConfirmPasswordFormField> {
       initialValue: widget.initialValue,
       onChanged: widget.onChanged,
       obscureText: !_isPasswordVisible,
+      onSaved: widget.onSaved,
       keyboardType: widget.keyboardType,
       controller: widget.controller,
-      textInputAction: widget.textInputAction,
+      textInputAction: TextInputAction.done,
       validator: widget.validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: HintTexts.passwordHint,
+        hintText: 'Şifrenizi tekrar giriniz',
         prefixIcon: const Icon(Icons.lock_outline),
         suffixIcon: IconButton(
           icon: Icon(
@@ -235,6 +258,8 @@ class PhoneFormField extends StatelessWidget {
   String? initialValue;
   InputDecoration? decoration = const InputDecoration();
   Iterable<String>? autofillHints;
+  TextInputAction? textInputAction;
+  void Function(String?)? onSaved;
 
   PhoneFormField({
     Key? key,
@@ -243,11 +268,13 @@ class PhoneFormField extends StatelessWidget {
     this.validator,
     this.autovalidateMode,
     this.initialValue,
+    this.textInputAction,
     this.onChanged,
     this.obscureText,
     this.autofillHints = const [AutofillHints.telephoneNumber],
     this.controller,
     this.title,
+    this.onSaved,
     this.keyboardType = TextInputType.phone,
   }) : super(key: key);
 
@@ -261,6 +288,8 @@ class PhoneFormField extends StatelessWidget {
       enabled: enabled,
       controller: controller,
       keyboardType: keyboardType,
+      textInputAction: TextInputAction.next,
+      onSaved: onSaved,
       validator: ValidationConstants.phoneValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
@@ -282,8 +311,10 @@ class NameFormField extends StatelessWidget {
   AutovalidateMode? autovalidateMode;
   List<TextInputFormatter>? inputFormatters;
   String? initialValue;
+  TextInputAction? textInputAction;
   InputDecoration? decoration = const InputDecoration();
   Iterable<String>? autofillHints;
+  void Function(String?)? onSaved;
 
   NameFormField({
     Key? key,
@@ -291,6 +322,7 @@ class NameFormField extends StatelessWidget {
     this.inputFormatters,
     this.validator,
     this.autovalidateMode,
+    this.textInputAction,
     this.autofillHints = const [AutofillHints.name],
     this.initialValue,
     this.onChanged,
@@ -298,6 +330,7 @@ class NameFormField extends StatelessWidget {
     this.decoration,
     this.controller,
     this.title,
+    this.onSaved,
     this.keyboardType = TextInputType.name,
   }) : super(key: key);
 
@@ -308,7 +341,9 @@ class NameFormField extends StatelessWidget {
       onChanged: onChanged,
       enabled: enabled,
       autofillHints: autofillHints,
+      onSaved: onSaved,
       controller: controller,
+      textInputAction: TextInputAction.done,
       obscureText: false,
       keyboardType: keyboardType,
       validator: ValidationConstants.nameValidator,

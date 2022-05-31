@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hrms/core/themes/lib_color_schemes.g.dart';
 
 class DarkTheme {
@@ -16,28 +17,31 @@ class DarkTheme {
         borderRadius: BorderRadius.circular(20),
       ),
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: darkColorScheme.onBackground,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(
-          color: Colors.white,
-        ),
-      ),
-    ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: Colors.white,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: darkColorScheme.tertiary,
+      foregroundColor: darkColorScheme.onTertiary,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
     ),
     scaffoldBackgroundColor: darkColorScheme.background,
     colorScheme: darkColorScheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(darkColorScheme.onSecondary),
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return darkColorScheme.tertiary;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Colors.grey;
+          }
+          return darkColorScheme.secondary;
+        }),
         fixedSize: MaterialStateProperty.all(
           const Size(125, 40),
         ),
@@ -70,6 +74,7 @@ class DarkTheme {
       headline5: GoogleFonts.rubik(
         fontSize: 24,
         fontWeight: FontWeight.normal,
+        color: darkColorScheme.onBackground,
       ),
       headline6: GoogleFonts.rubik(
         fontSize: 20,
@@ -106,3 +111,5 @@ class DarkTheme {
     ),
   );
 }
+
+dynamic darkMode = Hive.box('themeData').get('darkmode', defaultValue: false);

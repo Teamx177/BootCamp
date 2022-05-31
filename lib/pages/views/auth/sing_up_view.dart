@@ -8,9 +8,8 @@ import 'package:hrms/core/storage/dialog_storage.dart';
 import 'package:hrms/core/storage/string_storage.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
-import 'package:hrms/core/themes/light_theme.dart';
 import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/widgets/form_field.dart';
+import 'package:hrms/pages/views/auth/widgets/form_field.dart';
 
 class SingUpView extends StatefulWidget {
   const SingUpView({Key? key}) : super(key: key);
@@ -21,15 +20,12 @@ class SingUpView extends StatefulWidget {
 
 class _SingUpViewState extends State<SingUpView> {
   final _userFormKey = GlobalKey<FormState>();
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController =
       TextEditingController();
-  late bool _isPasswordVisible = false;
-  late bool _isPasswordConfirmVisible = false;
   late bool _isButtonEnabled;
   late int _index;
   late String _selectedGender;
@@ -66,85 +62,63 @@ class _SingUpViewState extends State<SingUpView> {
     });
   }
 
-  void isVisible() {
-    setState(() {
-      _isPasswordVisible = !_isPasswordVisible;
-    });
-  }
-
-  void isVisibleConfirm() {
-    setState(() {
-      _isPasswordConfirmVisible = !_isPasswordConfirmVisible;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-      ),
       body: Padding(
         padding: ProjectPadding.pagePaddingHorizontal,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              SingleChildScrollView(
-                child: Card(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
                   borderOnForeground: true,
-                  color: LightTheme().theme.cardColor,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: userForm(context),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Column userForm(BuildContext context) {
-    return Column(
-      children: [
-        Form(
-          key: _userFormKey,
-          child: Column(
+  Form userForm(BuildContext context) {
+    return Form(
+      key: _userFormKey,
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          Text(
+            AuthStatusTexts.createAnAccount,
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                AuthStatusTexts.createAnAccount,
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  userTextButton1(),
-                  userTextButton2(),
-                ],
-              ),
-              userColumn(),
-              const SizedBox(
-                height: 10,
-              ),
-              _index == 0 ? userElevatedButton() : _registerButton(),
-              const SizedBox(
-                height: 15,
-              )
+              userTextButton1(),
+              userTextButton2(),
             ],
           ),
-        ),
-      ],
+          userColumn(),
+          const SizedBox(
+            height: 10,
+          ),
+          _index == 0 ? userElevatedButton() : _registerButton(),
+          const SizedBox(
+            height: 15,
+          )
+        ],
+      ),
     );
   }
 
@@ -244,7 +218,7 @@ class _SingUpViewState extends State<SingUpView> {
         decoration: const InputDecoration(
           prefixIcon: Icon(Icons.supervised_user_circle_rounded),
           prefixText: "Kullanıcı Tipi: ",
-          contentPadding: EdgeInsets.only(left: 10, right: 10),
+          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 12),
           constraints: BoxConstraints(maxWidth: 300),
         ),
         items: _userTypes.map((String items) {
@@ -270,7 +244,7 @@ class _SingUpViewState extends State<SingUpView> {
         decoration: const InputDecoration(
           prefixIcon: Icon(Icons.location_on),
           prefixText: "Şehir: ",
-          contentPadding: EdgeInsets.only(left: 10, right: 10),
+          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 12),
           constraints: BoxConstraints(maxWidth: 300),
         ),
         items: _cities.map((String items) {
@@ -292,6 +266,7 @@ class _SingUpViewState extends State<SingUpView> {
     return Padding(
         padding: ProjectPadding.inputPaddingVertical,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Lütfen Cinsiyetinizi Belirtiniz:'),
             ListTile(
@@ -337,6 +312,7 @@ class _SingUpViewState extends State<SingUpView> {
     return Padding(
       padding: ProjectPadding.inputPaddingVertical,
       child: EmailFormField(
+        hintText: HintTexts.emailHint,
         controller: _emailController,
         onChanged: (value) => userMail = value,
       ),
@@ -357,6 +333,7 @@ class _SingUpViewState extends State<SingUpView> {
     return Padding(
       padding: ProjectPadding.inputPaddingVertical,
       child: PasswordFormField(
+        hintText: HintTexts.passwordHint,
         controller: _passwordController,
         onChanged: (value) => userPassword = value,
         validator: ValidationConstants.singUpPasswordValidator,
@@ -369,6 +346,7 @@ class _SingUpViewState extends State<SingUpView> {
       padding: ProjectPadding.inputPaddingVertical,
       child: ConfirmPasswordFormField(
         controller: _passwordConfirmController,
+        hintText: HintTexts.passwordControlHint,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return ValidateTexts.emptyPasswordControl;
@@ -396,22 +374,19 @@ class _SingUpViewState extends State<SingUpView> {
         final email = _emailController.text;
         final password = _passwordController.text;
         final name = _nameController.text;
-        final phoneNumber = _phoneNumberController.text;
+        final phoneNumber = ('+90${_phoneNumberController.text}');
         var type = _userType == 'İş Veren' ? 'employer' : 'employee';
         if (_userFormKey.currentState!.validate()) {
           try {
             // Still working on phone register
-            // await AuthService.firebase()
-            //     .phoneSignUp(phoneNumber: phoneNumber, context: context);
-            // var credentinal =
-            //     EmailAuthProvider.credential(email: email, password: password);
             var user = await AuthService.firebase().createUser(
               email: email,
               password: password,
             );
-            //It' s not working for now
-            // FirebaseAuth.instance.currentUser?.linkWithCredential(credentinal);
-            await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+            await AuthService.firebase().phoneLogin(
+              context: context,
+              phoneNumber: phoneNumber,
+            );
             await FirebaseFirestore.instance
                 .collection("users")
                 .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -424,15 +399,26 @@ class _SingUpViewState extends State<SingUpView> {
               "city": _city,
               "type": type,
             });
-            await AuthService.firebase().sendEmailVerification();
-            await showSuccessDialog(
-              context,
-              AuthStatusTexts.successRegister,
-            );
+            // await AuthService.firebase().sendEmailVerification();
           } on EmailAlreadyInUseAuthException {
             await showErrorDialog(
               context,
               ErrorTexts.emailAlreadyUse,
+            );
+          } on TooManyRequestsAuthException {
+            await showErrorDialog(
+              context,
+              ErrorTexts.tooManyRequests,
+            );
+          } on InternalErrorException {
+            await showErrorDialog(
+              context,
+              ErrorTexts.internalError,
+            );
+          } on NetworkErrorException {
+            await showErrorDialog(
+              context,
+              ErrorTexts.networkError,
             );
           } on GenericAuthException {
             await showErrorDialog(
@@ -444,13 +430,13 @@ class _SingUpViewState extends State<SingUpView> {
       },
       child: Text(
         AuthStatusTexts.signUp,
-        style: const TextStyle(color: Colors.black),
       ),
     );
   }
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _passwordConfirmController.dispose();

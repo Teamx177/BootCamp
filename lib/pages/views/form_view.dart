@@ -1,8 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/lib_color_schemes.g.dart';
 import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/profile_view.dart';
+import 'package:hrms/pages/views/profile/profile_view.dart';
 
 //
 class JobFormView extends StatefulWidget {
@@ -60,7 +59,6 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 50,
                   child: AnimatedButton(
                     text: 'Soru 1:',
-                    color: lightColorScheme.onPrimary,
                     pressEvent: () {
                       AwesomeDialog(
                         context: context,
@@ -114,7 +112,6 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 50,
                   child: AnimatedButton(
                     text: 'Soru 2:',
-                    color: lightColorScheme.onPrimary,
                     pressEvent: () {
                       AwesomeDialog(
                         context: context,
@@ -168,7 +165,6 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 50,
                   child: AnimatedButton(
                     text: 'Soru 3:',
-                    color: lightColorScheme.onPrimary,
                     pressEvent: () {
                       AwesomeDialog(
                         context: context,
@@ -224,7 +220,6 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 50,
                   child: AnimatedButton(
                     text: 'Soru 4:',
-                    color: lightColorScheme.onPrimary,
                     pressEvent: () {
                       AwesomeDialog(
                         context: context,
@@ -281,7 +276,6 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 50,
                   child: AnimatedButton(
                     text: 'Soru 5:',
-                    color: lightColorScheme.onPrimary,
                     pressEvent: () {
                       AwesomeDialog(
                         context: context,
@@ -338,7 +332,6 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 50,
                   child: AnimatedButton(
                     text: 'Soru 6:',
-                    color: lightColorScheme.onPrimary,
                     pressEvent: () {
                       AwesomeDialog(
                         context: context,
@@ -385,7 +378,6 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 50,
                   child: AnimatedButton(
                     text: 'Soru 7:',
-                    color: lightColorScheme.onPrimary,
                     pressEvent: () {
                       AwesomeDialog(
                         context: context,
@@ -431,10 +423,11 @@ class _JobFormViewState extends State<JobFormView> {
                   height: 20,
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/main');
-                    },
-                    child: const Text('Kaydet')),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/main');
+                  },
+                  child: const Text('Kaydet'),
+                ),
               ],
             ),
           ),

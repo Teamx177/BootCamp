@@ -21,8 +21,9 @@ class UserModel {
       id: doc.data().toString().contains('id') ? doc.get('id') : '',
       email: doc.data().toString().contains('email') ? doc.get('email') : '',
       name: doc.data().toString().contains('name') ? doc.get('name') : '',
-      phoneNumber:
-          doc.data().toString().contains('phone') ? doc.get('phone') : '',
+      phoneNumber: doc.data().toString().contains('phoneNumber')
+          ? doc.get('phoneNumber')
+          : '',
       city: doc.data().toString().contains('city') ? doc.get('city') : '',
       selectedGender: doc.data().toString().contains('selectedGender')
           ? doc.get('selectedGender')

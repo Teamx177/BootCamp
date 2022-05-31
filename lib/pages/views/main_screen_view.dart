@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
+import 'package:hrms/core/themes/lib_color_schemes.g.dart';
 import 'package:hrms/pages/views/form_view.dart';
 import 'package:hrms/pages/views/home_view.dart';
-import 'package:hrms/pages/views/profile_view.dart';
+import 'package:hrms/pages/views/profile/profile_view.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 class MainView extends StatefulWidget {
@@ -45,7 +45,6 @@ class _MainViewState extends State<MainView> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: const CircleBorder(),
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(
@@ -57,15 +56,14 @@ class _MainViewState extends State<MainView> {
             );
           }),
       bottomNavigationBar: StylishBottomBar(
+        backgroundColor: darkColorScheme.outline,
         padding: EdgeInsets.zero,
-        backgroundColor:
-            darkMode ? const Color.fromARGB(255, 88, 88, 88) : Colors.white,
         items: [
           AnimatedBarItems(
             icon: const Icon(
               Icons.home,
             ),
-            selectedColor: Colors.deepPurple.shade200,
+            selectedColor: Colors.deepPurpleAccent,
             backgroundColor: Colors.amber,
             title: const Text(
               'Anasayfa',
@@ -76,7 +74,7 @@ class _MainViewState extends State<MainView> {
             icon: const Icon(
               Icons.search,
             ),
-            selectedColor: Colors.green.shade200,
+            selectedColor: Colors.green,
             backgroundColor: Colors.amber,
             title: const Text(
               'Arama',
@@ -88,7 +86,7 @@ class _MainViewState extends State<MainView> {
                 Icons.notifications,
               ),
               backgroundColor: Colors.amber,
-              selectedColor: Colors.blueAccent.shade200,
+              selectedColor: Colors.blueAccent,
               title: const Text(
                 'Bildirimler',
                 style: TextStyle(fontSize: 12),
@@ -98,30 +96,19 @@ class _MainViewState extends State<MainView> {
                 Icons.person,
               ),
               backgroundColor: Colors.amber,
-              selectedColor: Colors.redAccent.shade200,
+              selectedColor: Colors.redAccent,
               title: const Text(
                 'Profilim',
                 style: TextStyle(fontSize: 12),
               )),
         ],
-
         iconSize: 24,
-        // barAnimation: BarAnimation.liquid,
-
         barAnimation: BarAnimation.blink,
         iconStyle: IconStyle.animated,
-
-        // iconStyle: IconStyle.simple,
         hasNotch: true,
         fabLocation: StylishBarFabLocation.center,
         opacity: 0.3,
         currentIndex: selected ?? 0,
-
-        //Bubble bar specific style properties
-        //unselectedIconColor: Colors.grey,
-        // barStyle: BubbleBarStyle.vertical,
-        // bubbleFillStyle: BubbleFillStyle.fill,
-
         onTap: (index) {
           setState(() {
             selected = index!;
@@ -137,8 +124,8 @@ class _MainViewState extends State<MainView> {
         physics: const NeverScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),
-        children: tabPages(),
         controller: _pageController,
+        children: tabPages(),
       ),
     );
   }

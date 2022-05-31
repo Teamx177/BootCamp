@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:hrms/core/managers/route_manager.dart';
 import 'package:hrms/core/services/auth/auth_exceptions.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/storage/dialog_storage.dart';
@@ -60,43 +61,72 @@ class _ProfileViewState extends State<ProfileView> {
                 child: TextButton.icon(
               icon: const Icon(Icons.favorite_outline),
               label: const Text('Favorilerim'),
-              onPressed: () {},
+              onPressed: () {
+                context.push('/favorites');
+              },
             )),
             _customContainer(
                 child: TextButton.icon(
               icon: const Icon(Icons.approval_outlined),
               label: const Text('Başvurularım'),
-              onPressed: () {},
+              onPressed: () {
+                context.push('/applied-jobs');
+              },
             )),
             _customContainer(
                 child: TextButton.icon(
               icon: const Icon(Icons.settings_outlined),
               label: const Text('Ayarlar'),
-              onPressed: () {}, // tema ayarları ayarlara alınabilir.
+              onPressed: () {
+                context.push('/settings');
+              }, // tema ayarları ayarlara alınabilir.
             )),
             _customContainer(
               child: TextButton.icon(
                   onPressed: () async {
-                    try {
-                      await AuthService.firebase().logOut();
-                    } on UserNotFoundAuthException {
-                      showErrorDialog(
-                        context,
-                        ErrorTexts.errorOnExit,
-                      );
-                    }
-                    final user = AuthService.firebase().currentUser;
-                    if (user == null) {
-                      context.go('/login');
-                    } else {
-                      showErrorDialog(
-                        context,
-                        ErrorTexts.errorOnExit,
-                      );
-                    }
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text(
+                                'Çıkış yapmak istediğinize emin misiniz?'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Vazgeç')),
+                              TextButton(
+                                onPressed: () async {
+                                  try {
+                                    await AuthService.firebase().logOut();
+                                    router.push('/');
+                                  } on UserNotFoundAuthException {
+                                    showErrorDialog(
+                                      context,
+                                      ErrorTexts.errorOnExit,
+                                    );
+                                  }
+                                  final user =
+                                      AuthService.firebase().currentUser;
+                                  if (user == null) {
+                                    router.go('/login');
+                                  } else {
+                                    // ignore: use_build_context_synchronously
+                                    showErrorDialog(
+                                      context,
+                                      ErrorTexts.errorOnExit,
+                                    );
+                                  }
+                                },
+                                child: const Text('Çıkış Yap'),
+                              ),
+                            ],
+                          );
+                        });
                   },
                   icon: const Icon(Icons.exit_to_app_outlined),
-                  label: const Text('Çıkış Yap')),
+                  label: Text(AuthStatusTexts.exit)),
             ),
           ],
         ),

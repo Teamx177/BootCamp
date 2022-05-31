@@ -20,15 +20,14 @@ class ValidationConstants {
     errorText: ValidateTexts.passwordNotMatch,
   );
 
-  static RequiredValidator loginPassowrdValidator = RequiredValidator(
+  static RequiredValidator loginPasswordValidator = RequiredValidator(
     errorText: ValidateTexts.emptyPassword,
   );
 
   static MultiValidator phoneValidator = MultiValidator(
     [
       RequiredValidator(errorText: ValidateTexts.emptyPhoneNumber),
-      PatternValidator(
-          r'(\+90?|\d)( |-|\.)? ?\(?\(?(\d{3}\)?|\d{3})( |-|\.)? ?\d{3}( |-|\.)? ?\d{2}( |-|\.)?\d{2}',
+      PatternValidator(r'^5(?:9)?[0-9]{9}$',
           errorText: ValidateTexts.phoneNumberNotValid),
     ],
   );

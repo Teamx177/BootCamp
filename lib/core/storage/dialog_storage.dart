@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> showErrorDialog(
   BuildContext context,
@@ -55,16 +54,16 @@ Future<void> showSuccessDialog(
   );
 }
 
-void showOTPDialog({
+Future<void> showOTPDialog({
   required BuildContext context,
   required TextEditingController codeController,
   required VoidCallback onPressed,
 }) {
-  showDialog(
+  return showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) => AlertDialog(
-      title: const Text("Enter OTP"),
+      title: const Text("Gönderilen kodu giriniz"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -75,12 +74,10 @@ void showOTPDialog({
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text("Done"),
           onPressed: onPressed,
-        )
+          child: const Text("Tamam"),
+        ),
       ],
     ),
   );
 }
-
-var darkMode = Hive.box('themeData').get('darkmode', defaultValue: false);

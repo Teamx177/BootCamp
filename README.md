@@ -117,22 +117,20 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 - **Ürün Durumu**: Ekran görüntüleri:
 
-![splashscreen]![1653339004013](https://user-images.githubusercontent.com/100482891/169904575-ee13c4bc-6a6c-4a29-bb92-72bb9c149bbf.png)
-![loginpage]![1653339003998](https://user-images.githubusercontent.com/100482891/169904687-17b131f4-0884-43b6-81ab-9d7c368480f8.png)
-![signuppage1]![1653339003982](https://user-images.githubusercontent.com/100482891/169904736-e36e87b4-3c70-41de-8119-ffbdc6fce92d.png)
-![signuppage2]![1653339003968](https://user-images.githubusercontent.com/100482891/169904778-e5feb73f-c520-4453-8f6b-b14b5e9c244d.png)
-![homepage]![1653339003953](https://user-images.githubusercontent.com/100482891/169904827-75cc4785-bdc8-42e1-aee8-e58314527f1f.png)
+![splashscreen](https://user-images.githubusercontent.com/100482891/169692139-983919bd-c378-4ebf-9ee7-9205647a5fa0.png)
+![loginpage](https://user-images.githubusercontent.com/100482891/169798811-3ad4a8b8-04a4-4744-842c-38aa38bd321f.png)
+![signuppage1](https://user-images.githubusercontent.com/100482891/169798997-39ab9497-379d-4f7d-9b30-bcbdb428b0bf.png)
+![signuppage2](https://user-images.githubusercontent.com/100482891/169799146-69f0a80e-2550-4806-8779-efb4fd951c47.png)
+![homepage](https://user-images.githubusercontent.com/100482891/169692157-16a6ce33-a7cd-42de-82ad-0f034226d0f8.png)
 ![profilepage lightMode](https://user-images.githubusercontent.com/100482891/169692296-1ae694f6-3076-4664-996e-1ff6ab763845.png)
 ![profilepage darkMode](https://user-images.githubusercontent.com/100482891/169692169-0a206cf5-7b0c-4896-94ab-aa3d1c05875e.png)
-![1653339003938](https://user-images.githubusercontent.com/100482891/169904996-4b28110b-1a6c-495b-b9f2-1029b4060f1f.png)
-
 
 
 - **Sprint Review**: ALınan Kararlar: Uygulama için logo tasarlanacak. UX design'a daha çok önem verilecek. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
 
 
 - **Sprint Retrospective:**
-  - 2.sprint süresi içinde ekipteki herkesin geliştirme kısmında katkısı oldu.
+  - 2. sprint süresi içinde ekipteki herkesin geliştirme kısmında katkısı oldu.
   - Sesli ve görüntülü konuşmanın ekipteki kişiler için uygun olmadığı zamanlarda bazı görüşmelerin Discord üzerinden mesajlaşma aracılığıyla yapılmasına karar    
     verildi.
   

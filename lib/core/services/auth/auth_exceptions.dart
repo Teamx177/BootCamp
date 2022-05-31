@@ -12,6 +12,18 @@ class WeakPasswordAuthException implements Exception {}
 
 class InvalidEmailAuthException implements Exception {}
 
+class UserAlreadyLinked implements Exception {}
+
+class InvalidVerificationCode implements Exception {}
+
+class InvalidVerificationId implements Exception {}
+
+class UserMissMatch implements Exception {}
+
+class WrongEmail implements Exception {}
+
+class InvalidCredential implements Exception {}
+
 // generic exceptions
 
 class GenericAuthException implements Exception {}

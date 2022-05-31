@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/storage/firebase.dart';
+import 'package:hrms/core/models/user.dart';
 import 'package:hrms/core/themes/padding.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // late Future<String> userType;
   late String currentUserType;
   late String currentUserName;
   late bool isFavorite;
@@ -21,104 +21,121 @@ class _HomePageState extends State<HomePage> {
     currentUserType = '';
     currentUserName = '';
     isFavorite = false;
-    // userType = getUserById();
     super.initState();
   }
 
-  Future<String> getUserById() async {
-    final User? user = auth.currentUser;
-    await userRef.doc(user?.uid).get().then((doc) {
-      var userType = doc.data();
-      currentUserType = userType?['type'];
-      currentUserName = userType?['name'];
-    });
-    return currentUserType;
+  Stream<UserModel> getUser(String? uid) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((snapshot) => UserModel.fromDocuments(snapshot));
   }
 
   @override
   Widget build(BuildContext context) {
-    currentUserName = currentUserName.split(" ")[0];
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
+      extendBodyBehindAppBar: true,
       body: Padding(
         padding: ProjectPadding.pagePaddingAll,
-        // child: FutureBuilder<String>(
-        //   future: , // async work
-        //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        //     switch (snapshot.connectionState) {
-        //       case ConnectionState.waiting:
-        //         return const Center(child: CircularProgressIndicator());
-        //       case ConnectionState.done:
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(
-                "İş İlanları",
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              for (var i = 0; i < 5; i++)
-                Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: const Icon(Icons.topic),
-                        trailing: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isFavorite = !isFavorite;
-                            });
-                          },
-                          icon: isFavorite
-                              ? const Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                )
-                              : const Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.grey,
-                                ),
-                        ),
-                        title: const Text('İlan Başlığı'),
-                        subtitle: const Text(
-                          'Maaş ve Tarih',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'İlan Detayı',
-                        ),
-                      ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.spaceBetween,
+        child: SafeArea(
+          child: StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              return (!snapshot.hasData)
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.red),
-                            ),
-                            child: const Text(
-                              'Başvuru Yap',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                          const SizedBox(
+                            height: 15,
                           ),
-                          const Text("Ad soyad"),
+                          RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                              text: 'Hoşgeldin ',
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            TextSpan(
+                              text: '\n${snapshot.data?.get('name')}'
+                                  .split(' ')[0],
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                          ])),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          for (var i = 0; i < 5; i++)
+                            Card(
+                              clipBehavior: Clip.antiAlias,
+                              margin: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    leading: const Icon(Icons.topic),
+                                    trailing: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          isFavorite = !isFavorite;
+                                        });
+                                      },
+                                      icon: isFavorite
+                                          ? const Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            )
+                                          : const Icon(
+                                              Icons.favorite_border,
+                                              color: Colors.grey,
+                                            ),
+                                    ),
+                                    title: const Text('İlan Başlığı'),
+                                    subtitle: const Text(
+                                      'Maaş ve Tarih',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Text(
+                                      'İlan Detayı',
+                                    ),
+                                  ),
+                                  ButtonBar(
+                                    alignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {},
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.red),
+                                        ),
+                                        child: const Text(
+                                          'Başvuru Yap',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      const Text("Ad soyad"),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                         ],
                       ),
-                    ],
-                  ),
-                  margin: const EdgeInsets.all(16.0),
-                ),
-            ],
+                    );
+            },
           ),
         ),
         //     }
-
         // default:
         // if (snapshot.hasError) {
         // return Text('Error: ${snapshot.error}');
