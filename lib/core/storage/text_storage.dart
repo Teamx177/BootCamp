@@ -12,11 +12,9 @@ class ValidateTexts {
   static String emptyPasswordControl = 'Lütfen şifrenizi tekrar giriniz.';
   static String passwordNotMatch = 'Şifreler uyuşmuyor.';
   static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
-  static String phoneNumberNotValid =
-      'Lütfen geçerli bir telefon numarası giriniz.';
+  static String phoneNumberNotValid = 'Lütfen geçerli bir telefon numarası giriniz.';
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
-  static String passwordCharacter =
-      'Şifrenizde en az bir özel karakter olmalıdır.';
+  static String passwordCharacter = 'Şifrenizde en az bir özel karakter olmalıdır.';
 }
 
 class AuthStatusTexts {
@@ -54,38 +52,39 @@ class ErrorTexts {
   static String emailAlreadyUse = 'Bu email adresi zaten kullanılıyor.';
   static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
-  static String userNotFound =
-      'Girilen parametrelere ait bir kullanıcı bulunamadı.';
+  static String nameEmpty = 'İsim boş bırakılamaz.';
+  static String userNotFound = 'Girilen parametrelere ait bir kullanıcı bulunamadı.';
   static String wrongPassword = 'Girilen şifre hatalı.';
   static String invalidEmail = 'Lütfen geçerli bir email adresi giriniz.';
   static String weakPassword = 'Şifreniz zayıf';
+
   // toomanyrequests
   static String tooManyRequests =
       'Çok fazla istek gönderildi. Daha sonra tekrar deneyiniz';
+
   // invalidverificationcode
   static String invalidVerificationCode = 'Geçersiz doğrulama kodu';
+
   // invalidverificationid
-  static String invalidVerificationId =
-      'Bu kullanıcının doğrulama id\'si bulunamadı';
+  static String invalidVerificationId = 'Bu kullanıcının doğrulama id\'si bulunamadı';
   static String tryAgainLater = 'Lütfen daha sonra tekrar deneyiniz.';
   static String errorOnExit = 'Çıkış yapılırken bir hata oluştu.';
+
   //internal error
   static String internalError = 'Dahili bir hata oluştu.';
   static String networkError = 'Lütfen internet bağlantınızı kontrol ediniz.';
 }
 
 class UpdateTexts {
-  static String passwordUpdate =
-      'Şifrenizi değiştirmek için bilgilerinizi giriniz';
-  static String emailUpdate =
-      'Email adresinizi değiştirmek için bilgilerinizi giriniz';
+  static String passwordUpdate = 'Şifrenizi değiştirmek için bilgilerinizi giriniz';
+  static String emailUpdate = 'Email adresinizi değiştirmek için bilgilerinizi giriniz';
+  static String nameUpdate = "İsminizi giriniz";
   static String passwordUpdateSuccess = 'Şifreniz başarıyla değiştirildi.';
   static String emailUpdateSuccess = 'Email adresiniz başarıyla değiştirildi.';
   static String nameUpdateSuccess = 'İsim başarıyla değiştirildi.';
-  static String phoneNumberUpdateSuccess =
-      'Telefon numaranız başarıyla değiştirildi.';
-  static String confirmDeleteAccount =
-      'Hesabınızı silmek istediğinize emin misiniz?';
+  static String phoneNumberUpdateSuccess = 'Telefon numaranız başarıyla değiştirildi.';
+  static String cityUpdateSuccess = 'Şehir Bilgisi başarıyla güncellendi.';
+  static String confirmDeleteAccount = 'Hesabınızı silmek istediğinize emin misiniz?';
   static String deleteAccount = 'Hesabınızı silmek için bilgilerinizi giriniz';
   static String deleteAccountSuccess = 'Hesabınız başarıyla silindi.';
   static String deleteAccountError = 'Hesabınızı silerken bir hata oluştu.';
@@ -93,4 +92,11 @@ class UpdateTexts {
   static String yes = 'Evet';
   static String no = 'Hayır';
   static String delete = 'Hesabımı Sil';
+}
+
+class DropdownTexts {
+  static List<String> cities = ['Ankara', 'İstanbul', 'İzmir'];
+  static List<String> categories = ['Temizlik', 'İnşaat', 'Muhasebe', 'Eğitim'];
+  static List<String> genders = ['Erkek', 'Kadın'];
+  static List<String> shifts = ['1 Gün', '2-5 Gün', '5-10 Gün', '10-15 Gün'];
 }

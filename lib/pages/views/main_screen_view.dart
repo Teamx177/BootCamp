@@ -105,7 +105,7 @@ class _MainViewState extends State<MainView> {
         iconSize: 24,
         barAnimation: BarAnimation.blink,
         iconStyle: IconStyle.animated,
-        hasNotch: true,
+        hasNotch: false,
         fabLocation: StylishBarFabLocation.center,
         opacity: 0.3,
         currentIndex: selected ?? 0,

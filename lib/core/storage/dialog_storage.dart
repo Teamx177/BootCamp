@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../managers/route_manager.dart';
+
 Future<void> showErrorDialog(
   BuildContext context,
   String text,
@@ -20,6 +22,32 @@ Future<void> showErrorDialog(
           ),
           onPressed: () {
             Navigator.of(context).pop();
+          },
+        ),
+      ],
+    ),
+  );
+}
+
+Future<void> goToRegister(
+  BuildContext context,
+) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Kullanıcı Bulunamadı!'),
+      content: const Text("Kayıt sayfasına yönlendiriliyorsunuz!"),
+      // backgroundColor: const Color.fromRGBO(208, 135, 112, 1),
+      actions: <Widget>[
+        TextButton(
+          child: const Text(
+            'Tamam',
+            style: TextStyle(
+                // color: Colors.black87,
+                ),
+          ),
+          onPressed: () {
+            router.go('/register');
           },
         ),
       ],

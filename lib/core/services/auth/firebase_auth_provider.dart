@@ -170,18 +170,12 @@ class FirebaseAuthprovider implements AuthProvider {
                   verificationId: verificationId,
                   smsCode: codeController.text.trim(),
                 );
-                if (FirebaseAuth.instance.currentUser != null) {
+                if (FirebaseAuth.instance.currentUser?.email != null) {
                   await FirebaseAuth.instance.currentUser
                       ?.linkWithCredential(credential);
                   router.pop();
                 } else {
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-                  router.pop();
-                }
-                if (FirebaseAuth.instance.currentUser == null) {
-                  showErrorDialog(context, 'Hata oluştu');
-                } else {
-                  router.go('/home');
+                  goToRegister(context);
                 }
               },
             );

@@ -32,8 +32,6 @@ class _SingUpViewState extends State<SingUpView> {
   late String _city;
   late String _userType;
   late List<String> _userTypes;
-  late List<String> _cities;
-
   @override
   void initState() {
     _userType = 'İş Arayan';
@@ -41,7 +39,6 @@ class _SingUpViewState extends State<SingUpView> {
     _index = 0;
     _selectedGender = 'male';
     _city = 'Ankara';
-    _cities = ['Ankara', 'İstanbul', 'İzmir'];
     _userTypes = ['İş Arayan', 'İş Veren'];
     isButtonEnabledListener();
     super.initState();
@@ -247,7 +244,7 @@ class _SingUpViewState extends State<SingUpView> {
           contentPadding: EdgeInsets.only(left: 10, right: 10, top: 12),
           constraints: BoxConstraints(maxWidth: 300),
         ),
-        items: _cities.map((String items) {
+        items: DropdownTexts.cities.map((String items) {
           return DropdownMenuItem(
             value: items,
             child: Text(items),

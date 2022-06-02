@@ -12,15 +12,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late String currentUserType;
-  late String currentUserName;
-  late bool isFavorite;
+  late List jobAdverts = [];
 
   @override
   void initState() {
-    currentUserType = '';
-    currentUserName = '';
-    isFavorite = false;
+    getJobAdverts();
     super.initState();
   }
 
@@ -30,6 +26,21 @@ class _HomePageState extends State<HomePage> {
         .doc(uid)
         .snapshots()
         .map((snapshot) => UserModel.fromDocuments(snapshot));
+  }
+
+  final CollectionReference _jobAdvertReference =
+      FirebaseFirestore.instance.collection('jobAdverts');
+
+  getJobAdverts() {
+    _jobAdvertReference.get().then((value) {
+      for (var data in value.docs) {
+        if (mounted){
+         setState(() {
+          jobAdverts.add(data);
+        });
+        }
+      }
+    });
   }
 
   @override
@@ -44,8 +55,7 @@ class _HomePageState extends State<HomePage> {
                 .collection('users')
                 .doc(FirebaseAuth.instance.currentUser?.uid)
                 .snapshots(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               return (!snapshot.hasData)
                   ? const Center(
                       child: CircularProgressIndicator(),
@@ -64,71 +74,74 @@ class _HomePageState extends State<HomePage> {
                               style: Theme.of(context).textTheme.headline4,
                             ),
                             TextSpan(
-                              text: '\n${snapshot.data?.get('name')}'
-                                  .split(' ')[0],
+                              text: '\n${snapshot.data?.get('name')}'.split(' ')[0],
                               style: Theme.of(context).textTheme.headline5,
                             ),
                           ])),
                           const SizedBox(
                             height: 10,
                           ),
-                          for (var i = 0; i < 5; i++)
-                            Card(
-                              clipBehavior: Clip.antiAlias,
-                              margin: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    leading: const Icon(Icons.topic),
-                                    trailing: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          isFavorite = !isFavorite;
-                                        });
-                                      },
-                                      icon: isFavorite
-                                          ? const Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                            )
-                                          : const Icon(
-                                              Icons.favorite_border,
-                                              color: Colors.grey,
-                                            ),
-                                    ),
-                                    title: const Text('İlan Başlığı'),
-                                    subtitle: const Text(
-                                      'Maaş ve Tarih',
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'İlan Detayı',
-                                    ),
-                                  ),
-                                  ButtonBar(
-                                    alignment: MainAxisAlignment.spaceBetween,
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: jobAdverts.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  clipBehavior: Clip.antiAlias,
+                                  margin: const EdgeInsets.all(16.0),
+                                  child: Column(
                                     children: [
-                                      TextButton(
-                                        onPressed: () {},
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.red),
-                                        ),
-                                        child: const Text(
-                                          'Başvuru Yap',
-                                          style: TextStyle(color: Colors.white),
+                                      ListTile(
+                                        leading: const Icon(Icons.topic),
+                                        trailing: Text(jobAdverts[index].data()['date']),
+                                        title: Text(jobAdverts[index]['title']),
+                                        subtitle: Text(
+                                          "Maaş : ${jobAdverts[index]['minSalary']} TL - "
+                                          "${jobAdverts[index]['maxSalary']} TL",
+                                          style: const TextStyle(color: Colors.grey),
                                         ),
                                       ),
-                                      const Text("Ad soyad"),
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Text(
+                                          jobAdverts[index]['description'],
+                                        ),
+                                      ),
+                                      ButtonBar(
+                                        alignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Text("Kategori:"),
+                                              Text(
+                                                jobAdverts[index]['category'],
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w600),
+                                              )
+                                            ],
+                                          ),
+                                          Text(jobAdverts[index]['userName']),
+                                        ],
+                                      ),
+                                       TextButton(
+                                            onPressed: () {
+                                              print(jobAdverts[index].id);
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(Colors.red),
+                                            ),
+                                            child: const Text(
+                                              'Başvuru Yap',
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                          ),
+                                      const SizedBox(
+                                        height: 10,
+                                      )
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
+                                );
+                              }),
                         ],
                       ),
                     );

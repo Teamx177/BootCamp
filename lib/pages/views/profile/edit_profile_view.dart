@@ -16,6 +16,7 @@ class EditProfileView extends StatefulWidget {
   const EditProfileView({
     Key? key,
   }) : super(key: key);
+
   @override
   State<EditProfileView> createState() => _EditProfileViewState();
 }
@@ -30,12 +31,8 @@ class _EditProfileViewState extends State<EditProfileView> {
   late TextEditingController _passwordController;
   late TextEditingController _newPasswordController;
 
-  final List<String> _cities = ['Ankara', 'İstanbul', 'İzmir'];
-  late String _city = 'Ankara';
-  late bool updateEmail;
-  late bool updateName;
+  late String _city = "Ankara";
   late bool updatePhone;
-  late bool updatePassword;
   late String name;
 
   Stream<UserModel> getUser(String? uid) {
@@ -57,34 +54,13 @@ class _EditProfileViewState extends State<EditProfileView> {
     _phoneController = TextEditingController();
     _passwordController = TextEditingController();
     _newPasswordController = TextEditingController();
-    updateName = false;
-    updateEmail = false;
     updatePhone = false;
-    updatePassword = false;
     super.initState();
-  }
-
-  void editEmail() {
-    setState(() {
-      updateEmail = !updateEmail;
-    });
-  }
-
-  void editName() {
-    setState(() {
-      updateName = !updateName;
-    });
   }
 
   void editPhone() {
     setState(() {
       updatePhone = !updatePhone;
-    });
-  }
-
-  void editPassword() {
-    setState(() {
-      updatePassword = !updatePassword;
     });
   }
 
@@ -105,8 +81,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                       .collection('users')
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                     _emailController.value = _emailController.value
                         .copyWith(text: snapshot.data?.get('email'));
                     return !snapshot.hasData
@@ -114,14 +90,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                         : Card(
                             borderOnForeground: true,
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
+                              padding: const EdgeInsets.symmetric(horizontal: 15),
                               child: Column(
                                 children: [
                                   const SizedBox(
                                     height: 20,
                                   ),
-
                                   Text(
                                     'Profil Bilgileri',
                                     style: GoogleFonts.rubik(
@@ -132,50 +106,23 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updateName(snapshot, context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updateEmail(snapshot, context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
-                                  _updatePhone(snapshot, context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  // SizedBox(height: ProjectPadding.inputBoxHeight),
+                                  // _updatePhone(snapshot, context),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updatePassword(context),
-                                  //did'n look for it
-                                  Padding(
-                                    padding:
-                                        ProjectPadding.inputPaddingVertical,
-                                    child: DropdownButtonFormField(
-                                      value: _city,
-                                      decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.location_on),
-                                        prefixText: "Şehir: ",
-                                        // contentPadding: ,
-                                        constraints:
-                                            BoxConstraints(maxWidth: 300),
-                                      ),
-                                      items: _cities.map((String items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? value) {
-                                        setState(() {
-                                          _city = value!;
-                                        });
-                                      },
-                                    ),
-                                  ),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
+                                  _updateCity(snapshot, context),
                                   const SizedBox(height: 10),
                                   ElevatedButton(
-                                      onPressed: () {
-                                        router.pop();
-                                      },
-                                      child: const Text('Geriye Dön')),
+                                    onPressed: () {
+                                      router.pop();
+                                    },
+                                    child: const Text('Geriye Dön'),
+                                  ),
                                   const SizedBox(height: 20),
                                 ],
                               ),
@@ -197,20 +144,15 @@ class _EditProfileViewState extends State<EditProfileView> {
           Expanded(
             flex: 85,
             child: PasswordFormField(
-              enabled: updatePassword,
+              enabled: false,
               initialValue: '************',
             ),
           ),
           Expanded(
             flex: 15,
             child: IconButton(
-              icon: !updatePassword
-                  ? const Icon(Icons.edit_outlined)
-                  : const Icon(Icons.save_as_outlined),
+              icon: const Icon(Icons.edit_outlined),
               onPressed: () async {
-                setState(() {
-                  editPassword();
-                });
                 showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -222,21 +164,15 @@ class _EditProfileViewState extends State<EditProfileView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              EmailFormField(
-                                controller: _emailController,
-                                hintText: HintTexts.emailHint,
-                              ),
                               PasswordFormField(
                                 hintText: HintTexts.currentPassword,
                                 controller: _passwordController,
-                                validator:
-                                    ValidationConstants.loginPasswordValidator,
+                                validator: ValidationConstants.loginPasswordValidator,
                               ),
                               PasswordFormField(
                                 hintText: HintTexts.newPassword,
                                 controller: _newPasswordController,
-                                validator:
-                                    ValidationConstants.loginPasswordValidator,
+                                validator: ValidationConstants.loginPasswordValidator,
                               ),
                             ],
                           ),
@@ -244,31 +180,27 @@ class _EditProfileViewState extends State<EditProfileView> {
                         actions: [
                           ElevatedButton(
                             onPressed: () {
-                              setState(() {
-                                editPassword();
-                              });
                               Navigator.of(context).pop();
                             },
                             child: Text(AuthStatusTexts.cancel),
                           ),
                           ElevatedButton(
                               onPressed: () async {
-                                setState(() {
-                                  editPassword();
-                                });
                                 if (_passwordKey.currentState!.validate()) {
                                   final email = _emailController.value.text;
-                                  final currentPassword =
-                                      _passwordController.text;
-                                  final newPassword =
-                                      _newPasswordController.text;
+                                  final currentPassword = _passwordController.text;
+                                  final newPassword = _newPasswordController.text;
 
                                   try {
-                                    await AuthService.firebase().updatePassword(
-                                      email,
-                                      currentPassword,
-                                      newPassword,
-                                    );
+                                    await AuthService.firebase()
+                                        .updatePassword(
+                                          email,
+                                          currentPassword,
+                                          newPassword,
+                                        )
+                                        .then((_) => showSuccessDialog(context,
+                                                UpdateTexts.passwordUpdateSuccess)
+                                            .then((_) => Navigator.pop(context)));
                                   } on WrongPasswordAuthException {
                                     await showErrorDialog(
                                       context,
@@ -343,8 +275,9 @@ class _EditProfileViewState extends State<EditProfileView> {
           Expanded(
             flex: 85,
             child: NameFormField(
-              initialValue: snapshot.data?.get('name'),
-              enabled: updateName,
+              hintText: snapshot.data?.get('name') ?? '',
+              // initialValue: snapshot.data?.get('name'),
+              enabled: false,
               onChanged: (value) {
                 setState(() {
                   _nameController.text = value;
@@ -355,34 +288,70 @@ class _EditProfileViewState extends State<EditProfileView> {
           Expanded(
             flex: 15,
             child: IconButton(
-              icon: !updateName
-                  ? const Icon(Icons.edit_outlined)
-                  : const Icon(Icons.save_as_outlined),
+              icon: const Icon(Icons.edit_outlined),
               onPressed: () async {
-                setState(() {
-                  editName();
-                });
-                if (_nameController.text.isNotEmpty && !updateName) {
-                  try {
-                    await AuthService.firebase()
-                        .updateDisplayName(_nameController.text, context);
-                  } on InternalErrorException {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.internalError,
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(UpdateTexts.nameUpdate),
+                      content: Form(
+                        key: _emailKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            NameFormField(
+                              controller: _nameController,
+                              hintText: HintTexts.nameHint,
+                            ),
+                          ],
+                        ),
+                      ),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(AuthStatusTexts.cancel),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_nameController.text.isNotEmpty) {
+                              try {
+                                await AuthService.firebase()
+                                    .updateDisplayName(_nameController.text, context).then((_) => showSuccessDialog(
+                                              context, UpdateTexts.nameUpdateSuccess)
+                                          .then((_) => Navigator.pop(context)));
+                              } on InternalErrorException {
+                                await showErrorDialog(
+                                  context,
+                                  ErrorTexts.internalError,
+                                );
+                              } on NetworkErrorException {
+                                await showErrorDialog(
+                                  context,
+                                  ErrorTexts.networkError,
+                                );
+                              } on GenericAuthException {
+                                await showErrorDialog(
+                                  context,
+                                  ErrorTexts.error,
+                                );
+                              }
+                            }else{
+                              await showErrorDialog(
+                                context,
+                                ErrorTexts.nameEmpty,
+                              );
+                            }
+                          },
+                          child: Text(AuthStatusTexts.confirm),
+                        ),
+                      ],
                     );
-                  } on NetworkErrorException {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.networkError,
-                    );
-                  } on GenericAuthException {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.error,
-                    );
-                  }
-                }
+                  },
+                );
               },
             ),
           ),
@@ -400,25 +369,15 @@ class _EditProfileViewState extends State<EditProfileView> {
           Expanded(
             flex: 85,
             child: EmailFormField(
-              enabled: updateEmail,
-              initialValue: snapshot.data?.get('email'),
-              onChanged: (value) {
-                setState(() {
-                  _emailController.text = value;
-                });
-              },
+              enabled: false,
+              hintText: snapshot.data?.get('email') ?? '',
             ),
           ),
           Expanded(
             flex: 15,
             child: IconButton(
-              icon: !updateEmail
-                  ? const Icon(Icons.edit_outlined)
-                  : const Icon(Icons.save_as_outlined),
+              icon: const Icon(Icons.edit_outlined),
               onPressed: () async {
-                setState(() {
-                  editEmail();
-                });
                 showDialog(
                   barrierDismissible: false,
                   context: context,
@@ -431,10 +390,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             EmailFormField(
-                              controller: _emailController,
-                              hintText: HintTexts.currentMail,
-                            ),
-                            EmailFormField(
                               controller: _newEmailController,
                               hintText: HintTexts.newEmail,
                             ),
@@ -442,8 +397,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                               controller: _passwordController,
                               obscureText: true,
                               hintText: HintTexts.passwordHint,
-                              validator:
-                                  ValidationConstants.loginPasswordValidator,
+                              validator: ValidationConstants.loginPasswordValidator,
                             ),
                           ],
                         ),
@@ -451,9 +405,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                       actions: [
                         ElevatedButton(
                           onPressed: () {
-                            setState(() {
-                              editEmail();
-                            });
                             Navigator.pop(context);
                           },
                           child: Text(AuthStatusTexts.cancel),
@@ -465,14 +416,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                             final password = _passwordController.text;
                             if (_emailKey.currentState!.validate()) {
                               try {
-                                setState(() {
-                                  editEmail();
-                                });
                                 try {
                                   AuthService.firebase()
                                       .updateEmail(newEmail, email, password)
-                                      .then((_) => showSuccessDialog(context,
-                                          UpdateTexts.emailUpdateSuccess));
+                                      .then((_) => showSuccessDialog(
+                                              context, UpdateTexts.emailUpdateSuccess)
+                                          .then((_) => Navigator.pop(context)));
                                 } on FirebaseAuthException catch (e) {
                                   await showErrorDialog(context, e.toString());
                                 }
@@ -543,9 +492,92 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
+  Padding _updateCity(
+      AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
+    return Padding(
+      padding: ProjectPadding.inputPaddingVertical,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 85,
+            child: CityFormField(
+              enabled: false,
+              hintText: snapshot.data?.get('city') ?? '',
+            ),
+          ),
+          Expanded(
+            flex: 15,
+            child: IconButton(
+              icon:const Icon(Icons.edit_outlined),
+              onPressed: () async {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("Şehirinizi seçiniz"),
+                      content: Form(
+                        key: _emailKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            DropdownButtonFormField(
+                              value: snapshot.data?.get('city').toString(),
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.location_on),
+                                prefixText: "Şehir: ",
+                                // contentPadding: ,
+                                constraints: BoxConstraints(maxWidth: 300),
+                              ),
+                              items: DropdownTexts.cities.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _city = value!;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(AuthStatusTexts.cancel),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(snapshot.data?.id)
+                                .update({'city': _city}).then((_) =>
+                                    showSuccessDialog(
+                                            context, UpdateTexts.cityUpdateSuccess)
+                                        .then((_) => Navigator.pop(context)));
+                          },
+                          child: Text(AuthStatusTexts.confirm),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Padding _updatePhone(
       AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
-    String phone = '${snapshot.data?.get('phoneNumber')}';
+    String phone = '${snapshot.data?.get('phone')}';
     return Padding(
       padding: ProjectPadding.inputPaddingVertical,
       child: Row(
@@ -554,7 +586,8 @@ class _EditProfileViewState extends State<EditProfileView> {
             flex: 85,
             child: PhoneFormField(
               enabled: updatePhone,
-              initialValue: phone.substring(3),
+              hintText: phone.substring(3),
+              // initialValue: phone.substring(3),
               onChanged: (value) {
                 setState(() {
                   _phoneController.text = value;
@@ -572,7 +605,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 setState(() {
                   editPhone();
                 });
-                if (_phoneController.text.length == 10 && !updatePhone) {
+                if (_phoneController.text.length == 10) {
                   try {
                     await AuthService.firebase()
                         .updatePhone(('+90${_phoneController.text}'), context);

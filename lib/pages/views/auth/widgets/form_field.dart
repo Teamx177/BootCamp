@@ -56,8 +56,46 @@ class EmailFormField extends StatelessWidget {
       validator: ValidationConstants.emailValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
+        hintStyle: Theme.of(context).textTheme.bodyText1,
         hintText: hintText,
         prefixIcon: const Icon(Icons.email_outlined),
+      ),
+    );
+  }
+}
+
+class CityFormField extends StatelessWidget {
+  String? initialValue;
+  ValueChanged<String>? onChanged;
+  String? title;
+  TextInputType keyboardType;
+  bool? enabled;
+  String? hintText;
+
+  CityFormField({
+    Key? key,
+    this.enabled,
+    this.initialValue,
+    this.hintText,
+    this.onChanged,
+    this.keyboardType = TextInputType.text,
+    this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      initialValue: initialValue,
+      key: key,
+      enabled: enabled,
+      textInputAction: TextInputAction.next,
+      onChanged: onChanged,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
+        hintStyle: Theme.of(context).textTheme.bodyText1,
+        hintText: hintText,
+        prefixIcon: const Icon(Icons.location_on_outlined),
       ),
     );
   }
@@ -123,6 +161,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: 14,
       enabled: widget.enabled,
       initialValue: widget.initialValue,
       onSaved: widget.onSaved,
@@ -193,8 +232,7 @@ class ConfirmPasswordFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ConfirmPasswordFormField> createState() =>
-      _ConfirmPasswordFormFieldState();
+  State<ConfirmPasswordFormField> createState() => _ConfirmPasswordFormFieldState();
 }
 
 class _ConfirmPasswordFormFieldState extends State<ConfirmPasswordFormField> {
@@ -215,6 +253,7 @@ class _ConfirmPasswordFormFieldState extends State<ConfirmPasswordFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: 14,
       initialValue: widget.initialValue,
       onChanged: widget.onChanged,
       obscureText: !_isPasswordVisible,
@@ -260,6 +299,7 @@ class PhoneFormField extends StatelessWidget {
   Iterable<String>? autofillHints;
   TextInputAction? textInputAction;
   void Function(String?)? onSaved;
+  String? hintText;
 
   PhoneFormField({
     Key? key,
@@ -269,6 +309,7 @@ class PhoneFormField extends StatelessWidget {
     this.autovalidateMode,
     this.initialValue,
     this.textInputAction,
+    this.hintText,
     this.onChanged,
     this.obscureText,
     this.autofillHints = const [AutofillHints.telephoneNumber],
@@ -281,6 +322,7 @@ class PhoneFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: 10,
       initialValue: initialValue,
       autofillHints: autofillHints,
       onChanged: onChanged,
@@ -293,7 +335,8 @@ class PhoneFormField extends StatelessWidget {
       validator: ValidationConstants.phoneValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: HintTexts.phoneNumberHint,
+         hintStyle: Theme.of(context).textTheme.bodyText1,
+        hintText: hintText,
         prefixIcon: const Icon(Icons.phone_android_outlined),
       ),
     );
@@ -315,6 +358,7 @@ class NameFormField extends StatelessWidget {
   InputDecoration? decoration = const InputDecoration();
   Iterable<String>? autofillHints;
   void Function(String?)? onSaved;
+  String? hintText;
 
   NameFormField({
     Key? key,
@@ -323,6 +367,7 @@ class NameFormField extends StatelessWidget {
     this.validator,
     this.autovalidateMode,
     this.textInputAction,
+    this.hintText,
     this.autofillHints = const [AutofillHints.name],
     this.initialValue,
     this.onChanged,
@@ -349,7 +394,8 @@ class NameFormField extends StatelessWidget {
       validator: ValidationConstants.nameValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: HintTexts.nameHint,
+         hintStyle: Theme.of(context).textTheme.bodyText1,
+        hintText: hintText,
         prefixIcon: const Icon(Icons.person_outline),
       ),
     );
