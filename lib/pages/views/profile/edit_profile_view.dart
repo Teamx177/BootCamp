@@ -7,7 +7,6 @@ import 'package:hrms/core/models/user.dart';
 import 'package:hrms/core/services/auth/auth_exceptions.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/firebase.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
@@ -32,14 +31,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   late TextEditingController _passwordController;
   late TextEditingController _newPasswordController;
 
-<<<<<<< HEAD
-  final List<String> _cities = ['Ankara', 'İstanbul', 'İzmir'];
-  late final String _city = 'Ankara';
-  late bool updateEmail;
-  late bool updateName;
-=======
   late String _city = "Ankara";
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
   late bool updatePhone;
   late String name;
 
@@ -89,14 +81,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                       .collection('users')
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .snapshots(),
-<<<<<<< HEAD
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    var city1 = snapshot.data?.get('city');
-=======
-                  builder:
-                      (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
                     _emailController.value = _emailController.value
                         .copyWith(text: snapshot.data?.get('email'));
                     return !snapshot.hasData
@@ -104,7 +90,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                         : Card(
                             borderOnForeground: true,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: Column(
                                 children: [
                                   const SizedBox(
@@ -120,74 +107,20 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  SizedBox(height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(
+                                      height: ProjectPadding.inputBoxHeight),
                                   _updateName(snapshot, context),
-                                  SizedBox(height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(
+                                      height: ProjectPadding.inputBoxHeight),
                                   _updateEmail(snapshot, context),
-<<<<<<< HEAD
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
-                                  _updatePassword(context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
-                                  _updatePhone(snapshot, context),
-                                  //did'n look for it
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 85,
-                                        child: Padding(
-                                          padding: ProjectPadding
-                                              .inputPaddingVertical,
-                                          child: DropdownButtonFormField(
-                                            value: city1,
-                                            decoration: const InputDecoration(
-                                              prefixIcon:
-                                                  Icon(Icons.location_on),
-                                              prefixText: "Şehir: ",
-                                              constraints:
-                                                  BoxConstraints(maxWidth: 300),
-                                            ),
-                                            items: _cities.map((String items) {
-                                              return DropdownMenuItem(
-                                                value: items,
-                                                child: Text(items),
-                                              );
-                                            }).toList(),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                city1 = value;
-                                                print(city1);
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 15,
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            final userDoc = FirebaseFirestore
-                                                .instance
-                                                .collection('users')
-                                                .doc(user?.uid);
-                                            await userDoc.update({
-                                              'city': city1,
-                                            });
-                                          },
-                                          icon: const Icon(Icons.save),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-=======
                                   // SizedBox(height: ProjectPadding.inputBoxHeight),
                                   // _updatePhone(snapshot, context),
-                                  SizedBox(height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(
+                                      height: ProjectPadding.inputBoxHeight),
                                   _updatePassword(context),
-                                  SizedBox(height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(
+                                      height: ProjectPadding.inputBoxHeight),
                                   _updateCity(snapshot, context),
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
                                   const SizedBox(height: 10),
                                   ElevatedButton(
                                     onPressed: () {
@@ -239,29 +172,33 @@ class _EditProfileViewState extends State<EditProfileView> {
                               PasswordFormField(
                                 hintText: HintTexts.currentPassword,
                                 controller: _passwordController,
-                                validator: ValidationConstants.loginPasswordValidator,
+                                validator:
+                                    ValidationConstants.loginPasswordValidator,
                               ),
                               PasswordFormField(
                                 hintText: HintTexts.newPassword,
                                 controller: _newPasswordController,
-                                validator: ValidationConstants.loginPasswordValidator,
+                                validator:
+                                    ValidationConstants.loginPasswordValidator,
                               ),
                             ],
                           ),
                         ),
                         actions: [
-                          ElevatedButton(
+                          TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                             child: Text(AuthStatusTexts.cancel),
                           ),
-                          ElevatedButton(
+                          TextButton(
                               onPressed: () async {
                                 if (_passwordKey.currentState!.validate()) {
                                   final email = _emailController.value.text;
-                                  final currentPassword = _passwordController.text;
-                                  final newPassword = _newPasswordController.text;
+                                  final currentPassword =
+                                      _passwordController.text;
+                                  final newPassword =
+                                      _newPasswordController.text;
 
                                   try {
                                     await AuthService.firebase()
@@ -270,9 +207,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                                           currentPassword,
                                           newPassword,
                                         )
-                                        .then((_) => showSuccessDialog(context,
-                                                UpdateTexts.passwordUpdateSuccess)
-                                            .then((_) => Navigator.pop(context)));
+                                        .then((_) => showSuccessDialog(
+                                                context,
+                                                UpdateTexts
+                                                    .passwordUpdateSuccess)
+                                            .then(
+                                                (_) => Navigator.pop(context)));
                                   } on WrongPasswordAuthException {
                                     await showErrorDialog(
                                       context,
@@ -381,20 +321,22 @@ class _EditProfileViewState extends State<EditProfileView> {
                         ),
                       ),
                       actions: [
-                        ElevatedButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           child: Text(AuthStatusTexts.cancel),
                         ),
-                        ElevatedButton(
+                        TextButton(
                           onPressed: () async {
                             if (_nameController.text.isNotEmpty) {
                               try {
                                 await AuthService.firebase()
-                                    .updateDisplayName(_nameController.text, context).then((_) => showSuccessDialog(
-                                              context, UpdateTexts.nameUpdateSuccess)
-                                          .then((_) => Navigator.pop(context)));
+                                    .updateDisplayName(
+                                        _nameController.text, context)
+                                    .then((_) => showSuccessDialog(context,
+                                            UpdateTexts.nameUpdateSuccess)
+                                        .then((_) => Navigator.pop(context)));
                               } on InternalErrorException {
                                 await showErrorDialog(
                                   context,
@@ -411,7 +353,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   ErrorTexts.error,
                                 );
                               }
-                            }else{
+                            } else {
                               await showErrorDialog(
                                 context,
                                 ErrorTexts.nameEmpty,
@@ -469,34 +411,31 @@ class _EditProfileViewState extends State<EditProfileView> {
                               controller: _passwordController,
                               obscureText: true,
                               hintText: HintTexts.passwordHint,
-                              validator: ValidationConstants.loginPasswordValidator,
+                              validator:
+                                  ValidationConstants.loginPasswordValidator,
                             ),
                           ],
                         ),
                       ),
                       actions: [
-                        ElevatedButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           child: Text(AuthStatusTexts.cancel),
                         ),
-                        ElevatedButton(
+                        TextButton(
                           onPressed: () async {
                             final email = _emailController.text;
                             final newEmail = _newEmailController.text;
                             final password = _passwordController.text;
                             if (_emailKey.currentState!.validate()) {
                               try {
-                                try {
-                                  AuthService.firebase()
-                                      .updateEmail(newEmail, email, password)
-                                      .then((_) => showSuccessDialog(
-                                              context, UpdateTexts.emailUpdateSuccess)
-                                          .then((_) => Navigator.pop(context)));
-                                } on FirebaseAuthException catch (e) {
-                                  await showErrorDialog(context, e.toString());
-                                }
+                                AuthService.firebase()
+                                    .updateEmail(newEmail, email, password)
+                                    .then((_) => showSuccessDialog(context,
+                                            UpdateTexts.emailUpdateSuccess)
+                                        .then((_) => Navigator.pop(context)));
                               } on WrongPasswordAuthException {
                                 await showErrorDialog(
                                   context,
@@ -531,6 +470,11 @@ class _EditProfileViewState extends State<EditProfileView> {
                                 await showErrorDialog(
                                   context,
                                   ErrorTexts.internalError,
+                                );
+                              } on EmailAlreadyInUseAuthException {
+                                await showErrorDialog(
+                                  context,
+                                  ErrorTexts.emailAlreadyUse,
                                 );
                               } on NetworkErrorException {
                                 await showErrorDialog(
@@ -580,14 +524,14 @@ class _EditProfileViewState extends State<EditProfileView> {
           Expanded(
             flex: 15,
             child: IconButton(
-              icon:const Icon(Icons.edit_outlined),
+              icon: const Icon(Icons.edit_outlined),
               onPressed: () async {
                 showDialog(
                   barrierDismissible: false,
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text("Şehirinizi seçiniz"),
+                      title: const Text("Şehirinizi seçiniz"),
                       content: Form(
                         key: _emailKey,
                         child: Column(
@@ -617,20 +561,20 @@ class _EditProfileViewState extends State<EditProfileView> {
                         ),
                       ),
                       actions: [
-                        ElevatedButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           child: Text(AuthStatusTexts.cancel),
                         ),
-                        ElevatedButton(
+                        TextButton(
                           onPressed: () async {
                             FirebaseFirestore.instance
                                 .collection('users')
                                 .doc(snapshot.data?.id)
                                 .update({'city': _city}).then((_) =>
-                                    showSuccessDialog(
-                                            context, UpdateTexts.cityUpdateSuccess)
+                                    showSuccessDialog(context,
+                                            UpdateTexts.cityUpdateSuccess)
                                         .then((_) => Navigator.pop(context)));
                           },
                           child: Text(AuthStatusTexts.confirm),
@@ -649,11 +593,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   Padding _updatePhone(
       AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
-<<<<<<< HEAD
-    String phone = '${snapshot.data?.get('phone') ?? ''}';
-=======
     String phone = '${snapshot.data?.get('phone')}';
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
     return Padding(
       padding: ProjectPadding.inputPaddingVertical,
       child: Row(

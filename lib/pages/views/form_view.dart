@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:hrms/core/managers/route_manager.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
@@ -9,14 +8,6 @@ import 'package:hrms/core/themes/padding.dart';
 import '../../core/storage/dialog_storage.dart';
 import '../../core/storage/firebase.dart';
 
-=======
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:intl/intl.dart';
-import '../../core/storage/dialog_storage.dart';
-import '../../core/storage/firebase.dart';
-
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
 class JobFormView extends StatefulWidget {
   const JobFormView({Key? key}) : super(key: key);
 
@@ -33,12 +24,6 @@ class _JobFormViewState extends State<JobFormView> {
 
   final _formKey = GlobalKey<FormState>();
 
-<<<<<<< HEAD
-=======
-  DateTime now = DateTime.now();
-  late final String _date = DateFormat('yyyy-MM-dd').format(now);
-
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _fullAdressController;
@@ -313,7 +298,6 @@ class _JobFormViewState extends State<JobFormView> {
                 if (_formKey.currentState!.validate()) {
                   if (int.parse(_maxSalaryController.text) >
                       int.parse(_minSalaryController.text)) {
-<<<<<<< HEAD
                     FirebaseFirestore.instance
                         .collection("jobAdverts")
                         .doc()
@@ -321,12 +305,6 @@ class _JobFormViewState extends State<JobFormView> {
                       'userId': FirebaseAuth.instance.currentUser!.uid,
                       'userName': _userName,
                       'date': DateTime.now().toString(),
-=======
-                    FirebaseFirestore.instance.collection("jobAdverts").doc().set({
-                      'userId': FirebaseAuth.instance.currentUser!.uid,
-                      'userName': _userName,
-                      'date': _date,
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
                       'title': _titleController.text,
                       'description': _descriptionController.text,
                       'fullAdress': _fullAdressController.text,
@@ -336,20 +314,12 @@ class _JobFormViewState extends State<JobFormView> {
                       'shift': _shift,
                       'gender': _gender,
                       'city': _city
-<<<<<<< HEAD
                     }).then((_) => showSuccessDialog(
                                 context, "İlan başarıyla paylaşıldı")
                             .then((_) => router.go('/home')));
                   } else {
                     showErrorDialog(context,
                         "Minimum ücret Maksimum ücret'ten büyük olamaz!");
-=======
-                    }).then((_) => showSuccessDialog(context, "İlan başarıyla paylaşıldı")
-                        .then((_) => Navigator.pop(context)));
-                  } else {
-                    showErrorDialog(
-                        context, "Minimum ücret Maksimum ücret'ten büyük olamaz!");
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
                   }
                 }
               },

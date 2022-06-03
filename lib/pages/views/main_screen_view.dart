@@ -119,14 +119,9 @@ class _MainViewState extends State<MainView> {
         iconSize: 24,
         barAnimation: BarAnimation.blink,
         iconStyle: IconStyle.animated,
-<<<<<<< HEAD
-        // hasNotch: true,
-        fabLocation: StylishBarFabLocation.values[0],
-=======
         hasNotch: false,
         fabLocation: StylishBarFabLocation.center,
         opacity: 0.3,
->>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
         currentIndex: selected ?? 0,
         onTap: (index) {
           setState(() {
