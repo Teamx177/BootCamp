@@ -405,6 +405,16 @@ class _SingUpViewState extends State<SingUpView> {
               context,
               ErrorTexts.emailAlreadyUse,
             );
+          } on InvalidVerificationId {
+            await showErrorDialog(
+              context,
+              ErrorTexts.invalidVerificationId,
+            );
+          } on InvalidVerificationCode {
+            await showErrorDialog(
+              context,
+              ErrorTexts.invalidVerificationCode,
+            );
           } on TooManyRequestsAuthException {
             await showErrorDialog(
               context,

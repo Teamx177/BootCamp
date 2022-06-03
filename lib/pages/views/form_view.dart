@@ -1,9 +1,13 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/core/managers/route_manager.dart';
+import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/profile/profile_view.dart';
 
-//
+import '../../core/storage/dialog_storage.dart';
+import '../../core/storage/firebase.dart';
+
 class JobFormView extends StatefulWidget {
   const JobFormView({Key? key}) : super(key: key);
 
@@ -11,428 +15,319 @@ class JobFormView extends StatefulWidget {
   State<JobFormView> createState() => _JobFormViewState();
 }
 
-String dropdownvalue = 'Kadın';
-String dropdownvaluet = '1';
-String dropdownvaluety = 'Çalışma Şekli:';
-String dropdownvalloc = 'Konum:';
-final List<String> items = ['Erkek', 'Kadın', 'Diğer'];
-
-//süre
-final List<String> itemst = ['1', '2-5', '5-10 ', '10-15'];
-//ilan türü
-final List<String> itemtype = [
-  'Çalışma Şekli:',
-  'Uzaktan',
-  'İşyerinde',
-  'Hibrit'
-];
-// konum
-final List<String> itemloc = ['Konum:', 'Ankara', 'İstanbul', 'İzmir'];
-
-//yaş aralığı
-
-TextEditingController jobReport = TextEditingController(); //başlık
-TextEditingController jobReportexp = TextEditingController(); //ilan açıklaması
-TextEditingController jobReportmat = TextEditingController(); //gerekli ekipman
-
 class _JobFormViewState extends State<JobFormView> {
+  late String _category = "Temizlik";
+  late String _shift = "1 Gün";
+  late String _gender = "Erkek";
+  late String _city = "Ankara";
+  late int _index = 0;
+
+  final _formKey = GlobalKey<FormState>();
+
+  late TextEditingController _titleController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _fullAdressController;
+  late TextEditingController _minSalaryController;
+  late TextEditingController _maxSalaryController;
+  late String _userName;
+
+  @override
+  initState() {
+    _titleController = TextEditingController();
+    _descriptionController = TextEditingController();
+    _fullAdressController = TextEditingController();
+    _minSalaryController = TextEditingController();
+    _maxSalaryController = TextEditingController();
+    getUser();
+    super.initState();
+  }
+
+  Future<String> getUser() async {
+    final User? user = auth.currentUser;
+    await userRef.doc(user?.uid).get().then((doc) {
+      var userType = doc.data();
+      _userName = userType?['name'];
+    });
+
+    return _userName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.black,
-        title: const Text('İş İlanı Formu'),
+        title: Text('İş İlanı Oluştur ${_index + 1}/2'),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: ProjectPadding.pagePaddingAll,
+          padding: ProjectPadding.pagePaddingHorizontal,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: AnimatedButton(
-                    text: 'Soru 1:',
-                    pressEvent: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.QUESTION,
-                        headerAnimationLoop: false,
-                        // animType: AnimType.,
-                        title: 'a',
-                        desc: 'Yasadiginiz il',
-                        buttonsTextStyle: const TextStyle(color: Colors.black),
-                        showCloseIcon: true,
-                        body: Column(
-                          children: [
-                            const Text('Soru 1:'),
-                            const Text('Cinsiyet'),
-                            DropdownButton(
-                              elevation: 2,
-                              isExpanded: false,
-                              items: items.map((String items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text(items),
-                                );
-                              }).toList(),
-                              value: dropdownvalue,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvalue = newValue!;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-
-                        btnCancelOnPress: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        btnOkOnPress: () {},
-                      ).show();
-                    },
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      _index == 0 ? pageOne() : pageTwo(),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: AnimatedButton(
-                    text: 'Soru 2:',
-                    pressEvent: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.QUESTION,
-                        headerAnimationLoop: false,
-                        // animType: AnimType.,
-                        // title: 'a',
-                        // desc: 'Yasadiginiz il',
-                        buttonsTextStyle: const TextStyle(color: Colors.black),
-                        showCloseIcon: true,
-                        body: Column(
-                          children: [
-                            const Text('Soru 2:'),
-                            const Text('Çalışma Süresi:(gün)'),
-                            DropdownButton(
-                              elevation: 2,
-                              isExpanded: false,
-                              items: itemst.map((String itemst) {
-                                return DropdownMenuItem(
-                                  value: itemst,
-                                  child: Text(itemst),
-                                );
-                              }).toList(),
-                              value: dropdownvaluet,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvaluet = newValue!;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-
-                        btnCancelOnPress: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        btnOkOnPress: () {},
-                      ).show();
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: AnimatedButton(
-                    text: 'Soru 3:',
-                    pressEvent: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.QUESTION,
-                        headerAnimationLoop: false,
-                        // animType: AnimType.,
-                        // title: 'a',
-                        // desc: 'Yasadiginiz il',
-                        buttonsTextStyle: const TextStyle(color: Colors.black),
-                        showCloseIcon: true,
-                        body: Column(
-                          children: [
-                            const Text('Soru 3:'),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              height: 100,
-                              width: 300,
-                              child: TextField(
-                                controller: jobReport,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'İş İlanınızın Başlığını Giriniz',
-                                  hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        btnCancelOnPress: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        btnOkOnPress: () {},
-                      ).show();
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: AnimatedButton(
-                    text: 'Soru 4:',
-                    pressEvent: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.QUESTION,
-                        headerAnimationLoop: false,
-                        // animType: AnimType.,
-                        // title: 'a',
-                        // desc: 'Yasadiginiz il',
-                        buttonsTextStyle: const TextStyle(color: Colors.black),
-                        showCloseIcon: true,
-                        body: Column(
-                          children: [
-                            const Text('Soru 4:'),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              height: 180,
-                              width: 300,
-                              child: TextField(
-                                controller: jobReportexp,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText:
-                                      'İş İlanınızın Açıklamasını Giriniz',
-                                  hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        btnCancelOnPress: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        btnOkOnPress: () {},
-                      ).show();
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: AnimatedButton(
-                    text: 'Soru 5:',
-                    pressEvent: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.QUESTION,
-                        headerAnimationLoop: false,
-                        // animType: AnimType.,
-                        // title: 'a',
-                        // desc: 'Yasadiginiz il',
-                        buttonsTextStyle: const TextStyle(color: Colors.black),
-                        showCloseIcon: true,
-                        body: Column(
-                          children: [
-                            const Text('Soru 5:'),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              height: 100,
-                              width: 300,
-                              child: TextField(
-                                controller: jobReportmat,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText:
-                                      'İş İlanınızın Gerekliliklerini Giriniz:',
-                                  hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        btnCancelOnPress: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        btnOkOnPress: () {},
-                      ).show();
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: AnimatedButton(
-                    text: 'Soru 6:',
-                    pressEvent: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.QUESTION,
-                        headerAnimationLoop: false,
-                        buttonsTextStyle: const TextStyle(color: Colors.black),
-                        showCloseIcon: true,
-                        body: Column(
-                          children: [
-                            const Text('Soru 6:'),
-                            const Text('Çalışma Şekli:'),
-                            DropdownButtonFormField(
-                              items: itemtype.map((String itemtype) {
-                                return DropdownMenuItem(
-                                  value: itemtype,
-                                  child: Text(itemtype),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvaluety = newValue!;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        btnCancelOnPress: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        btnOkOnPress: () {},
-                      ).show();
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: AnimatedButton(
-                    text: 'Soru 7:',
-                    pressEvent: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.QUESTION,
-                        headerAnimationLoop: false,
-                        buttonsTextStyle: const TextStyle(color: Colors.black),
-                        showCloseIcon: true,
-                        body: Column(
-                          children: [
-                            const Text('Soru 7:'),
-                            const Text('Konum:'),
-                            DropdownButton(
-                              elevation: 2,
-                              isExpanded: false,
-                              items: itemloc.map((String itemloc) {
-                                return DropdownMenuItem(
-                                  value: itemloc,
-                                  child: Text(itemloc),
-                                );
-                              }).toList(),
-                              value: dropdownvalloc,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvalloc = newValue!;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        btnCancelOnPress: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const ProfileView(),
-                            ),
-                          );
-                        },
-                        btnOkOnPress: () {},
-                      ).show();
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/main');
-                  },
-                  child: const Text('Kaydet'),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Column pageOne() {
+    return Column(
+      children: [
+        DropdownButtonFormField(
+          value: _category,
+          decoration: const InputDecoration(
+            labelText: "Kategori",
+            labelStyle: TextStyle(
+              fontSize: 22,
+            ),
+            // contentPadding: ,
+          ),
+          items: DropdownTexts.categories.map((String items) {
+            return DropdownMenuItem(
+              value: items,
+              child: Text(items),
+            );
+          }).toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _category = value!;
+            });
+          },
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        DropdownButtonFormField(
+          value: _shift,
+          decoration: const InputDecoration(
+            labelText: "Çalışma Süresi",
+            labelStyle: TextStyle(
+              fontSize: 22,
+            ),
+            // contentPadding: ,
+          ),
+          items: DropdownTexts.shifts.map((String items) {
+            return DropdownMenuItem(
+              value: items,
+              child: Text(items),
+            );
+          }).toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _shift = value!;
+            });
+          },
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        DropdownButtonFormField(
+          value: _gender,
+          decoration: const InputDecoration(
+            labelText: "Aranan Cinsiyet",
+            labelStyle: TextStyle(
+              fontSize: 22,
+            ),
+            // contentPadding: ,
+          ),
+          items: DropdownTexts.genders.map((String items) {
+            return DropdownMenuItem(
+              value: items,
+              child: Text(items),
+            );
+          }).toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _gender = value!;
+            });
+          },
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        DropdownButtonFormField(
+          value: _city,
+          decoration: const InputDecoration(
+            labelText: "Şehir",
+            labelStyle: TextStyle(
+              fontSize: 22,
+            ),
+            // contentPadding: ,
+          ),
+          items: DropdownTexts.cities.map((String items) {
+            return DropdownMenuItem(
+              value: items,
+              child: Text(items),
+            );
+          }).toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _city = value!;
+            });
+          },
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              _index = 1;
+            });
+          },
+          child: const Text('Devam'),
+        ),
+      ],
+    );
+  }
+
+  Column pageTwo() {
+    return Column(
+      children: [
+        TextFormField(
+          controller: _titleController,
+          maxLength: 50,
+          decoration: const InputDecoration(
+            labelText: 'İlan Başlığı',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Bu alan boş bırakılamaz';
+            }
+            return null;
+          },
+        ),
+        TextFormField(
+          controller: _descriptionController,
+          maxLines: 4,
+          maxLength: 200,
+          decoration: const InputDecoration(
+            labelText: 'İlan Açıklaması',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Bu alan boş bırakılamaz';
+            }
+            return null;
+          },
+        ),
+        TextFormField(
+          controller: _fullAdressController,
+          maxLines: 2,
+          maxLength: 150,
+          decoration: const InputDecoration(
+            labelText: 'Açık Adres',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Bu alan boş bırakılamaz';
+            }
+            return null;
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 3,
+              child: TextFormField(
+                maxLength: 5,
+                keyboardType: TextInputType.number,
+                controller: _minSalaryController,
+                decoration: const InputDecoration(
+                  labelText: 'Min Ücret',
+                  counterText: "",
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Boş bırakılamaz';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 3,
+              child: TextFormField(
+                maxLength: 6,
+                keyboardType: TextInputType.number,
+                controller: _maxSalaryController,
+                decoration: const InputDecoration(
+                  labelText: 'Max Ücret',
+                  counterText: "",
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Boş bırakılamaz';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _index = 0;
+                });
+              },
+              child: const Text('Geri Dön'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  if (int.parse(_maxSalaryController.text) >
+                      int.parse(_minSalaryController.text)) {
+                    FirebaseFirestore.instance
+                        .collection("jobAdverts")
+                        .doc()
+                        .set({
+                      'userId': FirebaseAuth.instance.currentUser!.uid,
+                      'userName': _userName,
+                      'date': DateTime.now().toString(),
+                      'title': _titleController.text,
+                      'description': _descriptionController.text,
+                      'fullAdress': _fullAdressController.text,
+                      'minSalary': _minSalaryController.text,
+                      'maxSalary': _maxSalaryController.text,
+                      'category': _category,
+                      'shift': _shift,
+                      'gender': _gender,
+                      'city': _city
+                    }).then((_) => showSuccessDialog(
+                                context, "İlan başarıyla paylaşıldı")
+                            .then((_) => router.go('/home')));
+                  } else {
+                    showErrorDialog(context,
+                        "Minimum ücret Maksimum ücret'ten büyük olamaz!");
+                  }
+                }
+              },
+              child: const Text('Paylaş'),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

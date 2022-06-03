@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/core/managers/route_manager.dart';
 
 Future<void> showErrorDialog(
   BuildContext context,
@@ -21,6 +22,32 @@ Future<void> showErrorDialog(
           onPressed: () {
             Navigator.of(context).pop();
           },
+        ),
+      ],
+    ),
+  );
+}
+
+Future<void> goToRegisterPhone(
+  BuildContext context,
+) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Kullanıcı Bulunamadı'),
+      content: const Text('Kayıt sayfasına yönlendiriliyorsunuz!'),
+      // backgroundColor: const Color.fromRGBO(208, 135, 112, 1),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            router.go('/register');
+          },
+          child: const Text(
+            'Tamam',
+            style: TextStyle(
+                // color: Colors.black87,
+                ),
+          ),
         ),
       ],
     ),

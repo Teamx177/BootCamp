@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hrms/core/themes/lib_color_schemes.g.dart';
 import 'package:hrms/pages/views/form_view.dart';
 import 'package:hrms/pages/views/home_view.dart';
 import 'package:hrms/pages/views/profile/profile_view.dart';
+import 'package:hrms/pages/views/search_view.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 class MainView extends StatefulWidget {
@@ -19,7 +21,7 @@ class _MainViewState extends State<MainView> {
   List<Widget> tabPages() {
     return <Widget>[
       const HomePage(),
-      const ProfileView(),
+      const SearchView(),
       const HomePage(),
       const ProfileView(),
     ];
@@ -41,20 +43,32 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     return Scaffold(
+      extendBody: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          child: const Icon(Icons.add),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                  builder: (BuildContext context) {
-                    return const JobFormView();
-                  },
-                  fullscreenDialog: true),
-            );
-          }),
+      floatingActionButton: keyboardIsOpened
+          ? null
+          : FloatingActionButton(
+              shape: StadiumBorder(
+                side: BorderSide(
+                    width: 2,
+                    color: Hive.box('themedata').get('darkmode')
+                        ? Colors.white
+                        : Colors.black),
+              ),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              child: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) {
+                      return const JobFormView();
+                    },
+                    fullscreenDialog: true,
+                  ),
+                );
+              }),
       bottomNavigationBar: StylishBottomBar(
         backgroundColor: darkColorScheme.outline,
         padding: EdgeInsets.zero,
@@ -105,9 +119,8 @@ class _MainViewState extends State<MainView> {
         iconSize: 24,
         barAnimation: BarAnimation.blink,
         iconStyle: IconStyle.animated,
-        hasNotch: true,
-        fabLocation: StylishBarFabLocation.center,
-        opacity: 0.3,
+        // hasNotch: true,
+        fabLocation: StylishBarFabLocation.values[0],
         currentIndex: selected ?? 0,
         onTap: (index) {
           setState(() {

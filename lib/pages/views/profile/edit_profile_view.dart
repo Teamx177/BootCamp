@@ -7,6 +7,7 @@ import 'package:hrms/core/models/user.dart';
 import 'package:hrms/core/services/auth/auth_exceptions.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/storage/dialog_storage.dart';
+import 'package:hrms/core/storage/firebase.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
@@ -31,7 +32,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   late TextEditingController _newPasswordController;
 
   final List<String> _cities = ['Ankara', 'İstanbul', 'İzmir'];
-  late String _city = 'Ankara';
+  late final String _city = 'Ankara';
   late bool updateEmail;
   late bool updateName;
   late bool updatePhone;
@@ -107,6 +108,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    var city1 = snapshot.data?.get('city');
                     _emailController.value = _emailController.value
                         .copyWith(text: snapshot.data?.get('email'));
                     return !snapshot.hasData
@@ -140,35 +142,58 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   _updateEmail(snapshot, context),
                                   SizedBox(
                                       height: ProjectPadding.inputBoxHeight),
-                                  _updatePhone(snapshot, context),
+                                  _updatePassword(context),
                                   SizedBox(
                                       height: ProjectPadding.inputBoxHeight),
-                                  _updatePassword(context),
+                                  _updatePhone(snapshot, context),
                                   //did'n look for it
-                                  Padding(
-                                    padding:
-                                        ProjectPadding.inputPaddingVertical,
-                                    child: DropdownButtonFormField(
-                                      value: _city,
-                                      decoration: const InputDecoration(
-                                        prefixIcon: Icon(Icons.location_on),
-                                        prefixText: "Şehir: ",
-                                        // contentPadding: ,
-                                        constraints:
-                                            BoxConstraints(maxWidth: 300),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 85,
+                                        child: Padding(
+                                          padding: ProjectPadding
+                                              .inputPaddingVertical,
+                                          child: DropdownButtonFormField(
+                                            value: city1,
+                                            decoration: const InputDecoration(
+                                              prefixIcon:
+                                                  Icon(Icons.location_on),
+                                              prefixText: "Şehir: ",
+                                              constraints:
+                                                  BoxConstraints(maxWidth: 300),
+                                            ),
+                                            items: _cities.map((String items) {
+                                              return DropdownMenuItem(
+                                                value: items,
+                                                child: Text(items),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                city1 = value;
+                                                print(city1);
+                                              });
+                                            },
+                                          ),
+                                        ),
                                       ),
-                                      items: _cities.map((String items) {
-                                        return DropdownMenuItem(
-                                          value: items,
-                                          child: Text(items),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? value) {
-                                        setState(() {
-                                          _city = value!;
-                                        });
-                                      },
-                                    ),
+                                      Expanded(
+                                        flex: 15,
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            final userDoc = FirebaseFirestore
+                                                .instance
+                                                .collection('users')
+                                                .doc(user?.uid);
+                                            await userDoc.update({
+                                              'city': city1,
+                                            });
+                                          },
+                                          icon: const Icon(Icons.save),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                   const SizedBox(height: 10),
                                   ElevatedButton(
@@ -545,7 +570,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   Padding _updatePhone(
       AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
-    String phone = '${snapshot.data?.get('phoneNumber')}';
+    String phone = '${snapshot.data?.get('phone') ?? ''}';
     return Padding(
       padding: ProjectPadding.inputPaddingVertical,
       child: Row(

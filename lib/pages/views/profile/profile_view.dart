@@ -38,7 +38,7 @@ class _ProfileViewState extends State<ProfileView> {
         ],
       ),
       body: Padding(
-        padding: ProjectPadding.pagePaddingAll,
+        padding: ProjectPadding.pagePaddingHorizontal,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -281,6 +281,7 @@ class PhoneFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: 10,
       initialValue: initialValue,
       autofillHints: autofillHints,
       onChanged: onChanged,

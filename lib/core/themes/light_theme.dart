@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hrms/core/themes/lib_color_schemes.g.dart';
+import 'package:hrms/core/themes/text_theme.dart';
 
 class LightTheme {
   ThemeData theme = ThemeData(
@@ -30,11 +30,13 @@ class LightTheme {
       ),
       color: Colors.transparent,
       elevation: 0,
-      centerTitle: true,
+      // centerTitle: true,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
+        fixedSize:
+            (MaterialStateProperty.all(const Size(double.maxFinite, 50))),
         foregroundColor:
             MaterialStateProperty.all(lightColorScheme.onSecondary),
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -46,9 +48,6 @@ class LightTheme {
           }
           return lightColorScheme.tertiary;
         }),
-        fixedSize: MaterialStateProperty.all(
-          const Size(125, 40),
-        ),
         visualDensity: VisualDensity.standard,
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -67,60 +66,6 @@ class LightTheme {
     ),
     colorScheme: lightColorScheme,
     useMaterial3: true,
-    textTheme: TextTheme(
-      headline1: GoogleFonts.rubik(
-        fontSize: 96,
-        fontWeight: FontWeight.w300,
-      ),
-      headline2: GoogleFonts.rubik(
-        fontSize: 60,
-        fontWeight: FontWeight.w300,
-      ),
-      headline3: GoogleFonts.rubik(
-        fontSize: 48,
-        fontWeight: FontWeight.normal,
-      ),
-      headline4: GoogleFonts.rubik(
-        fontSize: 34,
-        fontWeight: FontWeight.normal,
-      ),
-      headline5: GoogleFonts.rubik(
-        fontSize: 24,
-        fontWeight: FontWeight.normal,
-        color: lightColorScheme.onBackground,
-      ),
-      headline6: GoogleFonts.rubik(
-        fontSize: 20,
-        fontWeight: FontWeight.w300,
-      ),
-      subtitle1: GoogleFonts.rubik(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-      ),
-      subtitle2: GoogleFonts.rubik(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      ),
-      bodyText1: GoogleFonts.rubik(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-      ),
-      bodyText2: GoogleFonts.rubik(
-        fontSize: 14,
-        fontWeight: FontWeight.normal,
-      ),
-      button: GoogleFonts.rubik(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-      ),
-      caption: GoogleFonts.rubik(
-        fontSize: 12,
-        fontWeight: FontWeight.normal,
-      ),
-      overline: GoogleFonts.rubik(
-        fontSize: 10,
-        fontWeight: FontWeight.normal,
-      ),
-    ),
+    textTheme: textTheme,
   );
 }

@@ -1,10 +1,14 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:hrms/core/themes/dark_theme.dart';
 import 'package:hrms/core/themes/light_theme.dart';
 import 'package:hrms/core/themes/padding.dart';
 
 class AppliedsView extends StatefulWidget {
-  const AppliedsView({Key? key}) : super(key: key);
+  const AppliedsView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AppliedsView> createState() => _AppliedsViewState();
@@ -22,14 +26,14 @@ class _AppliedsViewState extends State<AppliedsView> {
                 : LightTheme().theme.textTheme.headline5),
       ),
       body: Padding(
-        padding: ProjectPadding.pagePaddingAll,
+        padding: ProjectPadding.pagePaddingHorizontal,
         child: Card(
           clipBehavior: Clip.antiAlias,
           margin: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
-              ListTile(
+            children: [
+              const ListTile(
                 leading: Icon(Icons.topic),
                 title: Text('İlan Başlığı'),
                 subtitle: Text(
@@ -37,18 +41,23 @@ class _AppliedsViewState extends State<AppliedsView> {
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
                   'İlan Detayı',
                 ),
               ),
-              ButtonBar(
+              const ButtonBar(
                 alignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Ad soyad"),
                 ],
               ),
+              TextButton(
+                  onPressed: () {
+                    // print(widget.asd);
+                  },
+                  child: const Text('Başvur')),
             ],
           ),
         ),

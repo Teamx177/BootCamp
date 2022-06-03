@@ -29,7 +29,7 @@ class _SettingsViewState extends State<SettingsView> {
         automaticallyImplyLeading: true,
       ),
       body: Padding(
-        padding: ProjectPadding.pagePaddingAll,
+        padding: ProjectPadding.pagePaddingHorizontal,
         child: Center(
           child: Column(
             children: [

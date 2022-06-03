@@ -24,6 +24,8 @@ class WrongEmail implements Exception {}
 
 class InvalidCredential implements Exception {}
 
+class OperationNotAllowed implements Exception {}
+
 // generic exceptions
 
 class GenericAuthException implements Exception {}

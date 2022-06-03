@@ -39,11 +39,21 @@ class FirebaseAuthprovider implements AuthProvider {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         throw EmailAlreadyInUseAuthException();
+      } else if (e.code == 'weak-password') {
+        throw WeakPasswordAuthException();
+      } else if (e.code == 'invalid-email') {
+        throw InvalidEmailAuthException();
+      } else if (e.code == 'operation-not-allowed') {
+        throw InvalidEmailAuthException();
+      } else if (e.code == 'too-many-requests') {
+        throw TooManyRequestsAuthException();
+      } else if (e.code == 'internal-error') {
+        throw InternalErrorException();
+      } else if (e.code == 'network-request-failed') {
+        throw NetworkErrorException();
       } else {
         throw GenericAuthException();
       }
-    } catch (_) {
-      throw GenericAuthException();
     }
   }
 
@@ -150,19 +160,18 @@ class FirebaseAuthprovider implements AuthProvider {
         },
       );
     } else {
-      try {
-        await FirebaseAuth.instance.verifyPhoneNumber(
-          timeout: const Duration(seconds: 60),
-          phoneNumber: phoneNumber,
-          verificationCompleted: (PhoneAuthCredential credential) {},
-          verificationFailed: (FirebaseAuthException e) {
-            showErrorDialog(context, e.message.toString());
-          },
-          codeSent: ((
-            String verificationId,
-            int? resendToken,
-          ) async {
-            showOTPDialog(
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        timeout: const Duration(seconds: 60),
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (FirebaseAuthException e) {
+          showErrorDialog(context, e.message.toString());
+        },
+        codeSent: ((
+          String verificationId,
+          int? resendToken,
+        ) async {
+          showOTPDialog(
               codeController: codeController,
               context: context,
               onPressed: () async {
@@ -170,105 +179,99 @@ class FirebaseAuthprovider implements AuthProvider {
                   verificationId: verificationId,
                   smsCode: codeController.text.trim(),
                 );
-                if (FirebaseAuth.instance.currentUser != null) {
-                  await FirebaseAuth.instance.currentUser
-                      ?.linkWithCredential(credential);
-                  router.pop();
+                if (FirebaseAuth.instance.currentUser?.email != null) {
+                  try {
+                    await FirebaseAuth.instance.currentUser
+                        ?.linkWithCredential(credential);
+                    router.pop();
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'invalid-verification-id') {
+                      throw InvalidVerificationId();
+                    } else if (e.code == 'invalid-verification-code') {
+                      throw InvalidVerificationCode();
+                    } else if (e.code == 'invalid-email') {
+                      throw InvalidEmailAuthException();
+                    } else if (e.code == 'provider-already-linked') {
+                      throw UserAlreadyLinked();
+                    } else if (e.code == 'email-already-in-use') {
+                      throw EmailAlreadyInUseAuthException();
+                    } else if (e.code == 'too-many-requests') {
+                      throw TooManyRequestsAuthException();
+                    } else if (e.code == 'internal-error') {
+                      throw InternalErrorException();
+                    } else if (e.code == 'network-request-failed') {
+                      throw NetworkErrorException();
+                    } else {
+                      throw GenericAuthException();
+                    }
+                  }
                 } else {
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-                  router.pop();
+                  await goToRegisterPhone(context);
                 }
-                if (FirebaseAuth.instance.currentUser == null) {
-                  showErrorDialog(context, 'Hata oluştu');
-                } else {
-                  router.go('/home');
-                }
-              },
-            );
-          }),
-          codeAutoRetrievalTimeout: (String verificationId) {
-            verificationId = verificationId;
-          },
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'invalid-verification-id') {
-          throw InvalidVerificationId();
-        } else if (e.code == 'invalid-verification-code') {
-          throw InvalidVerificationCode();
-        } else if (e.code == 'invalid-email') {
-          throw InvalidEmailAuthException();
-        } else if (e.code == 'provider-already-linked') {
-          throw UserAlreadyLinked();
-        } else if (e.code == 'email-already-in-use') {
-          throw EmailAlreadyInUseAuthException();
-        } else if (e.code == 'too-many-requests') {
-          throw TooManyRequestsAuthException();
-        } else if (e.code == 'internal-error') {
-          throw InternalErrorException();
-        } else if (e.code == 'network-request-failed') {
-          throw NetworkErrorException();
-        } else {
-          throw GenericAuthException();
-        }
-      }
+              });
+        }),
+        codeAutoRetrievalTimeout: (String verificationId) {
+          verificationId = verificationId;
+        },
+      );
     }
   }
 
   @override
   Future<User?> updatePhone(String phoneNumber, BuildContext context) async {
-    try {
-      TextEditingController codeController = TextEditingController();
-      var user = FirebaseAuth.instance.currentUser;
-      await FirebaseAuth.instance.verifyPhoneNumber(
-          timeout: const Duration(seconds: 120),
-          phoneNumber: phoneNumber,
-          verificationCompleted: (credential) async {},
-          verificationFailed: (FirebaseAuthException e) {
-            showErrorDialog(context, e.message.toString());
-          },
-          codeSent: ((
-            String verificationId,
-            int? resendToken,
-          ) async {
-            showOTPDialog(
-                codeController: codeController,
-                context: context,
-                onPressed: () async {
-                  PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                    verificationId: verificationId,
-                    smsCode: codeController.text.trim(),
-                  );
+    TextEditingController codeController = TextEditingController();
+    var user = FirebaseAuth.instance.currentUser;
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        timeout: const Duration(seconds: 120),
+        phoneNumber: phoneNumber,
+        verificationCompleted: (credential) async {},
+        verificationFailed: (FirebaseAuthException e) {
+          showErrorDialog(context, e.message.toString());
+        },
+        codeSent: ((
+          String verificationId,
+          int? resendToken,
+        ) async {
+          showOTPDialog(
+              codeController: codeController,
+              context: context,
+              onPressed: () async {
+                PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                  verificationId: verificationId,
+                  smsCode: codeController.text.trim(),
+                );
+                try {
                   await user?.updatePhoneNumber(credential);
                   final userDoc = FirebaseFirestore.instance
                       .collection('users')
                       .doc(user?.uid);
                   await userDoc.update({
-                    'phoneNumber': phoneNumber,
+                    'phone': phoneNumber,
                   });
                   Navigator.pop(context);
-                });
-          }),
-          codeAutoRetrievalTimeout: (String verificationId) {
-            verificationId = verificationId;
-          });
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'invalid-verification-id') {
+                    throw InvalidVerificationId();
+                  } else if (e.code == 'invalid-verification-code') {
+                    throw InvalidVerificationCode();
+                  } else if (e.code == 'too-many-requests') {
+                    throw TooManyRequestsAuthException();
+                  } else if (e.code == 'internal-error') {
+                    throw InternalErrorException();
+                  } else if (e.code == 'network-request-failed') {
+                    throw NetworkErrorException();
+                  } else {
+                    throw GenericAuthException();
+                  }
+                }
+              });
+        }),
+        codeAutoRetrievalTimeout: (String verificationId) {
+          verificationId = verificationId;
+        });
 
-      await user?.reload();
-      return user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-verification-id') {
-        throw InvalidVerificationId();
-      } else if (e.code == 'invalid-verification-code') {
-        throw InvalidVerificationCode();
-      } else if (e.code == 'too-many-requests') {
-        throw TooManyRequestsAuthException();
-      } else if (e.code == 'internal-error') {
-        throw InternalErrorException();
-      } else if (e.code == 'network-request-failed') {
-        throw NetworkErrorException();
-      } else {
-        throw GenericAuthException();
-      }
-    }
+    await user?.reload();
+    return user;
   }
 
   @override
