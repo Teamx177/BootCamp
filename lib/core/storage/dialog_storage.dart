@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/core/managers/route_manager.dart';
 
+import '../managers/route_manager.dart';
+
 Future<void> showErrorDialog(
   BuildContext context,
   String text,
@@ -28,12 +30,17 @@ Future<void> showErrorDialog(
   );
 }
 
+<<<<<<< HEAD
 Future<void> goToRegisterPhone(
+=======
+Future<void> goToRegister(
+>>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
   BuildContext context,
 ) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
+<<<<<<< HEAD
       title: const Text('Kullanıcı Bulunamadı'),
       content: const Text('Kayıt sayfasına yönlendiriliyorsunuz!'),
       // backgroundColor: const Color.fromRGBO(208, 135, 112, 1),
@@ -42,12 +49,25 @@ Future<void> goToRegisterPhone(
           onPressed: () {
             router.go('/register');
           },
+=======
+      title: const Text('Kullanıcı Bulunamadı!'),
+      content: const Text("Kayıt sayfasına yönlendiriliyorsunuz!"),
+      // backgroundColor: const Color.fromRGBO(208, 135, 112, 1),
+      actions: <Widget>[
+        TextButton(
+>>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
           child: const Text(
             'Tamam',
             style: TextStyle(
                 // color: Colors.black87,
                 ),
           ),
+<<<<<<< HEAD
+=======
+          onPressed: () {
+            router.go('/register');
+          },
+>>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
         ),
       ],
     ),

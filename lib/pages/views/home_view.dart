@@ -14,10 +14,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+<<<<<<< HEAD
   final String _orderBy = 'date';
   late final _userData;
   late String userName = '';
   late bool _isEmployee;
+=======
+  late List jobAdverts = [];
+
+  @override
+  void initState() {
+    getJobAdverts();
+    super.initState();
+  }
+>>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
 
   Stream<UserModel> getUser(String? uid) {
     return FirebaseFirestore.instance
@@ -25,6 +35,21 @@ class _HomePageState extends State<HomePage> {
         .doc(uid)
         .snapshots()
         .map((snapshot) => UserModel.fromDocuments(snapshot));
+  }
+
+  final CollectionReference _jobAdvertReference =
+      FirebaseFirestore.instance.collection('jobAdverts');
+
+  getJobAdverts() {
+    _jobAdvertReference.get().then((value) {
+      for (var data in value.docs) {
+        if (mounted){
+         setState(() {
+          jobAdverts.add(data);
+        });
+        }
+      }
+    });
   }
 
   @override
@@ -46,10 +71,18 @@ class _HomePageState extends State<HomePage> {
         padding: ProjectPadding.pagePaddingHorizontal,
         child: SafeArea(
           child: StreamBuilder<DocumentSnapshot>(
+<<<<<<< HEAD
             stream: _userData,
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               userName = '\n ${snapshot.data?.get('name')}';
+=======
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+>>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
               return (!snapshot.hasData)
                   ? const Center(
                       child: CircularProgressIndicator(),
@@ -61,6 +94,7 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                             height: 15,
                           ),
+<<<<<<< HEAD
                           Row(
                             children: [
                               RichText(
@@ -308,6 +342,83 @@ class _HomePageState extends State<HomePage> {
                                         });
                               },
                             )
+=======
+                          RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                              text: 'Hoşgeldin ',
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            TextSpan(
+                              text: '\n${snapshot.data?.get('name')}'.split(' ')[0],
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                          ])),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: jobAdverts.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  clipBehavior: Clip.antiAlias,
+                                  margin: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        leading: const Icon(Icons.topic),
+                                        trailing: Text(jobAdverts[index].data()['date']),
+                                        title: Text(jobAdverts[index]['title']),
+                                        subtitle: Text(
+                                          "Maaş : ${jobAdverts[index]['minSalary']} TL - "
+                                          "${jobAdverts[index]['maxSalary']} TL",
+                                          style: const TextStyle(color: Colors.grey),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Text(
+                                          jobAdverts[index]['description'],
+                                        ),
+                                      ),
+                                      ButtonBar(
+                                        alignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Text("Kategori:"),
+                                              Text(
+                                                jobAdverts[index]['category'],
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w600),
+                                              )
+                                            ],
+                                          ),
+                                          Text(jobAdverts[index]['userName']),
+                                        ],
+                                      ),
+                                       TextButton(
+                                            onPressed: () {
+                                              print(jobAdverts[index].id);
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(Colors.red),
+                                            ),
+                                            child: const Text(
+                                              'Başvuru Yap',
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                          ),
+                                      const SizedBox(
+                                        height: 10,
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }),
+>>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
                         ],
                       ),
                     );

@@ -180,6 +180,7 @@ class FirebaseAuthprovider implements AuthProvider {
                   smsCode: codeController.text.trim(),
                 );
                 if (FirebaseAuth.instance.currentUser?.email != null) {
+<<<<<<< HEAD
                   try {
                     await FirebaseAuth.instance.currentUser
                         ?.linkWithCredential(credential);
@@ -214,6 +215,42 @@ class FirebaseAuthprovider implements AuthProvider {
           verificationId = verificationId;
         },
       );
+=======
+                  await FirebaseAuth.instance.currentUser
+                      ?.linkWithCredential(credential);
+                  router.pop();
+                } else {
+                  goToRegister(context);
+                }
+              },
+            );
+          }),
+          codeAutoRetrievalTimeout: (String verificationId) {
+            verificationId = verificationId;
+          },
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'invalid-verification-id') {
+          throw InvalidVerificationId();
+        } else if (e.code == 'invalid-verification-code') {
+          throw InvalidVerificationCode();
+        } else if (e.code == 'invalid-email') {
+          throw InvalidEmailAuthException();
+        } else if (e.code == 'provider-already-linked') {
+          throw UserAlreadyLinked();
+        } else if (e.code == 'email-already-in-use') {
+          throw EmailAlreadyInUseAuthException();
+        } else if (e.code == 'too-many-requests') {
+          throw TooManyRequestsAuthException();
+        } else if (e.code == 'internal-error') {
+          throw InternalErrorException();
+        } else if (e.code == 'network-request-failed') {
+          throw NetworkErrorException();
+        } else {
+          throw GenericAuthException();
+        }
+      }
+>>>>>>> 62aa17d25f1cd8abfba66096e788d071a408f731
     }
   }
 
