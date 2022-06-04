@@ -173,12 +173,13 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 
 
-- **Sprint Review**: ALınan Kararlar: 
+- **Sprint Review**: Alınan Kararlar: 
+
 
 
 - **Sprint Retrospective**:
 
-- Ekip olarak herkes geliştirmeye katkıda bulundu.
-- İletişime önem verildi.
-- Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi analyışı kabul edildi.
+  - Ekip olarak herkes geliştirmeye katkıda bulundu.
+  - İletişime önem verildi.
+  - Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi analyışı kabul edildi.
 
