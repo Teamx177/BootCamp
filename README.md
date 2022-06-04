@@ -130,9 +130,9 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 
 - **Sprint Retrospective:**
-  - 2. sprint süresi içinde ekipteki herkesin geliştirme kısmında katkısı oldu.
+  - 2.sprint süresi içinde ekipteki herkesin geliştirme kısmında katkısı oldu.
   - Sesli ve görüntülü konuşmanın ekipteki kişiler için uygun olmadığı zamanlarda bazı görüşmelerin Discord üzerinden mesajlaşma aracılığıyla yapılmasına karar    
-    verildi.
+  verildi.
   
 
 
