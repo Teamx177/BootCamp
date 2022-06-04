@@ -181,5 +181,5 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
   - Ekip olarak herkes geliştirmeye katkıda bulundu.
   - İletişime önem verildi.
-  - Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi analyışı kabul edildi.
+  - Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi mantığı kabul edildi.
 
