@@ -286,8 +286,16 @@ class FirebaseAuthprovider implements AuthProvider {
       return await documentReference.update({
         'name': displayName,
       });
-    } catch (e) {
-      showErrorDialog(context, e.toString());
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'too-many-requests') {
+        throw TooManyRequestsAuthException();
+      } else if (e.code == 'internal-error') {
+        throw InternalErrorException();
+      } else if (e.code == 'network-request-failed') {
+        throw NetworkErrorException();
+      } else {
+        throw GenericAuthException();
+      }
     }
   }
 

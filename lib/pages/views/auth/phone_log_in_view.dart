@@ -122,11 +122,6 @@ class _PhoneLoginViewState extends State<PhoneLoginView> {
             try {
               await AuthService.firebase()
                   .phoneLogin(phoneNumber: phoneNumber, context: context);
-              const Center(child: CircularProgressIndicator());
-              final user = AuthService.firebase().currentUser;
-              if (user != null) {
-                router.go('/home');
-              }
             } on UserNotFoundAuthException {
               await showErrorDialog(
                 context,
@@ -153,6 +148,11 @@ class _PhoneLoginViewState extends State<PhoneLoginView> {
                 ErrorTexts.error,
               );
             }
+          }
+          const Center(child: CircularProgressIndicator());
+          final user = AuthService.firebase().currentUser;
+          if (user != null) {
+            router.go('/home');
           }
         },
         child: Text(AuthStatusTexts.signIn),

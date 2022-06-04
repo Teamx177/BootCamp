@@ -42,13 +42,12 @@ class DarkTheme {
           }
           return darkColorScheme.secondary;
         }),
-        fixedSize: MaterialStateProperty.all(
-          const Size(125, 40),
-        ),
+        fixedSize:
+            (MaterialStateProperty.all(const Size(double.maxFinite, 40))),
         visualDensity: VisualDensity.standard,
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(5),
           ),
         ),
       ),

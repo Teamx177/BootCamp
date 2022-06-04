@@ -36,22 +36,22 @@ class LightTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         fixedSize:
-            (MaterialStateProperty.all(const Size(double.maxFinite, 50))),
+            (MaterialStateProperty.all(const Size(double.maxFinite, 40))),
         foregroundColor:
             MaterialStateProperty.all(lightColorScheme.onSecondary),
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
           if (states.contains(MaterialState.pressed)) {
-            return lightColorScheme.onSecondary;
+            return lightColorScheme.onTertiary;
           } else if (states.contains(MaterialState.disabled)) {
             return Colors.grey;
           }
-          return lightColorScheme.tertiary;
+          return lightColorScheme.secondary;
         }),
-        visualDensity: VisualDensity.standard,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(5),
           ),
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:hrms/core/models/user.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/themes/padding.dart';
 import 'package:hrms/pages/views/details_view.dart';
+import 'package:hrms/pages/views/form_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, currentUserType}) : super(key: key);
@@ -76,7 +77,16 @@ class _HomePageState extends State<HomePage> {
                               ])),
                               const Spacer(),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) {
+                                          return const JobFormView();
+                                        },
+                                        fullscreenDialog: true,
+                                      ),
+                                    );
+                                  },
                                   icon: const Icon(Icons.add)),
                             ],
                           ),

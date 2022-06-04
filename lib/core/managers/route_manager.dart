@@ -5,8 +5,10 @@ import 'package:hrms/pages/views/auth/forgot_password_view.dart';
 import 'package:hrms/pages/views/auth/log_in_view.dart';
 import 'package:hrms/pages/views/auth/phone_log_in_view.dart';
 import 'package:hrms/pages/views/auth/sing_up_view.dart';
+import 'package:hrms/pages/views/details_view.dart';
 import 'package:hrms/pages/views/loading.dart';
 import 'package:hrms/pages/views/main_screen_view.dart';
+import 'package:hrms/pages/views/profile/applied_forms.dart';
 import 'package:hrms/pages/views/profile/edit_profile_view.dart';
 import 'package:hrms/pages/views/profile/favorites_view.dart';
 import 'package:hrms/pages/views/profile/profile_view.dart';
@@ -25,14 +27,15 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/splash',
-      pageBuilder: (context, state) => MaterialPage<void>(
-        child: const SplashScreen(),
-        key: state.pageKey,
+      pageBuilder: (context, state) => const MaterialPage<void>(
+        child: SplashScreen(),
       ),
     ),
     GoRoute(
       path: '/login',
-      builder: (context, state) => const LoginView(),
+      pageBuilder: (context, state) => const MaterialPage<void>(
+        child: LoginView(),
+      ),
     ),
     GoRoute(
       path: '/register',
@@ -62,10 +65,10 @@ final router = GoRouter(
       path: '/favorites',
       builder: (context, state) => const FavoritesView(),
     ),
-    // GoRoute(
-    //   path: '/applied-jobs',
-    //   builder: (context, state) => const AppliedsView(),
-    // ),
+    GoRoute(
+      path: '/applied-jobs',
+      builder: (context, state) => const AppliedsView(),
+    ),
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsView(),
@@ -74,17 +77,13 @@ final router = GoRouter(
       path: '/search',
       builder: (context, state) => const SearchView(),
     ),
-    // GoRoute(
-    //   path: '/details',
-    //   builder: (context, state) {
-    //     final id = state.queryParams['id'];
-    //     return DetailsView(docId: id);
-    //   }
-
-    // ),
+    GoRoute(
+        path: '/details',
+        builder: (context, state) {
+          return const DetailsView();
+        }),
   ],
   errorPageBuilder: (context, state) => MaterialPage<void>(
-    key: state.pageKey,
     child: Scaffold(
       body: Center(
         child: Text(

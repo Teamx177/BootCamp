@@ -144,12 +144,18 @@ class _DetailsViewState extends State<DetailsView> {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.33,
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(selectedText),
                           ),
-                        )
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('Şimdi Başvur')),
                       ],
                     ),
                   ),

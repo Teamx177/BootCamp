@@ -114,18 +114,13 @@ class _SettingsViewState extends State<SettingsView> {
                                   const SizedBox(
                                     width: 15,
                                   ),
-                                  ElevatedButton(
+                                  TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.green),
                                     child: Text(AuthStatusTexts.cancel),
                                   ),
-                                  const Spacer(),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.red),
+                                  TextButton(
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         try {
@@ -146,23 +141,14 @@ class _SettingsViewState extends State<SettingsView> {
                                                     title: Text(UpdateTexts
                                                         .confirmDeleteAccount),
                                                     actions: [
-                                                      ElevatedButton(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                                  primary: Colors
-                                                                      .green),
+                                                      TextButton(
                                                           onPressed: () {
                                                             Navigator.pop(
                                                                 context);
                                                           },
                                                           child: Text(
                                                               UpdateTexts.no)),
-                                                      ElevatedButton(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                                  primary:
-                                                                      Colors
-                                                                          .red),
+                                                      TextButton(
                                                           onPressed: () async {
                                                             await FirebaseFirestore
                                                                 .instance

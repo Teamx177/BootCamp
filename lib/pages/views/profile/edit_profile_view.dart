@@ -7,6 +7,7 @@ import 'package:hrms/core/models/user.dart';
 import 'package:hrms/core/services/auth/auth_exceptions.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/storage/dialog_storage.dart';
+import 'package:hrms/core/storage/firebase.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
@@ -67,7 +68,9 @@ class _EditProfileViewState extends State<EditProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
       body: Padding(
         padding: ProjectPadding.pagePaddingHorizontal,
         child: SingleChildScrollView(
@@ -113,8 +116,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   SizedBox(
                                       height: ProjectPadding.inputBoxHeight),
                                   _updateEmail(snapshot, context),
-                                  // SizedBox(height: ProjectPadding.inputBoxHeight),
-                                  // _updatePhone(snapshot, context),
+                                  SizedBox(
+                                      height: ProjectPadding.inputBoxHeight),
+                                  _updatePhone(snapshot, context),
                                   SizedBox(
                                       height: ProjectPadding.inputBoxHeight),
                                   _updatePassword(context),
@@ -150,7 +154,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             flex: 85,
             child: PasswordFormField(
               enabled: false,
-              initialValue: '************',
+              initialValue: ('************'),
             ),
           ),
           Expanded(
@@ -288,7 +292,6 @@ class _EditProfileViewState extends State<EditProfileView> {
             flex: 85,
             child: NameFormField(
               hintText: snapshot.data?.get('name') ?? '',
-              // initialValue: snapshot.data?.get('name'),
               enabled: false,
               onChanged: (value) {
                 setState(() {
@@ -316,6 +319,11 @@ class _EditProfileViewState extends State<EditProfileView> {
                             NameFormField(
                               controller: _nameController,
                               hintText: HintTexts.nameHint,
+                              onChanged: (value) {
+                                setState(() {
+                                  _nameController.text = value;
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -336,7 +344,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                                         _nameController.text, context)
                                     .then((_) => showSuccessDialog(context,
                                             UpdateTexts.nameUpdateSuccess)
-                                        .then((_) => Navigator.pop(context)));
+                                        .then((_) => Navigator.pop(context))
+                                        .then((_) => user?.reload()));
                               } on InternalErrorException {
                                 await showErrorDialog(
                                   context,
@@ -542,7 +551,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(Icons.location_on),
                                 prefixText: "Şehir: ",
-                                // contentPadding: ,
                                 constraints: BoxConstraints(maxWidth: 300),
                               ),
                               items: DropdownTexts.cities.map((String items) {
@@ -576,6 +584,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                                     showSuccessDialog(context,
                                             UpdateTexts.cityUpdateSuccess)
                                         .then((_) => Navigator.pop(context)));
+                            setState(() {});
                           },
                           child: Text(AuthStatusTexts.confirm),
                         ),
@@ -603,7 +612,6 @@ class _EditProfileViewState extends State<EditProfileView> {
             child: PhoneFormField(
               enabled: updatePhone,
               hintText: phone.substring(3),
-              // initialValue: phone.substring(3),
               onChanged: (value) {
                 setState(() {
                   _phoneController.text = value;
@@ -621,7 +629,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 setState(() {
                   editPhone();
                 });
-                if (_phoneController.text.length == 10) {
+                if (_phoneController.text.length == 10 && updatePhone) {
                   try {
                     await AuthService.firebase()
                         .updatePhone(('+90${_phoneController.text}'), context);

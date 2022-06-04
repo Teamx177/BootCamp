@@ -8,7 +8,6 @@ import 'package:hrms/core/storage/dialog_storage.dart';
 import 'package:hrms/core/storage/string_storage.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
-import 'package:hrms/core/themes/dark_theme.dart';
 import 'package:hrms/core/themes/padding.dart';
 import 'package:hrms/pages/views/auth/widgets/form_field.dart';
 
@@ -20,14 +19,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final _formKey = GlobalKey<FormState>();
+  final _key = GlobalKey<FormState>();
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
-  late bool _isPasswordVisible;
   String? value;
-  bool isChecked = false;
+  late bool isChecked;
   late Box box1;
-  late bool _isEmail;
 
   void createOpenBox() async {
     box1 = await Hive.openBox('logindata');
@@ -38,16 +35,10 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _isPasswordVisible = false;
-    _isEmail = false;
+    isChecked = false;
+    // getdata();
     createOpenBox();
     super.initState();
-  }
-
-  void isVisible() {
-    setState(() {
-      _isPasswordVisible = !_isPasswordVisible;
-    });
   }
 
   void getdata() async {
@@ -56,12 +47,6 @@ class _LoginViewState extends State<LoginView> {
       isChecked = true;
       setState(() {});
     }
-  }
-
-  void test() {
-    setState(() {
-      _isEmail = !_isEmail;
-    });
   }
 
   @override
@@ -76,7 +61,7 @@ class _LoginViewState extends State<LoginView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Form(
-                  key: _formKey,
+                  key: _key,
                   child: Center(
                     child: Card(
                       borderOnForeground: true,
@@ -102,9 +87,6 @@ class _LoginViewState extends State<LoginView> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Checkbox(
-                                  activeColor: darkMode
-                                      ? const Color(0XFFD4DFC7)
-                                      : Colors.blueAccent.shade100,
                                   value: isChecked,
                                   onChanged: (value) {
                                     isChecked = !isChecked;
@@ -201,7 +183,7 @@ class _LoginViewState extends State<LoginView> {
         onPressed: () async {
           final email = _emailController.text;
           final password = _passwordController.text;
-          if (_formKey.currentState!.validate()) {
+          if (_key.currentState!.validate()) {
             try {
               await AuthService.firebase().logIn(
                 email: email,

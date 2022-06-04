@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
 
 @immutable
@@ -56,7 +55,6 @@ class EmailFormField extends StatelessWidget {
       validator: ValidationConstants.emailValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintStyle: Theme.of(context).textTheme.bodyText1,
         hintText: hintText,
         prefixIcon: const Icon(Icons.email_outlined),
       ),
@@ -93,7 +91,6 @@ class CityFormField extends StatelessWidget {
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintStyle: Theme.of(context).textTheme.bodyText1,
         hintText: hintText,
         prefixIcon: const Icon(Icons.location_on_outlined),
       ),
@@ -232,7 +229,8 @@ class ConfirmPasswordFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ConfirmPasswordFormField> createState() => _ConfirmPasswordFormFieldState();
+  State<ConfirmPasswordFormField> createState() =>
+      _ConfirmPasswordFormFieldState();
 }
 
 class _ConfirmPasswordFormFieldState extends State<ConfirmPasswordFormField> {
@@ -335,7 +333,6 @@ class PhoneFormField extends StatelessWidget {
       validator: ValidationConstants.phoneValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-         hintStyle: Theme.of(context).textTheme.bodyText1,
         hintText: hintText,
         prefixIcon: const Icon(Icons.phone_android_outlined),
       ),
@@ -394,7 +391,6 @@ class NameFormField extends StatelessWidget {
       validator: ValidationConstants.nameValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-         hintStyle: Theme.of(context).textTheme.bodyText1,
         hintText: hintText,
         prefixIcon: const Icon(Icons.person_outline),
       ),

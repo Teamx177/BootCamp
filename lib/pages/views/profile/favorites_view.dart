@@ -10,8 +10,6 @@ class FavoritesView extends StatefulWidget {
 }
 
 class _FavoritesViewState extends State<FavoritesView> {
-  bool isFavorite = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,26 +28,10 @@ class _FavoritesViewState extends State<FavoritesView> {
                 margin: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    ListTile(
-                      leading: const Icon(Icons.topic),
-                      trailing: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                          });
-                        },
-                        icon: isFavorite
-                            ? const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              )
-                            : const Icon(
-                                Icons.favorite_border,
-                                color: Colors.grey,
-                              ),
-                      ),
-                      title: const Text('İlan Başlığı'),
-                      subtitle: const Text(
+                    const ListTile(
+                      leading: Icon(Icons.topic),
+                      title: Text('İlan Başlığı'),
+                      subtitle: Text(
                         'Maaş ve Tarih',
                         style: TextStyle(color: Colors.grey),
                       ),
