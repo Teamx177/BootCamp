@@ -126,7 +126,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![profilepage darkMode](https://user-images.githubusercontent.com/100482891/169692169-0a206cf5-7b0c-4896-94ab-aa3d1c05875e.png)
 
 
-- **Sprint Review**: ALınan Kararlar: Uygulama için logo tasarlanacak. UX design'a daha çok önem verilecek. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
+- **Sprint Review**: Alınan Kararlar: Uygulama için logo tasarlanacak. UX design'a daha çok önem verilecek. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
 
 
 - **Sprint Retrospective:**
@@ -170,4 +170,15 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
+
+
+
+- **Sprint Review**: ALınan Kararlar: 
+
+
+- **Sprint Retrospective**:
+
+- Ekip olarak herkes geliştirmeye katkıda bulundu.
+- İletişime önem verildi.
+- Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi analyışı kabul edildi.
 
