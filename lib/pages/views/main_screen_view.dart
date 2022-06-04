@@ -95,7 +95,6 @@ class _MainViewState extends State<MainView> {
         barAnimation: BarAnimation.fade,
         iconStyle: IconStyle.Default,
         hasNotch: false,
-        fabLocation: StylishBarFabLocation.center,
         opacity: 0.3,
         currentIndex: selected ?? 0,
         onTap: (index) {

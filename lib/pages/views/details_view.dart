@@ -4,19 +4,19 @@ import 'package:hrms/core/themes/padding.dart';
 
 class DetailsView extends StatefulWidget {
   final String? docID;
+
   const DetailsView({Key? key, this.docID}) : super(key: key);
+
   @override
   State<DetailsView> createState() => _DetailsViewState();
 }
 
 class _DetailsViewState extends State<DetailsView> {
   late int selectedIndex;
-  late String selectedText;
-  var index = 0;
+
   @override
   void initState() {
     selectedIndex = 0;
-    selectedText = '';
     super.initState();
   }
 
@@ -52,11 +52,11 @@ class _DetailsViewState extends State<DetailsView> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(snapshot.data?.get('title')),
+                        Text(snapshot.data?.get('userName')),
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(snapshot.data?.get('userName')),
+                        Text(snapshot.data?.get('title')),
                         const SizedBox(
                           height: 10,
                         ),
@@ -64,9 +64,7 @@ class _DetailsViewState extends State<DetailsView> {
                           children: [
                             Expanded(
                               flex: 50,
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.amber[50]),
+                              child: TextButton(
                                 onPressed: () {},
                                 child: Text(snapshot.data?.get('category')),
                               ),
@@ -76,11 +74,9 @@ class _DetailsViewState extends State<DetailsView> {
                             ),
                             Expanded(
                               flex: 50,
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.red),
+                              child: TextButton(
                                 onPressed: () {},
-                                child: const Text('Acil'),
+                                child: Text(snapshot.data?.get('city')),
                               ),
                             ),
                           ],
@@ -91,52 +87,39 @@ class _DetailsViewState extends State<DetailsView> {
                         Row(
                           children: [
                             Expanded(
-                                flex: 75,
-                                child: Text(
-                                  '${snapshot.data?.get('minSalary')} - ${snapshot.data?.get('maxSalary')}',
-                                )),
-                            Expanded(
-                                flex: 25,
-                                child: Text(snapshot.data?.get('city'))),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 45,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
                                 flex: 25,
                                 child: TextButton(
                                     autofocus: true,
+                                    style: TextButton.styleFrom(
+                                        backgroundColor:
+                                            selectedIndex == 0 ? Colors.green : null),
                                     onPressed: () async {
-                                      selectedIndex = 0;
                                       setState(() {
                                         selectedIndex = 0;
-                                        selectedText =
-                                            snapshot.data?.get('description');
                                       });
                                     },
-                                    child: const Text('Ilan detayı'))),
+                                    child: const Text('Açıklaması'))),
                             Expanded(
                                 flex: 25,
                                 child: TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor:
+                                            selectedIndex == 1 ? Colors.green : null),
                                     onPressed: () {
                                       setState(() {
                                         selectedIndex = 1;
-                                        selectedText =
-                                            '${snapshot.data?.get('gender')} - ${snapshot.data?.get('shift')}';
                                       });
                                     },
-                                    child: const Text('Gereksinimler'))),
+                                    child: const Text('Özellikler'))),
                             Expanded(
                                 flex: 25,
                                 child: TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor:
+                                            selectedIndex == 2 ? Colors.green : null),
                                     onPressed: () {
                                       setState(() {
                                         selectedIndex = 2;
-                                        selectedText =
-                                            snapshot.data?.get('fullAdress');
                                       });
                                     },
                                     child: const Text('Iletişim'))),
@@ -147,15 +130,70 @@ class _DetailsViewState extends State<DetailsView> {
                           height: MediaQuery.of(context).size.height * 0.33,
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text(selectedText),
+                            child: (selectedIndex == 0)
+                                ? Text(snapshot.data?.get('description'))
+                                : (selectedIndex == 1)
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text(
+                                            "Ücret",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                              "${snapshot.data?.get('minSalary')} TL - ${snapshot.data?.get('maxSalary')} TL"),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          const Text(
+                                            "Aranan Cinsiyet",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text("${snapshot.data?.get('gender')}"),
+                                        ],
+                                      ),
+                                        ],
+                                      )
+                                    : Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text(
+                                            "Açık Adres",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text("${snapshot.data?.get('fullAddress')}"),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          const Text(
+                                            "Telefon Numarası",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                              "${snapshot.data?.get('phone').toString().substring(3, 13)}"),
+                                        ],
+                                      ),
                           ),
                         ),
                         const SizedBox(
                           height: 40,
                         ),
                         ElevatedButton(
-                            onPressed: () {},
-                            child: const Text('Şimdi Başvur')),
+                            onPressed: () {}, child: const Text('Şimdi Başvur')),
                       ],
                     ),
                   ),

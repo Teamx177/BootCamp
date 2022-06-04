@@ -17,6 +17,11 @@ class ValidateTexts {
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
   static String passwordCharacter =
       'Şifrenizde en az bir özel karakter olmalıdır.';
+  static String descriptionLength = 'Açıklama en az 50 karakter olmalıdır.';
+  static String titleLength = 'Başlık en az 10 karakter olmalıdır.';
+  static String addressLenght = "Adres en az 15 karakter olmalıdır.";
+  static String emptySalaryField = "Boş bırakılamaz.";
+  static String emptyField = "Bu alan boş bırakılamaz.";
 }
 
 class AuthStatusTexts {
@@ -105,6 +110,6 @@ class UpdateTexts {
 class DropdownTexts {
   static List<String> cities = ['Ankara', 'İstanbul', 'İzmir'];
   static List<String> categories = ['Temizlik', 'İnşaat', 'Muhasebe', 'Eğitim'];
-  static List<String> genders = ['Erkek', 'Kadın'];
+  static List<String> genders = ['Erkek', 'Kadın','Farketmiyor'];
   static List<String> shifts = ['1 Gün', '2-5 Gün', '5-10 Gün', '10-15 Gün'];
 }

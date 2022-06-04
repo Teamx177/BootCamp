@@ -9,6 +9,25 @@ class ValidationConstants {
         errorText: ValidateTexts.passwordCharacter)
   ]);
 
+  static MultiValidator descriptionValidator = MultiValidator([
+    RequiredValidator(errorText: ValidateTexts.emptyField),
+    MinLengthValidator(50, errorText: ValidateTexts.descriptionLength),
+  ]);
+
+  static MultiValidator titleValidator = MultiValidator([
+    RequiredValidator(errorText: ValidateTexts.emptyField),
+    MinLengthValidator(10, errorText: ValidateTexts.titleLength),
+  ]);
+
+  static MultiValidator addressValidator = MultiValidator([
+    RequiredValidator(errorText: ValidateTexts.emptyField),
+    MinLengthValidator(15, errorText: ValidateTexts.addressLenght),
+  ]);
+
+   static MultiValidator salaryValidator = MultiValidator([
+    RequiredValidator(errorText: ValidateTexts.emptySalaryField),
+  ]);
+
   static MultiValidator emailValidator = MultiValidator(
     [
       RequiredValidator(errorText: ValidateTexts.emptyEmail),

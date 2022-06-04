@@ -6,6 +6,26 @@ import 'package:hrms/core/themes/text_theme.dart';
 
 class DarkTheme {
   ThemeData theme = ThemeData(
+    outlinedButtonTheme: OutlinedButtonThemeData(
+       style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(darkColorScheme.onSecondary),
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return darkColorScheme.tertiary;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Colors.grey;
+          }
+          return darkColorScheme.secondary;
+        }),
+        visualDensity: VisualDensity.standard,
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+      ),
+    ),
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,

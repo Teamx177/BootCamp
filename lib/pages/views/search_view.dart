@@ -87,8 +87,8 @@ class _SearchViewState extends State<SearchView> {
                   ? ListView.builder(
                       itemCount: snapshots.data!.docs.length,
                       itemBuilder: (context, index) {
-                        var data = snapshots.data!.docs[index].data()
-                            as Map<String, dynamic>;
+                        var data =
+                            snapshots.data!.docs[index].data() as Map<String, dynamic>;
                         if (data['title']
                             .toString()
                             .toLowerCase()
@@ -144,32 +144,28 @@ class _SearchViewState extends State<SearchView> {
                               height: 15,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width * 0.42,
                                   child: Card(
                                     child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           primary: Colors.black,
                                           // backgroundColor: Colors.amber,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0))),
+                                              borderRadius: BorderRadius.circular(10.0))),
                                       onPressed: () {
                                         var data = FirebaseFirestore.instance
                                             .collection('jobAdverts')
-                                            .where('category',
-                                                isEqualTo: 'Temizlik')
+                                            .where('category', isEqualTo: 'Temizlik')
                                             .get()
-                                            .then(
-                                                (value) => (value.docs.map((e) {
-                                                      setState(() {
-                                                        asd.add(e.data());
-                                                      });
-                                                    })))
+                                            .then((value) => (value.docs.map((e) {
+                                                  setState(() {
+                                                    asd.add(e.data());
+                                                  });
+                                                })))
                                             .then((value) => Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -178,19 +174,15 @@ class _SearchViewState extends State<SearchView> {
                                                 ));
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.deepOrange.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            child: const Icon(
-                                                Icons.cleaning_services),
+                                                color: Colors.deepOrange.shade300,
+                                                borderRadius: BorderRadius.circular(40)),
+                                            child: const Icon(Icons.cleaning_services),
                                           ),
                                           const Text('Temizlik'),
                                           const Text('5 iş')
@@ -200,35 +192,28 @@ class _SearchViewState extends State<SearchView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width * 0.42,
                                   child: Card(
                                     child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           primary: Colors.black,
                                           // backgroundColor: Colors.amber,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0))),
+                                              borderRadius: BorderRadius.circular(10.0))),
                                       onPressed: () {
                                         print('pressed');
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.deepOrange.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            child: const Icon(
-                                                Icons.cleaning_services),
+                                                color: Colors.deepOrange.shade300,
+                                                borderRadius: BorderRadius.circular(40)),
+                                            child: const Icon(Icons.cleaning_services),
                                           ),
                                           const Text('Nakliyat'),
                                           const Text('4 iş'),
@@ -240,37 +225,31 @@ class _SearchViewState extends State<SearchView> {
                               ],
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width * 0.42,
                                   child: Card(
                                     child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           primary: Colors.black,
                                           // backgroundColor: Colors.amber,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0))),
+                                              borderRadius: BorderRadius.circular(10.0))),
                                       onPressed: () {
                                         print('pressed');
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.deepOrange.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            child: const Icon(
-                                                Icons.cleaning_services),
+                                                color: Colors.deepOrange.shade300,
+                                                borderRadius: BorderRadius.circular(40)),
+                                            child: const Icon(Icons.cleaning_services),
                                           ),
                                           const Text('Nakliyat'),
                                           const Text('4 iş'),
@@ -280,35 +259,28 @@ class _SearchViewState extends State<SearchView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width * 0.42,
                                   child: Card(
                                     child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           primary: Colors.black,
                                           // backgroundColor: Colors.amber,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0))),
+                                              borderRadius: BorderRadius.circular(10.0))),
                                       onPressed: () {
                                         print('pressed');
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.deepOrange.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            child: const Icon(
-                                                Icons.cleaning_services),
+                                                color: Colors.deepOrange.shade300,
+                                                borderRadius: BorderRadius.circular(40)),
+                                            child: const Icon(Icons.cleaning_services),
                                           ),
                                           const Text('Nakliyat'),
                                           const Text('4 iş'),
@@ -320,37 +292,31 @@ class _SearchViewState extends State<SearchView> {
                               ],
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width * 0.42,
                                   child: Card(
                                     child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           primary: Colors.black,
                                           // backgroundColor: Colors.amber,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0))),
+                                              borderRadius: BorderRadius.circular(10.0))),
                                       onPressed: () {
                                         print('pressed');
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.deepOrange.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            child: const Icon(
-                                                Icons.cleaning_services),
+                                                color: Colors.deepOrange.shade300,
+                                                borderRadius: BorderRadius.circular(40)),
+                                            child: const Icon(Icons.cleaning_services),
                                           ),
                                           const Text('Nakliyat'),
                                           const Text('4 iş'),
@@ -360,35 +326,28 @@ class _SearchViewState extends State<SearchView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width * 0.42,
                                   child: Card(
                                     child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           primary: Colors.black,
                                           // backgroundColor: Colors.amber,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0))),
+                                              borderRadius: BorderRadius.circular(10.0))),
                                       onPressed: () {
                                         print('pressed');
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.deepOrange.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            child: const Icon(
-                                                Icons.cleaning_services),
+                                                color: Colors.deepOrange.shade300,
+                                                borderRadius: BorderRadius.circular(40)),
+                                            child: const Icon(Icons.cleaning_services),
                                           ),
                                           const Text('Nakliyat'),
                                           const Text('4 iş'),
@@ -400,37 +359,31 @@ class _SearchViewState extends State<SearchView> {
                               ],
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width * 0.42,
                                   child: Card(
                                     child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           primary: Colors.black,
                                           // backgroundColor: Colors.amber,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0))),
+                                              borderRadius: BorderRadius.circular(10.0))),
                                       onPressed: () {
                                         print('pressed');
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.deepOrange.shade300,
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            child: const Icon(
-                                                Icons.cleaning_services),
+                                                color: Colors.deepOrange.shade300,
+                                                borderRadius: BorderRadius.circular(40)),
+                                            child: const Icon(Icons.cleaning_services),
                                           ),
                                           const Text('Nakliyat'),
                                           const Text('4 iş'),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/managers/route_manager.dart';
 import 'package:hrms/core/storage/text_storage.dart';
+import 'package:hrms/core/storage/validation_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
 
 import '../../core/storage/dialog_storage.dart';
@@ -26,16 +27,17 @@ class _JobFormViewState extends State<JobFormView> {
 
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
-  late TextEditingController _fullAdressController;
+  late TextEditingController _fullAddressController;
   late TextEditingController _minSalaryController;
   late TextEditingController _maxSalaryController;
   late String _userName;
+  late String _phoneNumber;
 
   @override
   initState() {
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
-    _fullAdressController = TextEditingController();
+    _fullAddressController = TextEditingController();
     _minSalaryController = TextEditingController();
     _maxSalaryController = TextEditingController();
     getUser();
@@ -47,6 +49,7 @@ class _JobFormViewState extends State<JobFormView> {
     await userRef.doc(user?.uid).get().then((doc) {
       var userType = doc.data();
       _userName = userType?['name'];
+      _phoneNumber = userType?['phone'];
     });
 
     return _userName;
@@ -57,7 +60,13 @@ class _JobFormViewState extends State<JobFormView> {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.black,
-        title: Text('İş İlanı Oluştur ${_index + 1}/2'),
+        centerTitle: true,
+        title: Column(
+          children: [
+            const SizedBox(height: 25),
+            Text('İş İlanı Oluştur ${_index + 1}/2')
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -86,6 +95,9 @@ class _JobFormViewState extends State<JobFormView> {
   Column pageOne() {
     return Column(
       children: [
+        const SizedBox(
+          height: 25,
+        ),
         DropdownButtonFormField(
           value: _category,
           decoration: const InputDecoration(
@@ -197,18 +209,16 @@ class _JobFormViewState extends State<JobFormView> {
   Column pageTwo() {
     return Column(
       children: [
+        const SizedBox(
+          height: 25,
+        ),
         TextFormField(
           controller: _titleController,
           maxLength: 50,
           decoration: const InputDecoration(
             labelText: 'İlan Başlığı',
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Bu alan boş bırakılamaz';
-            }
-            return null;
-          },
+          validator: ValidationConstants.titleValidator,
         ),
         TextFormField(
           controller: _descriptionController,
@@ -217,26 +227,16 @@ class _JobFormViewState extends State<JobFormView> {
           decoration: const InputDecoration(
             labelText: 'İlan Açıklaması',
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Bu alan boş bırakılamaz';
-            }
-            return null;
-          },
+          validator: ValidationConstants.descriptionValidator,
         ),
         TextFormField(
-          controller: _fullAdressController,
+          controller: _fullAddressController,
           maxLines: 2,
           maxLength: 150,
           decoration: const InputDecoration(
             labelText: 'Açık Adres',
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Bu alan boş bırakılamaz';
-            }
-            return null;
-          },
+          validator: ValidationConstants.addressValidator,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -251,12 +251,7 @@ class _JobFormViewState extends State<JobFormView> {
                   labelText: 'Min Ücret',
                   counterText: "",
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Boş bırakılamaz';
-                  }
-                  return null;
-                },
+                validator: ValidationConstants.salaryValidator,
               ),
             ),
             SizedBox(
@@ -269,23 +264,18 @@ class _JobFormViewState extends State<JobFormView> {
                   labelText: 'Max Ücret',
                   counterText: "",
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Boş bırakılamaz';
-                  }
-                  return null;
-                },
+                validator: ValidationConstants.salaryValidator,
               ),
             ),
           ],
         ),
         const SizedBox(
-          height: 25,
+          height: 35,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
+            OutlinedButton(
               onPressed: () {
                 setState(() {
                   _index = 0;
@@ -293,33 +283,30 @@ class _JobFormViewState extends State<JobFormView> {
               },
               child: const Text('Geri Dön'),
             ),
-            ElevatedButton(
+            OutlinedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   if (int.parse(_maxSalaryController.text) >
                       int.parse(_minSalaryController.text)) {
-                    FirebaseFirestore.instance
-                        .collection("jobAdverts")
-                        .doc()
-                        .set({
+                    FirebaseFirestore.instance.collection("jobAdverts").doc().set({
                       'userId': FirebaseAuth.instance.currentUser!.uid,
                       'userName': _userName,
                       'date': DateTime.now().toString(),
                       'title': _titleController.text,
                       'description': _descriptionController.text,
-                      'fullAdress': _fullAdressController.text,
+                      'fullAddress': _fullAddressController.text,
                       'minSalary': _minSalaryController.text,
                       'maxSalary': _maxSalaryController.text,
                       'category': _category,
                       'shift': _shift,
                       'gender': _gender,
-                      'city': _city
-                    }).then((_) => showSuccessDialog(
-                                context, "İlan başarıyla paylaşıldı")
-                            .then((_) => router.go('/home')));
+                      'city': _city,
+                      'phone' : _phoneNumber
+                    }).then((_) => showSuccessDialog(context, "İlan başarıyla paylaşıldı")
+                        .then((_) => Navigator.pop(context)));
                   } else {
-                    showErrorDialog(context,
-                        "Minimum ücret Maksimum ücret'ten büyük olamaz!");
+                    showErrorDialog(
+                        context, "Minimum ücret Maksimum ücret'ten büyük olamaz!");
                   }
                 }
               },

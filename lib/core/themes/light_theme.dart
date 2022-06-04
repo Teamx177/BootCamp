@@ -5,6 +5,26 @@ import 'package:hrms/core/themes/text_theme.dart';
 
 class LightTheme {
   ThemeData theme = ThemeData(
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(lightColorScheme.onSecondary),
+        backgroundColor:
+            MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return lightColorScheme.onTertiary;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Colors.grey;
+          }
+          return lightColorScheme.secondary;
+        }),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+      ),
+    ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -35,12 +55,10 @@ class LightTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        fixedSize:
-            (MaterialStateProperty.all(const Size(double.maxFinite, 40))),
-        foregroundColor:
-            MaterialStateProperty.all(lightColorScheme.onSecondary),
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
+        fixedSize: (MaterialStateProperty.all(const Size(double.maxFinite, 40))),
+        foregroundColor: MaterialStateProperty.all(lightColorScheme.onSecondary),
+        backgroundColor:
+            MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
           if (states.contains(MaterialState.pressed)) {
             return lightColorScheme.onTertiary;
           } else if (states.contains(MaterialState.disabled)) {
