@@ -32,7 +32,7 @@ class _ProfileViewState extends State<ProfileView> {
     final User? user = auth.currentUser;
     await userRef.doc(user?.uid).get().then((doc) {
       var userType = doc.data();
-      setState((){
+      setState(() {
         _userType = userType?['type'];
       });
     });
@@ -67,8 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
             const CircleAvatar(
               // childa image picker gelebilir.
               radius: 80,
-              backgroundImage:
-                  NetworkImage('https://picsum.photos/seed/picsum/200/300'),
+              backgroundImage: NetworkImage('https://picsum.photos/seed/picsum/200/300'),
             ),
             _customContainer(
                 child: TextButton.icon(
@@ -78,21 +77,23 @@ class _ProfileViewState extends State<ProfileView> {
                 context.push('/edit-profile');
               },
             )),
-            _userType == "employee" ? _customContainer(
-                child: TextButton.icon(
-              icon: const Icon(Icons.approval_outlined),
-              label: const Text('Başvurularım'),
-              onPressed: () {
-                context.push('/applied-jobs');
-              },
-            )) : _customContainer(
-                child: TextButton.icon(
-              icon: const Icon(Icons.approval_outlined),
-              label: const Text('Gelen Başvurular'),
-              onPressed: () {
-                context.push('/applied-jobs');
-              },
-            )),
+            _userType == "employee"
+                ? _customContainer(
+                    child: TextButton.icon(
+                    icon: const Icon(Icons.approval_outlined),
+                    label: const Text('Başvurularım'),
+                    onPressed: () {
+                      context.push('/applied-jobs');
+                    },
+                  ))
+                : _customContainer(
+                    child: TextButton.icon(
+                    icon: const Icon(Icons.approval_outlined),
+                    label: const Text('Gelen Başvurular'),
+                    onPressed: () {
+                      context.push('/incoming-applications');
+                    },
+                  )),
             _customContainer(
                 child: TextButton.icon(
               icon: const Icon(Icons.settings_outlined),
@@ -108,8 +109,7 @@ class _ProfileViewState extends State<ProfileView> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text(
-                                'Çıkış yapmak istediğinize emin misiniz?'),
+                            title: const Text('Çıkış yapmak istediğinize emin misiniz?'),
                             actions: [
                               TextButton(
                                   onPressed: () {
@@ -127,8 +127,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       ErrorTexts.errorOnExit,
                                     );
                                   }
-                                  final user =
-                                      AuthService.firebase().currentUser;
+                                  final user = AuthService.firebase().currentUser;
                                   if (user == null) {
                                     router.go('/login');
                                   } else {
@@ -169,8 +168,7 @@ class _customContainer extends StatelessWidget {
       width: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color:
-            darkMode ? darkColorScheme.onPrimary : lightColorScheme.onPrimary,
+        color: darkMode ? darkColorScheme.onPrimary : lightColorScheme.onPrimary,
       ),
       child: child,
     );
