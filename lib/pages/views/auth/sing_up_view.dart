@@ -375,13 +375,10 @@ class _SingUpViewState extends State<SingUpView> {
         var type = _userType == 'İş Veren' ? 'employer' : 'employee';
         if (_userFormKey.currentState!.validate()) {
           try {
-            // Still working on phone register
             var user = await AuthService.firebase().createUser(
+              context: context,
               email: email,
               password: password,
-            );
-            await AuthService.firebase().phoneLogin(
-              context: context,
               phoneNumber: phoneNumber,
             );
             await FirebaseFirestore.instance
@@ -426,6 +423,11 @@ class _SingUpViewState extends State<SingUpView> {
             await showErrorDialog(
               context,
               ErrorTexts.networkError,
+            );
+          } on CredentialAlreadyUse {
+            await showErrorDialog(
+              context,
+              ErrorTexts.credentialAlreadyLinked,
             );
           } on GenericAuthException {
             await showErrorDialog(

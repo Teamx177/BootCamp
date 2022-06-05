@@ -296,12 +296,8 @@ class _JobFormViewState extends State<JobFormView> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  if (int.parse(_maxSalaryController.text) >
-                      int.parse(_minSalaryController.text)) {
-                    FirebaseFirestore.instance
-                        .collection("jobAdverts")
-                        .doc()
-                        .set({
+                  if (int.parse(_maxSalaryController.text) > int.parse(_minSalaryController.text)) {
+                    FirebaseFirestore.instance.collection("jobAdverts").doc().set({
                       'userId': FirebaseAuth.instance.currentUser!.uid,
                       'userName': _userName,
                       'date': DateTime.now().toString(),
@@ -314,12 +310,10 @@ class _JobFormViewState extends State<JobFormView> {
                       'shift': _shift,
                       'gender': _gender,
                       'city': _city
-                    }).then((_) => showSuccessDialog(
-                                context, "İlan başarıyla paylaşıldı")
-                            .then((_) => router.go('/home')));
+                    }).then(
+                        (_) => showSuccessDialog(context, "İlan başarıyla paylaşıldı").then((_) => router.go('/home')));
                   } else {
-                    showErrorDialog(context,
-                        "Minimum ücret Maksimum ücret'ten büyük olamaz!");
+                    showErrorDialog(context, "Minimum ücret Maksimum ücret'ten büyük olamaz!");
                   }
                 }
               },

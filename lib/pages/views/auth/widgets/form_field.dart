@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
 
 @immutable
@@ -19,6 +20,7 @@ class EmailFormField extends StatelessWidget {
   void Function(String?)? onSaved;
   void Function(String)? onFieldSubmitted;
   String? hintText;
+  String? labelText;
 
   EmailFormField({
     Key? key,
@@ -31,6 +33,7 @@ class EmailFormField extends StatelessWidget {
     this.initialValue,
     this.onChanged,
     this.hintText,
+    this.labelText,
     this.controller,
     this.onFieldSubmitted,
     this.onSaved,
@@ -55,7 +58,8 @@ class EmailFormField extends StatelessWidget {
       validator: ValidationConstants.emailValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: hintText,
+        labelText: labelText,
+        hintText: HintTexts.emailHint,
         prefixIcon: const Icon(Icons.email_outlined),
       ),
     );
@@ -69,12 +73,14 @@ class CityFormField extends StatelessWidget {
   TextInputType keyboardType;
   bool? enabled;
   String? hintText;
+  String? labelText;
 
   CityFormField({
     Key? key,
     this.enabled,
     this.initialValue,
     this.hintText,
+    this.labelText,
     this.onChanged,
     this.keyboardType = TextInputType.text,
     this.title,
@@ -91,7 +97,8 @@ class CityFormField extends StatelessWidget {
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: hintText,
+        labelText: labelText,
+        hintText: HintTexts.cityHint,
         prefixIcon: const Icon(Icons.location_on_outlined),
       ),
     );
@@ -115,6 +122,7 @@ class PasswordFormField extends StatefulWidget {
   void Function(String?)? onSaved;
   String? hintText;
   Widget? suffixIcon;
+  String? labelText;
 
   PasswordFormField({
     Key? key,
@@ -132,6 +140,7 @@ class PasswordFormField extends StatefulWidget {
     this.title,
     this.textInputAction,
     this.onSaved,
+    this.labelText,
     this.decoration,
     this.keyboardType = TextInputType.visiblePassword,
   }) : super(key: key);
@@ -171,9 +180,10 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
       key: widget.key,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
+        labelText: widget.labelText,
         hintText: widget.hintText,
         prefixIcon: const Icon(Icons.lock_outline),
-        suffixIcon: widget.initialValue?.isEmpty ?? true
+        suffixIcon: widget.labelText?.isEmpty ?? true
             ? IconButton(
                 icon: Icon(
                   _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -298,6 +308,7 @@ class PhoneFormField extends StatelessWidget {
   TextInputAction? textInputAction;
   void Function(String?)? onSaved;
   String? hintText;
+  String? labelText;
 
   PhoneFormField({
     Key? key,
@@ -313,6 +324,7 @@ class PhoneFormField extends StatelessWidget {
     this.autofillHints = const [AutofillHints.telephoneNumber],
     this.controller,
     this.title,
+    this.labelText,
     this.onSaved,
     this.keyboardType = TextInputType.phone,
   }) : super(key: key);
@@ -333,7 +345,8 @@ class PhoneFormField extends StatelessWidget {
       validator: ValidationConstants.phoneValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: hintText,
+        labelText: labelText,
+        hintText: HintTexts.phoneNumberHint,
         prefixIcon: const Icon(Icons.phone_android_outlined),
       ),
     );
@@ -356,6 +369,7 @@ class NameFormField extends StatelessWidget {
   Iterable<String>? autofillHints;
   void Function(String?)? onSaved;
   String? hintText;
+  String? labelText;
 
   NameFormField({
     Key? key,
@@ -367,6 +381,7 @@ class NameFormField extends StatelessWidget {
     this.hintText,
     this.autofillHints = const [AutofillHints.name],
     this.initialValue,
+    this.labelText,
     this.onChanged,
     this.obscureText,
     this.decoration,
@@ -391,7 +406,8 @@ class NameFormField extends StatelessWidget {
       validator: ValidationConstants.nameValidator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: HintTexts.nameHint,
+        labelText: labelText,
         prefixIcon: const Icon(Icons.person_outline),
       ),
     );

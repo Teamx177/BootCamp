@@ -6,6 +6,16 @@ import 'package:hrms/core/themes/text_theme.dart';
 
 class DarkTheme {
   ThemeData theme = ThemeData(
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        surfaceTintColor: darkColorScheme.onSecondary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      ),
+    ),
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,

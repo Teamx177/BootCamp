@@ -7,6 +7,7 @@ import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/themes/dark_theme.dart';
 import 'package:hrms/core/themes/light_theme.dart';
 import 'package:hrms/firebase_options.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -34,14 +35,16 @@ class Hrms extends StatelessWidget {
           providers: [
             Provider<AuthService>(create: (_) => AuthService.firebase())
           ],
-          child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
-            title: 'HRMS',
-            theme: LightTheme().theme,
-            darkTheme: DarkTheme().theme,
-            routeInformationParser: router.routeInformationParser,
-            routerDelegate: router.routerDelegate,
+          child: OKToast(
+            child: MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+              title: 'HRMS',
+              theme: LightTheme().theme,
+              darkTheme: DarkTheme().theme,
+              routeInformationParser: router.routeInformationParser,
+              routerDelegate: router.routerDelegate,
+            ),
           ),
         );
       },

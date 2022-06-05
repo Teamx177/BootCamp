@@ -110,10 +110,8 @@ class _SettingsViewState extends State<SettingsView> {
                             ),
                             actions: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);

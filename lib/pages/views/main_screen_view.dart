@@ -41,7 +41,6 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     return Scaffold(
       extendBody: false,
       bottomNavigationBar: StylishBottomBar(
@@ -95,18 +94,19 @@ class _MainViewState extends State<MainView> {
         barAnimation: BarAnimation.fade,
         iconStyle: IconStyle.Default,
         hasNotch: false,
-        fabLocation: StylishBarFabLocation.center,
         opacity: 0.3,
         currentIndex: selected ?? 0,
         onTap: (index) {
-          setState(() {
-            selected = index!;
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.fastLinearToSlowEaseIn,
-            );
-          });
+          setState(
+            () {
+              selected = index!;
+              _pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.fastLinearToSlowEaseIn,
+              );
+            },
+          );
         },
       ),
       body: PageView(

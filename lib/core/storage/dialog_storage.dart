@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/managers/route_manager.dart';
+import 'package:hrms/pages/views/auth/widgets/form_field.dart';
+import 'package:oktoast/oktoast.dart';
 
 import '../managers/route_manager.dart';
 
@@ -22,6 +25,9 @@ Future<void> showErrorDialog(
                 ),
           ),
           onPressed: () {
+            if (FirebaseAuth.instance.currentUser != null) {
+              router.push('/home');
+            } else {}
             Navigator.of(context).pop();
           },
         ),
@@ -63,7 +69,6 @@ Future<void> showSuccessDialog(
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      // backgroundColor: const Color.fromARGB(255, 163, 190, 140),
       title: const Text(
         'Başarılı',
       ),
@@ -72,7 +77,6 @@ Future<void> showSuccessDialog(
         TextButton(
           child: const Text(
             'Tamam',
-            // style: TextStyle(color: Colors.black87),
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -109,4 +113,45 @@ Future<void> showOTPDialog({
       ],
     ),
   );
+}
+
+Future<void> showUpdatePhoneDialog({
+  required BuildContext context,
+  required TextEditingController phoneController,
+  required VoidCallback onPressed,
+}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => AlertDialog(
+      title: const Text("Yeni telefon numaranızı giriniz"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          PhoneFormField(
+            controller: phoneController,
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text("Vazgeç"),
+        ),
+        TextButton(
+          onPressed: onPressed,
+          child: const Text("Gönder"),
+        ),
+      ],
+    ),
+  );
+}
+
+void showOkToast({
+  required String text,
+}) {
+  showToast(text,
+      position: ToastPosition.bottom, backgroundColor: Colors.black45);
 }

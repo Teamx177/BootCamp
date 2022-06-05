@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/themes/padding.dart';
 
@@ -23,10 +24,7 @@ class _DetailsViewState extends State<DetailsView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('jobAdverts')
-            .doc(widget.docID)
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('jobAdverts').doc(widget.docID).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -65,8 +63,7 @@ class _DetailsViewState extends State<DetailsView> {
                             Expanded(
                               flex: 50,
                               child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.amber[50]),
+                                style: OutlinedButton.styleFrom(backgroundColor: Colors.amber[50]),
                                 onPressed: () {},
                                 child: Text(snapshot.data?.get('category')),
                               ),
@@ -77,8 +74,7 @@ class _DetailsViewState extends State<DetailsView> {
                             Expanded(
                               flex: 50,
                               child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.red),
+                                style: OutlinedButton.styleFrom(backgroundColor: Colors.red),
                                 onPressed: () {},
                                 child: const Text('Acil'),
                               ),
@@ -95,9 +91,7 @@ class _DetailsViewState extends State<DetailsView> {
                                 child: Text(
                                   '${snapshot.data?.get('minSalary')} - ${snapshot.data?.get('maxSalary')}',
                                 )),
-                            Expanded(
-                                flex: 25,
-                                child: Text(snapshot.data?.get('city'))),
+                            Expanded(flex: 25, child: Text(snapshot.data?.get('city'))),
                           ],
                         ),
                         const SizedBox(
@@ -113,8 +107,7 @@ class _DetailsViewState extends State<DetailsView> {
                                       selectedIndex = 0;
                                       setState(() {
                                         selectedIndex = 0;
-                                        selectedText =
-                                            snapshot.data?.get('description');
+                                        selectedText = snapshot.data?.get('description');
                                       });
                                     },
                                     child: const Text('Ilan detayı'))),
@@ -135,8 +128,7 @@ class _DetailsViewState extends State<DetailsView> {
                                     onPressed: () {
                                       setState(() {
                                         selectedIndex = 2;
-                                        selectedText =
-                                            snapshot.data?.get('fullAdress');
+                                        selectedText = snapshot.data?.get('fullAddress');
                                       });
                                     },
                                     child: const Text('Iletişim'))),
@@ -154,7 +146,19 @@ class _DetailsViewState extends State<DetailsView> {
                           height: 40,
                         ),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection('jobAdverts')
+                                  .doc(widget.docID)
+                                  .collection('applications')
+                                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                                  .update({
+                                'jobAdvertID': FieldValue.arrayUnion(
+                                  [widget.docID].toList(),
+                                ),
+                                'isApplied': true,
+                              });
+                            },
                             child: const Text('Şimdi Başvur')),
                       ],
                     ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/core/services/auth/auth_exceptions.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
 import 'package:hrms/core/storage/string_storage.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
@@ -19,8 +17,19 @@ class PhoneLoginView extends StatefulWidget {
 class _PhoneLoginViewState extends State<PhoneLoginView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _phoneController = TextEditingController();
+  late bool _isLoading;
 
-  String? value;
+  @override
+  void initState() {
+    _isLoading = false;
+    super.initState();
+  }
+
+  void load() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,43 +128,28 @@ class _PhoneLoginViewState extends State<PhoneLoginView> {
         onPressed: () async {
           final phoneNumber = ('+90${_phoneController.text}');
           if (_formKey.currentState!.validate()) {
-            try {
-              await AuthService.firebase()
-                  .phoneLogin(phoneNumber: phoneNumber, context: context);
-            } on UserNotFoundAuthException {
-              await showErrorDialog(
-                context,
-                ErrorTexts.userNotFound,
-              );
-            } on WrongPasswordAuthException {
-              await showErrorDialog(
-                context,
-                ErrorTexts.wrongPassword,
-              );
-            } on NetworkErrorException {
-              await showErrorDialog(
-                context,
-                ErrorTexts.networkError,
-              );
-            } on GenericAuthException {
-              await showErrorDialog(
-                context,
-                ErrorTexts.error,
-              );
-            } on TooManyRequestsAuthException {
-              await showErrorDialog(
-                context,
-                ErrorTexts.error,
-              );
-            }
+            await AuthService.firebase()
+                .phoneLogin(phoneNumber: phoneNumber, context: context);
           }
-          const Center(child: CircularProgressIndicator());
+
           final user = AuthService.firebase().currentUser;
           if (user != null) {
             router.go('/home');
           }
+          setState(() {
+            load();
+          });
         },
-        child: Text(AuthStatusTexts.signIn),
+        child: _isLoading
+            ? Container(
+                width: 24,
+                height: 24,
+                padding: const EdgeInsets.all(2.0),
+                child: const CircularProgressIndicator(
+                  strokeWidth: 3,
+                ),
+              )
+            : Text(AuthStatusTexts.signIn),
       ),
     );
   }

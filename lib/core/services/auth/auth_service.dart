@@ -14,12 +14,16 @@ class AuthService implements AuthProvider {
 
   @override
   Future<AuthUser> createUser({
+    required BuildContext context,
     required String email,
     required String password,
+    required String phoneNumber,
   }) =>
       provider.createUser(
+        context: context,
         email: email,
         password: password,
+        phoneNumber: phoneNumber,
       );
 
   @override
@@ -54,7 +58,17 @@ class AuthService implements AuthProvider {
       );
 
   @override
-  Future<void> phoneLogin({
+  Future<User?> phoneSingUp({
+    required String phoneNumber,
+    BuildContext? context,
+  }) =>
+      provider.phoneLogin(
+        phoneNumber: phoneNumber,
+        context: context!,
+      );
+
+  @override
+  Future<User?> phoneLogin({
     required String phoneNumber,
     required BuildContext context,
   }) =>
@@ -71,11 +85,16 @@ class AuthService implements AuthProvider {
   Future<void> updateDisplayName(String displayName, BuildContext context) =>
       provider.updateDisplayName(displayName, context);
   @override
-  Future<void> updateEmail(
-          String newEmail, String currentEmail, String currentPassword) =>
-      provider.updateEmail(newEmail, currentEmail, currentPassword);
+  Future<void> updateEmail(BuildContext context, String newEmail,
+          String currentEmail, String currentPassword) =>
+      provider.updateEmail(
+        context,
+        newEmail,
+        currentEmail,
+        currentPassword,
+      );
   @override
-  Future<void> updatePassword(
-          String email, String currentPassword, String newPassword) =>
-      provider.updatePassword(email, currentPassword, newPassword);
+  Future<void> updatePassword(BuildContext context, String email,
+          String currentPassword, String newPassword) =>
+      provider.updatePassword(context, email, currentPassword, newPassword);
 }

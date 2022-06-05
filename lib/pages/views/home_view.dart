@@ -122,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                                             var data = snapshot
                                                 .data?.docs[index]
                                                 .data() as Map<String, dynamic>;
+
                                             return Card(
                                               clipBehavior: Clip.antiAlias,
                                               margin:

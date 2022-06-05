@@ -26,6 +26,8 @@ class InvalidCredential implements Exception {}
 
 class OperationNotAllowed implements Exception {}
 
+class CredentialAlreadyUse implements Exception {}
+
 // generic exceptions
 
 class GenericAuthException implements Exception {}
