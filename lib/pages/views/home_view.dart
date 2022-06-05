@@ -5,7 +5,10 @@ import 'package:hrms/core/models/user.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/themes/padding.dart';
 import 'package:hrms/pages/views/details_view.dart';
+import 'package:hrms/pages/views/edit_form_view.dart';
 import 'package:hrms/pages/views/form_view.dart';
+
+import '../../core/storage/firebase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, currentUserType}) : super(key: key);
@@ -74,21 +77,20 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ])),
                               const Spacer(),
-                              Visibility(
-                                visible: !_isEmployee,
-                                child: IconButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute<void>(
-                                          builder: (BuildContext context) {
-                                            return const JobFormView();
-                                          },
-                                          fullscreenDialog: true,
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(Icons.add)),
-                              )
+                              snapshot.data?.get('type') == 'employee'
+                                  ? const SizedBox.shrink()
+                                  : IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) {
+                                              return const JobFormView();
+                                            },
+                                            fullscreenDialog: true,
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.add))
                             ],
                           ),
                           const SizedBox(
@@ -127,19 +129,34 @@ class _HomePageState extends State<HomePage> {
                                                 children: [
                                                   ListTile(
                                                     leading: const Icon(Icons.topic),
-                                                    trailing: Text(data['date']
-                                                        .toString()
-                                                        .substring(0, 10)),
-                                                    title: Text(data['title']),
-                                                    subtitle: Text(
-                                                      data['category'],
+                                                    title: Text(
+                                                      data['title'],
+                                                      style: const TextStyle(
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
                                                     ),
+                                                    subtitle: Text(
+                                                        "Kategori: ${data['category']}\n${data['date'].toString().substring(0, 10)}"),
                                                   ),
                                                   Padding(
                                                       padding: const EdgeInsets.all(16.0),
                                                       child: Text(
-                                                          "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}...")),
+                                                          "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}..."),
+                                                  ),
+                                                  data['applications'].toString().contains((FirebaseAuth.instance.currentUser?.uid).toString()) ?
                                                   TextButton(
+                                                    onPressed: null,
+                                                    style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty.all(
+                                                              Colors.grey),
+                                                    ),
+                                                    child: const Text(
+                                                      'Başvuru Yapıldı',
+                                                      style:
+                                                          TextStyle(color: Colors.white),
+                                                    ),
+                                                  ) : TextButton(
                                                     onPressed: () {
                                                       FirebaseFirestore.instance
                                                           .collection('jobAdverts')
@@ -206,11 +223,14 @@ class _HomePageState extends State<HomePage> {
                                               children: [
                                                 ListTile(
                                                   leading: const Icon(Icons.topic),
-                                                  trailing: Text(data['date']
-                                                      .toString()
-                                                      .substring(0, 10)),
-                                                  title: Text(data['title']),
-                                                  subtitle: Text(data['category']),
+                                                  title: Text(
+                                                    data['title'],
+                                                    style: const TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  subtitle: Text(
+                                                      "Kategori: ${data['category']}\n${data['date'].toString().substring(0, 10)}"),
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.all(16.0),
@@ -225,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (_) => DetailsView(
+                                                        builder: (_) => EditFormView(
                                                           docID: snapshot
                                                               .data?.docs[index].id,
                                                         ),

@@ -62,342 +62,57 @@ class _SearchViewState extends State<SearchView> {
               },
             ),
           ),
-          Expanded(
-            flex: 10,
-            child: IconButton(
-              icon: const Icon(Icons.filter_vintage),
-              onPressed: () {
-                setState(() {
-                  searchText = '';
-                  isListView = !isListView;
-                });
-              },
-            ),
-          ),
         ]),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('jobAdverts').snapshots(),
         builder: (context, snapshots) {
-          return (snapshots.connectionState == ConnectionState.waiting)
+          return
+            (snapshots.connectionState == ConnectionState.waiting)
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : isListView
-                  ? ListView.builder(
-                      itemCount: snapshots.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        var data =
-                            snapshots.data!.docs[index].data() as Map<String, dynamic>;
-                        if (data['title']
-                            .toString()
-                            .toLowerCase()
-                            .startsWith(searchText.toLowerCase())) {
-                          return ListTile(
-                            title: Text(
-                              "${data['title']}",
-                              style: const TextStyle(color: Colors.grey),
-                            ),
-                            subtitle: Text(
-                              data['city'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            onTap: () {
-                              FirebaseFirestore.instance
-                                  .collection('jobAdverts')
-                                  .doc(data['id']);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => DetailsView(
-                                    docID: snapshots.data?.docs[index].id,
-                                  ),
+              : Padding(
+                padding: const EdgeInsets.only(top:16.0),
+                child: ListView.builder(
+                        itemCount: snapshots.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          var data =
+                              snapshots.data!.docs[index].data() as Map<String, dynamic>;
+                          if (data['title']
+                              .toString()
+                              .toLowerCase()
+                              .startsWith(searchText.toLowerCase())) {
+                            return ListTile(
+                              title: Text(
+                                "${data['title']} - ${data['userName']}",
+                                style: const TextStyle(
+                                fontSize: 16,
+                                    fontWeight: FontWeight.bold
                                 ),
-                              );
-                            },
-                          );
-                        }
-                        return Container();
-                      })
-                  : Padding(
-                      padding: ProjectPadding.pagePaddingHorizontal,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              '  Hızlı Arama',
-                              style: GoogleFonts.rubik(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: MediaQuery.of(context).size.width * 0.42,
-                                  child: Card(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // backgroundColor: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0))),
-                                      onPressed: () {
-                                        var data = FirebaseFirestore.instance
-                                            .collection('jobAdverts')
-                                            .where('category', isEqualTo: 'Temizlik')
-                                            .get()
-                                            .then((value) => (value.docs.map((e) {
-                                                  setState(() {
-                                                    asd.add(e.data());
-                                                  });
-                                                })))
-                                            .then((value) => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          const AppliedsView()),
-                                                ));
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.deepOrange.shade300,
-                                                borderRadius: BorderRadius.circular(40)),
-                                            child: const Icon(Icons.cleaning_services),
-                                          ),
-                                          const Text('Temizlik'),
-                                          const Text('5 iş')
-                                        ],
-                                      ),
+                              subtitle: Text("${data['category']} / ${data['city']}",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              onTap: () {
+                                FirebaseFirestore.instance
+                                    .collection('jobAdverts')
+                                    .doc(data['id']);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => DetailsView(
+                                      docID: snapshots.data?.docs[index].id,
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: MediaQuery.of(context).size.width * 0.42,
-                                  child: Card(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // backgroundColor: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0))),
-                                      onPressed: () {
-                                        print('pressed');
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.deepOrange.shade300,
-                                                borderRadius: BorderRadius.circular(40)),
-                                            child: const Icon(Icons.cleaning_services),
-                                          ),
-                                          const Text('Nakliyat'),
-                                          const Text('4 iş'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: MediaQuery.of(context).size.width * 0.42,
-                                  child: Card(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // backgroundColor: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0))),
-                                      onPressed: () {
-                                        print('pressed');
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.deepOrange.shade300,
-                                                borderRadius: BorderRadius.circular(40)),
-                                            child: const Icon(Icons.cleaning_services),
-                                          ),
-                                          const Text('Nakliyat'),
-                                          const Text('4 iş'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: MediaQuery.of(context).size.width * 0.42,
-                                  child: Card(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // backgroundColor: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0))),
-                                      onPressed: () {
-                                        print('pressed');
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.deepOrange.shade300,
-                                                borderRadius: BorderRadius.circular(40)),
-                                            child: const Icon(Icons.cleaning_services),
-                                          ),
-                                          const Text('Nakliyat'),
-                                          const Text('4 iş'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: MediaQuery.of(context).size.width * 0.42,
-                                  child: Card(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // backgroundColor: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0))),
-                                      onPressed: () {
-                                        print('pressed');
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.deepOrange.shade300,
-                                                borderRadius: BorderRadius.circular(40)),
-                                            child: const Icon(Icons.cleaning_services),
-                                          ),
-                                          const Text('Nakliyat'),
-                                          const Text('4 iş'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: MediaQuery.of(context).size.width * 0.42,
-                                  child: Card(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // backgroundColor: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0))),
-                                      onPressed: () {
-                                        print('pressed');
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.deepOrange.shade300,
-                                                borderRadius: BorderRadius.circular(40)),
-                                            child: const Icon(Icons.cleaning_services),
-                                          ),
-                                          const Text('Nakliyat'),
-                                          const Text('4 iş'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: MediaQuery.of(context).size.width * 0.42,
-                                  child: Card(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // backgroundColor: Colors.amber,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0))),
-                                      onPressed: () {
-                                        print('pressed');
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.deepOrange.shade300,
-                                                borderRadius: BorderRadius.circular(40)),
-                                            child: const Icon(Icons.cleaning_services),
-                                          ),
-                                          const Text('Nakliyat'),
-                                          const Text('4 iş'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    );
+                                );
+                              },
+                            );
+                          }
+                          return Container();
+                        }),
+              );
         },
       ),
     );

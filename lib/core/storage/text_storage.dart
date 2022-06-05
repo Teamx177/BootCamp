@@ -12,11 +12,9 @@ class ValidateTexts {
   static String emptyPasswordControl = 'Lütfen şifrenizi tekrar giriniz.';
   static String passwordNotMatch = 'Şifreler uyuşmuyor.';
   static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
-  static String phoneNumberNotValid =
-      'Lütfen geçerli bir telefon numarası giriniz.';
+  static String phoneNumberNotValid = 'Lütfen geçerli bir telefon numarası giriniz.';
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
-  static String passwordCharacter =
-      'Şifrenizde en az bir özel karakter olmalıdır.';
+  static String passwordCharacter = 'Şifrenizde en az bir özel karakter olmalıdır.';
   static String descriptionLength = 'Açıklama en az 50 karakter olmalıdır.';
   static String titleLength = 'Başlık en az 10 karakter olmalıdır.';
   static String addressLenght = "Adres en az 15 karakter olmalıdır.";
@@ -60,8 +58,7 @@ class ErrorTexts {
   static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
   static String nameEmpty = 'İsim boş bırakılamaz.';
-  static String userNotFound =
-      'Girilen parametrelere ait bir kullanıcı bulunamadı.';
+  static String userNotFound = 'Girilen parametrelere ait bir kullanıcı bulunamadı.';
   static String wrongPassword = 'Girilen şifre hatalı.';
   static String invalidEmail = 'Lütfen geçerli bir email adresi giriniz.';
   static String weakPassword = 'Şifreniz zayıf';
@@ -74,8 +71,7 @@ class ErrorTexts {
   static String invalidVerificationCode = 'Geçersiz doğrulama kodu';
 
   // invalidverificationid
-  static String invalidVerificationId =
-      'Bu kullanıcının doğrulama id\'si bulunamadı';
+  static String invalidVerificationId = 'Bu kullanıcının doğrulama id\'si bulunamadı';
   static String tryAgainLater = 'Lütfen daha sonra tekrar deneyiniz.';
   static String errorOnExit = 'Çıkış yapılırken bir hata oluştu.';
 
@@ -85,19 +81,15 @@ class ErrorTexts {
 }
 
 class UpdateTexts {
-  static String passwordUpdate =
-      'Şifrenizi değiştirmek için bilgilerinizi giriniz';
-  static String emailUpdate =
-      'Email adresinizi değiştirmek için bilgilerinizi giriniz';
+  static String passwordUpdate = 'Şifrenizi değiştirmek için bilgilerinizi giriniz';
+  static String emailUpdate = 'Email adresinizi değiştirmek için bilgilerinizi giriniz';
   static String nameUpdate = "İsminizi giriniz";
   static String passwordUpdateSuccess = 'Şifreniz başarıyla değiştirildi.';
   static String emailUpdateSuccess = 'Email adresiniz başarıyla değiştirildi.';
   static String nameUpdateSuccess = 'İsim başarıyla değiştirildi.';
-  static String phoneNumberUpdateSuccess =
-      'Telefon numaranız başarıyla değiştirildi.';
+  static String phoneNumberUpdateSuccess = 'Telefon numaranız başarıyla değiştirildi.';
   static String cityUpdateSuccess = 'Şehir Bilgisi başarıyla güncellendi.';
-  static String confirmDeleteAccount =
-      'Hesabınızı silmek istediğinize emin misiniz?';
+  static String confirmDeleteAccount = 'Hesabınızı silmek istediğinize emin misiniz?';
   static String deleteAccount = 'Hesabınızı silmek için bilgilerinizi giriniz';
   static String deleteAccountSuccess = 'Hesabınız başarıyla silindi.';
   static String deleteAccountError = 'Hesabınızı silerken bir hata oluştu.';
@@ -108,8 +100,99 @@ class UpdateTexts {
 }
 
 class DropdownTexts {
-  static List<String> cities = ['Ankara', 'İstanbul', 'İzmir'];
-  static List<String> categories = ['Temizlik', 'İnşaat', 'Muhasebe', 'Eğitim'];
-  static List<String> genders = ['Erkek', 'Kadın','Farketmiyor'];
+  static List<String> cities = [
+    "Adana",
+    "Adıyaman",
+    "Afyonkarahisar",
+    "Ağrı",
+    "Amasya",
+    "Ankara",
+    "Antalya",
+    "Artvin",
+    "Aydın",
+    "Balıkesir",
+    "Bilecik",
+    "Bingöl",
+    "Bitlis",
+    "Bolu",
+    "Burdur",
+    "Bursa",
+    "Çanakkale",
+    "Çankırı",
+    "Çorum",
+    "Denizli",
+    "Diyarbakir",
+    "Edirne",
+    "Elazığ",
+    "Erzincan",
+    "Erzurum",
+    "Eskişehir",
+    "Gaziantep",
+    "Giresun",
+    "Gümüşhane",
+    "Hakkari",
+    "Hatay",
+    "Isparta",
+    "Mersin",
+    "İstanbul",
+    "İzmir",
+    "Kars",
+    "Kastamonu",
+    "Kayseri",
+    "Kırklareli",
+    "Kırşehir",
+    "Kocaeli",
+    "Konya",
+    "Kütahya",
+    "Malatya",
+    "Manisa",
+    "Kahramanmaraş",
+    "Mardin",
+    "Muğla",
+    "Muş",
+    "Nevşehir",
+    "Niğde",
+    "Ordu",
+    "Rize",
+    "Sakarya",
+    "Samsun",
+    "Siirt",
+    "Sinop",
+    "Sivas",
+    "Tekirdağ",
+    "Tokat",
+    "Trabzon",
+    "Tunceli",
+    "Şanlıurfa",
+    "Uşak",
+    "Van",
+    "Yozgat",
+    "Zonguldak",
+    "Aksaray",
+    "Bayburt",
+    "Karaman",
+    "Kırıkkale",
+    "Batman",
+    "Şırnak",
+    "Bartın",
+    "Ardahan",
+    "Iğdır",
+    "Yalova",
+    "Karabük",
+    "Kilis",
+    "Osmaniye",
+    "Düzce"
+  ];
+  static List<String> categories = [
+    'Temizlik',
+    'Tadilat',
+    'Nakliyat',
+    'Tamir',
+    "Özel Ders",
+    "Sağlık",
+    "Düğün",
+    "Diğer"
+  ];
+  static List<String> genders = ['Erkek', 'Kadın', 'Farketmiyor'];
   static List<String> shifts = ['1 Gün', '2-5 Gün', '5-10 Gün', '10-15 Gün'];
 }

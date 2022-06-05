@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
@@ -9,6 +10,8 @@ import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/themes/lib_color_schemes.g.dart';
 import 'package:hrms/core/themes/padding.dart';
 
+import '../../../core/storage/firebase.dart';
+
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
@@ -17,6 +20,24 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  String? _userType;
+
+  @override
+  initState() {
+    getUser();
+    super.initState();
+  }
+
+  Future<void> getUser() async {
+    final User? user = auth.currentUser;
+    await userRef.doc(user?.uid).get().then((doc) {
+      var userType = doc.data();
+      setState((){
+        _userType = userType?['type'];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     bool value;
@@ -57,18 +78,17 @@ class _ProfileViewState extends State<ProfileView> {
                 context.push('/edit-profile');
               },
             )),
-            _customContainer(
-                child: TextButton.icon(
-              icon: const Icon(Icons.favorite_outline),
-              label: const Text('Favorilerim'),
-              onPressed: () {
-                context.push('/favorites');
-              },
-            )),
-            _customContainer(
+            _userType == "employee" ? _customContainer(
                 child: TextButton.icon(
               icon: const Icon(Icons.approval_outlined),
               label: const Text('Başvurularım'),
+              onPressed: () {
+                context.push('/applied-jobs');
+              },
+            )) : _customContainer(
+                child: TextButton.icon(
+              icon: const Icon(Icons.approval_outlined),
+              label: const Text('Gelen Başvurular'),
               onPressed: () {
                 context.push('/applied-jobs');
               },

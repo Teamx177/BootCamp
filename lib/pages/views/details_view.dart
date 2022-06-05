@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/themes/padding.dart';
+
+import '../../core/storage/dialog_storage.dart';
+import '../../core/storage/firebase.dart';
 
 class DetailsView extends StatefulWidget {
   final String? docID;
@@ -12,12 +16,24 @@ class DetailsView extends StatefulWidget {
 }
 
 class _DetailsViewState extends State<DetailsView> {
-  late int selectedIndex;
+  late int _selectedIndex;
+  String? _userType;
 
   @override
   void initState() {
-    selectedIndex = 0;
+    _selectedIndex = 0;
+    getUser();
     super.initState();
+  }
+
+  Future<void> getUser() async {
+    final User? user = auth.currentUser;
+    await userRef.doc(user?.uid).get().then((doc) {
+      var userType = doc.data();
+     setState((){
+        _userType = userType?['type'];
+     });
+    });
   }
 
   @override
@@ -58,27 +74,13 @@ class _DetailsViewState extends State<DetailsView> {
                         ),
                         Text(snapshot.data?.get('title')),
                         const SizedBox(
-                          height: 10,
+                          height: 25,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Expanded(
-                              flex: 50,
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(snapshot.data?.get('category')),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              flex: 50,
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(snapshot.data?.get('city')),
-                              ),
-                            ),
+                            Text(snapshot.data?.get('category')),
+                            Text(snapshot.data?.get('city')),
                           ],
                         ),
                         const SizedBox(
@@ -92,10 +94,10 @@ class _DetailsViewState extends State<DetailsView> {
                                     autofocus: true,
                                     style: TextButton.styleFrom(
                                         backgroundColor:
-                                            selectedIndex == 0 ? Colors.green : null),
+                                            _selectedIndex == 0 ? Colors.green : null),
                                     onPressed: () async {
                                       setState(() {
-                                        selectedIndex = 0;
+                                        _selectedIndex = 0;
                                       });
                                     },
                                     child: const Text('Açıklaması'))),
@@ -104,10 +106,10 @@ class _DetailsViewState extends State<DetailsView> {
                                 child: TextButton(
                                     style: TextButton.styleFrom(
                                         backgroundColor:
-                                            selectedIndex == 1 ? Colors.green : null),
+                                            _selectedIndex == 1 ? Colors.green : null),
                                     onPressed: () {
                                       setState(() {
-                                        selectedIndex = 1;
+                                        _selectedIndex = 1;
                                       });
                                     },
                                     child: const Text('Özellikler'))),
@@ -116,10 +118,10 @@ class _DetailsViewState extends State<DetailsView> {
                                 child: TextButton(
                                     style: TextButton.styleFrom(
                                         backgroundColor:
-                                            selectedIndex == 2 ? Colors.green : null),
+                                            _selectedIndex == 2 ? Colors.green : null),
                                     onPressed: () {
                                       setState(() {
-                                        selectedIndex = 2;
+                                        _selectedIndex = 2;
                                       });
                                     },
                                     child: const Text('Iletişim'))),
@@ -130,37 +132,37 @@ class _DetailsViewState extends State<DetailsView> {
                           height: MediaQuery.of(context).size.height * 0.33,
                           child: Align(
                             alignment: Alignment.center,
-                            child: (selectedIndex == 0)
+                            child: (_selectedIndex == 0)
                                 ? Text(snapshot.data?.get('description'))
-                                : (selectedIndex == 1)
+                                : (_selectedIndex == 1)
                                     ? Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Text(
-                                            "Ücret",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text(
+                                                "Ücret",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                  "${snapshot.data?.get('minSalary')} TL - ${snapshot.data?.get('maxSalary')} TL"),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              const Text(
+                                                "Aranan Cinsiyet",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text("${snapshot.data?.get('gender')}"),
+                                            ],
                                           ),
-                                          Text(
-                                              "${snapshot.data?.get('minSalary')} TL - ${snapshot.data?.get('maxSalary')} TL"),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          const Text(
-                                            "Aranan Cinsiyet",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text("${snapshot.data?.get('gender')}"),
-                                        ],
-                                      ),
                                         ],
                                       )
                                     : Column(
@@ -192,8 +194,32 @@ class _DetailsViewState extends State<DetailsView> {
                         const SizedBox(
                           height: 40,
                         ),
-                        ElevatedButton(
-                            onPressed: () {}, child: const Text('Şimdi Başvur')),
+                        _userType == "employee" &&
+                                !snapshot.data!.get('applications').toString().contains(
+                                    (FirebaseAuth.instance.currentUser!.uid).toString())
+                            ? ElevatedButton(
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection("jobAdverts")
+                                      .doc(widget.docID)
+                                      .update({
+                                        'applications': FieldValue.arrayUnion(
+                                            [FirebaseAuth.instance.currentUser?.uid])
+                                      })
+                                      .then((_) => showSuccessDialog(
+                                          context, "Başvurunuz alındı."))
+                                      .then(
+                                        (value) {
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                },
+                                child: const Text('Başvur'),
+                              )
+                            : _userType == "employer" ? Text("") : const ElevatedButton(
+                                onPressed: null,
+                                child: Text('Başvuru Yapıldı'),
+                              ),
                       ],
                     ),
                   ),
