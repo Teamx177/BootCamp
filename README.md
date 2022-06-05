@@ -180,6 +180,6 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 - **Sprint Retrospective**:
 
   - Ekip olarak herkes geliştirmeye katkıda bulundu.
-  - İletişime önem verildi.
+  - Ekip dinamiği güçlüydü.
   - Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi mantığı kabul edildi.
 
