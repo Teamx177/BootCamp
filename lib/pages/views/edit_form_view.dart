@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/storage/text_storage.dart';
 import 'package:hrms/core/storage/validation_storage.dart';
 import 'package:hrms/core/themes/padding.dart';
 
 import '../../core/storage/dialog_storage.dart';
-import '../../core/storage/firebase.dart';
 
-class JobFormView extends StatefulWidget {
-  const JobFormView({Key? key}) : super(key: key);
+class EditFormView extends StatefulWidget {
+  final String? docID;
+
+  const EditFormView({Key? key, this.docID}) : super(key: key);
 
   @override
-  State<JobFormView> createState() => _JobFormViewState();
+  State<EditFormView> createState() => _EditFormViewState();
 }
 
-class _JobFormViewState extends State<JobFormView> {
+class _EditFormViewState extends State<EditFormView> {
   late String _category = "Temizlik";
   late String _shift = "1 Gün";
   late String _gender = "Erkek";
-  late String _city = "Ankara";
+  late String _city = "ANKARA";
   late int _index = 0;
 
   final _formKey = GlobalKey<FormState>();
@@ -29,8 +29,6 @@ class _JobFormViewState extends State<JobFormView> {
   late TextEditingController _fullAddressController;
   late TextEditingController _minSalaryController;
   late TextEditingController _maxSalaryController;
-  late String _userName;
-  late String _phoneNumber;
 
   @override
   initState() {
@@ -43,25 +41,35 @@ class _JobFormViewState extends State<JobFormView> {
     super.initState();
   }
 
-  Future<String> getUser() async {
-    final User? user = auth.currentUser;
-    await userRef.doc(user?.uid).get().then((doc) {
-      var userType = doc.data();
-      _userName = userType?['name'];
-      _phoneNumber = userType?['phone'];
+  Future<void> getUser() async {
+    await FirebaseFirestore.instance.collection("jobAdverts").doc(widget.docID).get().then((doc) {
+      var snapshot = doc.data();
+      _titleController.text = snapshot!['title'];
+      _descriptionController.text = snapshot['description'];
+      _fullAddressController.text = snapshot['fullAddress'];
+      _minSalaryController.text = snapshot['minSalary'].toString();
+      _maxSalaryController.text = snapshot['maxSalary'].toString();
+      setState(() {
+        _category = snapshot['category'];
+        _shift = snapshot['shift'];
+        _city = snapshot['city'];
+        _gender = snapshot['gender'];
+      });
     });
-
-    return _userName;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         // backgroundColor: Colors.black,
         centerTitle: true,
         title: Column(
-          children: [const SizedBox(height: 25), Text('İş İlanı Oluştur ${_index + 1}/2')],
+          children: [const SizedBox(height: 25), Text('İlanı Düzenle ${_index + 1}/2')],
         ),
       ),
       body: SingleChildScrollView(
@@ -283,10 +291,7 @@ class _JobFormViewState extends State<JobFormView> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   if (int.parse(_maxSalaryController.text) > int.parse(_minSalaryController.text)) {
-                    FirebaseFirestore.instance.collection("jobAdverts").doc().set({
-                      'userId': FirebaseAuth.instance.currentUser!.uid,
-                      'userName': _userName,
-                      'date': DateTime.now().toString(),
+                    FirebaseFirestore.instance.collection("jobAdverts").doc(widget.docID).update({
                       'title': _titleController.text,
                       'description': _descriptionController.text,
                       'fullAddress': _fullAddressController.text,
@@ -296,16 +301,14 @@ class _JobFormViewState extends State<JobFormView> {
                       'shift': _shift,
                       'gender': _gender,
                       'city': _city,
-                      'phone': _phoneNumber,
-                      'applications': FieldValue.arrayUnion([])
                     }).then((_) =>
-                        showSuccessDialog(context, "İlan başarıyla paylaşıldı").then((_) => Navigator.pop(context)));
+                        showSuccessDialog(context, "İlan başarıyla güncellendi").then((_) => Navigator.pop(context)));
                   } else {
                     showErrorDialog(context, "Minimum ücret Maksimum ücret'ten büyük olamaz!");
                   }
                 }
               },
-              child: const Text('Paylaş'),
+              child: const Text('Kaydet'),
             ),
           ],
         )

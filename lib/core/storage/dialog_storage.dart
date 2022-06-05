@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/managers/route_manager.dart';
 import 'package:hrms/pages/views/auth/widgets/form_field.dart';
@@ -25,9 +24,6 @@ Future<void> showErrorDialog(
                 ),
           ),
           onPressed: () {
-            if (FirebaseAuth.instance.currentUser != null) {
-              router.push('/home');
-            } else {}
             Navigator.of(context).pop();
           },
         ),
@@ -152,6 +148,5 @@ Future<void> showUpdatePhoneDialog({
 void showOkToast({
   required String text,
 }) {
-  showToast(text,
-      position: ToastPosition.bottom, backgroundColor: Colors.black45);
+  showToast(text, position: ToastPosition.bottom, backgroundColor: Colors.black45);
 }

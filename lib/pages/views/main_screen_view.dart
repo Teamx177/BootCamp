@@ -5,6 +5,8 @@ import 'package:hrms/pages/views/profile/profile_view.dart';
 import 'package:hrms/pages/views/search_view.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
+import 'notify_view.dart';
+
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
 
@@ -20,7 +22,7 @@ class _MainViewState extends State<MainView> {
     return <Widget>[
       const HomePage(),
       const SearchView(),
-      const HomePage(),
+      const NotifyView(),
       const ProfileView(),
     ];
   }

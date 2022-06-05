@@ -34,32 +34,54 @@ class _SearchViewState extends State<SearchView> {
     FirebaseFirestore.instance.collection('jobAdverts').snapshots();
   }
 
+  getCategory() {
+    var a = FirebaseFirestore.instance
+        .collection('jobAdverts')
+        .doc()
+        .snapshots()
+        .where((event) => event.data()?['category']);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Row(children: [
-          Expanded(
-            flex: 90,
-            child: TextField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Ara',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  if (value.isEmpty) {
-                    isListView = false;
-                  } else {
-                    isListView = true;
-                  }
-                  searchText = value;
-                });
-              },
-            ),
+        title: TextField(
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            hintText: 'Ara',
           ),
-        ]),
+          onChanged: (value) {
+            setState(() {
+              if (value.isEmpty) {
+                isListView = false;
+              } else {
+                isListView = true;
+              }
+              searchText = value;
+            });
+          },
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('jobAdverts').where('category').snapshots(),
+              builder: (context, snapshot) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    OutlinedButton(
+                        onPressed: () {
+                          print(snapshot.data?.docs.map((e) => e.get(
+                                'category',
+                              )));
+                        },
+                        child: const Text('Temizlik')),
+                  ],
+                );
+              }),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('jobAdverts').snapshots(),

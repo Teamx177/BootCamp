@@ -6,14 +6,23 @@ import 'package:hrms/core/themes/text_theme.dart';
 
 class DarkTheme {
   ThemeData theme = ThemeData(
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        surfaceTintColor: darkColorScheme.onSecondary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(darkColorScheme.onSecondary),
+        backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return darkColorScheme.tertiary;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Colors.grey;
+          }
+          return darkColorScheme.secondary;
+        }),
+        visualDensity: VisualDensity.standard,
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
         ),
-        // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       ),
     ),
     appBarTheme: const AppBarTheme(
@@ -43,8 +52,7 @@ class DarkTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(darkColorScheme.onSecondary),
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
+        backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
           if (states.contains(MaterialState.pressed)) {
             return darkColorScheme.tertiary;
           } else if (states.contains(MaterialState.disabled)) {
@@ -52,8 +60,7 @@ class DarkTheme {
           }
           return darkColorScheme.secondary;
         }),
-        fixedSize:
-            (MaterialStateProperty.all(const Size(double.maxFinite, 40))),
+        fixedSize: (MaterialStateProperty.all(const Size(double.maxFinite, 40))),
         visualDensity: VisualDensity.standard,
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(

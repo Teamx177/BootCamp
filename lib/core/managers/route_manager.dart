@@ -11,6 +11,7 @@ import 'package:hrms/pages/views/main_screen_view.dart';
 import 'package:hrms/pages/views/profile/applied_forms.dart';
 import 'package:hrms/pages/views/profile/edit_profile_view.dart';
 import 'package:hrms/pages/views/profile/favorites_view.dart';
+import 'package:hrms/pages/views/profile/incoming_applications_view.dart';
 import 'package:hrms/pages/views/profile/profile_view.dart';
 import 'package:hrms/pages/views/profile/settings.dart';
 import 'package:hrms/pages/views/search_view.dart';
@@ -22,8 +23,7 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => const LoadingPage(),
-      redirect: (_) =>
-          FirebaseAuth.instance.currentUser != null ? '/home' : '/login',
+      redirect: (_) => FirebaseAuth.instance.currentUser != null ? '/home' : '/login',
     ),
     GoRoute(
       path: '/splash',
@@ -78,10 +78,15 @@ final router = GoRouter(
       builder: (context, state) => const SearchView(),
     ),
     GoRoute(
-        path: '/details',
-        builder: (context, state) {
-          return const DetailsView();
-        }),
+      path: '/details',
+      builder: (context, state) {
+        return const DetailsView();
+      },
+    ),
+    GoRoute(
+      path: '/incoming-applications',
+      builder: (context, state) => const IncomingApplicationsView(),
+    ),
   ],
   errorPageBuilder: (context, state) => MaterialPage<void>(
     child: Scaffold(

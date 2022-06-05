@@ -126,21 +126,60 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![profilepage darkMode](https://user-images.githubusercontent.com/100482891/169692169-0a206cf5-7b0c-4896-94ab-aa3d1c05875e.png)
 
 
-- **Sprint Review**: ALınan Kararlar: Uygulama için logo tasarlanacak. UX design'a daha çok önem verilecek. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
+- **Sprint Review**: Alınan Kararlar: Uygulama için logo tasarlanacak. UX design'a daha çok önem verilecek. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
 
 
 - **Sprint Retrospective:**
-  - 2. sprint süresi içinde ekipteki herkesin geliştirme kısmında katkısı oldu.
+  - 2.sprint süresi içinde ekipteki herkesin geliştirme kısmında katkısı oldu.
   - Sesli ve görüntülü konuşmanın ekipteki kişiler için uygun olmadığı zamanlarda bazı görüşmelerin Discord üzerinden mesajlaşma aracılığıyla yapılmasına karar    
-    verildi.
+  verildi.
   
-
-
-
 
 
 ---
 
 # Sprint 3
 
----
+- **Sprint Notları**: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
+
+- **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan
+
+- **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2. sprint için 130, 3. sprint için ise 70 puan olarak dağıtılmasına karar verildi.
+
+- **Backlog düzeni ve Story seçimleri**: Backlog'umuz ilk yapılacak story'lere göre düzenlenmiştir. Sprint başına tahmin edilen puan sayısını geçmeyecek şekilde sıradan seçimler yapılmaktadır. Story başına çıkan tahmin puanı, toplam puanın yarısından az tutulmuştur.
+
+Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her bir task ve onlara ait story'ler farklı renkler ile temsil edilmektedir.
+
+- **Daily Scrum**: Daily Scrum toplantılarının ekip üyelerinin oy birliği ile Discord üzerinden yapılmasına karar verilmiştir. Daily Scrum toplantısı örneği jpeg veya word olarak Readme'de tarafımızdan paylaşılmaktadır:
+
+![1](https://user-images.githubusercontent.com/100482891/172007477-1f21add1-abe4-462b-94cc-a5db76245a6c.jpg)
+![2](https://user-images.githubusercontent.com/100482891/172007567-d53b07f1-87fd-4b99-a088-996a4de8c5bc.jpg)
+![3](https://user-images.githubusercontent.com/100482891/172007773-c88b471e-8844-4a39-8d60-ff8084cf3f39.jpg)
+![4](https://user-images.githubusercontent.com/100482891/172007778-e236f904-797d-4515-ba72-be610706dae0.jpg)
+![5](https://user-images.githubusercontent.com/100482891/172007785-ca48f456-5deb-4234-a6f0-63599e9cdb16.jpg)
+
+
+- **Sprint board update**: Sprint board screenshotları:
+
+![Kanban Framework3](https://user-images.githubusercontent.com/100482891/172007836-b298ddd3-7464-427c-a834-72be6b9d1cdd.jpg)
+![Kanban Framework4](https://user-images.githubusercontent.com/100482891/172007847-4143c76e-1eda-45e4-a06f-dfbf044f88bb.jpg)
+![Kanban Framework5](https://user-images.githubusercontent.com/100482891/172007853-6465e1aa-cbb1-4be0-acd2-c5c4755eba68.jpg)
+![Kanban Framework6](https://user-images.githubusercontent.com/100482891/172007856-0c51154e-d3c8-4a85-9f34-084d8acd2c14.jpg)
+![Kanban Framework7](https://user-images.githubusercontent.com/100482891/172007859-7840bc62-7349-4bee-9eb5-165f1864442e.jpg)
+![Kanban Framework8](https://user-images.githubusercontent.com/100482891/172007860-bbab16d9-111e-47e2-abaf-1ae18d421bb1.jpg)
+
+
+- **Ürün Durumu**: Ekran görüntüleri:
+
+
+
+- **Sprint Review**: Alınan Kararlar: 
+
+
+
+- **Sprint Retrospective**:
+
+  - Ekip olarak herkes geliştirmeye katkıda bulundu.
+  - Ekip dinamiği güçlüydü.
+  - Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi mantığı kabul edildi.
+

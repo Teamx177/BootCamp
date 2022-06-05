@@ -5,6 +5,7 @@ import 'package:hrms/core/models/user.dart';
 import 'package:hrms/core/services/auth/auth_service.dart';
 import 'package:hrms/core/themes/padding.dart';
 import 'package:hrms/pages/views/details_view.dart';
+import 'package:hrms/pages/views/edit_form_view.dart';
 import 'package:hrms/pages/views/form_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String _orderBy = 'date';
   late final _userData;
   late String userName = '';
   late bool _isEmployee;
@@ -30,10 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _userData = FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .snapshots();
+    _userData = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots();
     userName = '';
     _isEmployee = false;
     super.initState();
@@ -48,8 +45,7 @@ class _HomePageState extends State<HomePage> {
         child: SafeArea(
           child: StreamBuilder<DocumentSnapshot>(
             stream: _userData,
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               userName = '\n ${snapshot.data?.get('name')}';
               return (!snapshot.hasData)
                   ? const Center(
@@ -76,131 +72,103 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ])),
                               const Spacer(),
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) {
-                                          return const JobFormView();
-                                        },
-                                        fullscreenDialog: true,
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.add)),
+                              snapshot.data?.get('type') == 'employee'
+                                  ? const SizedBox.shrink()
+                                  : IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) {
+                                              return const JobFormView();
+                                            },
+                                            fullscreenDialog: true,
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.add))
                             ],
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          if (_isEmployee =
-                              snapshot.data?.get('type') == 'employee')
+                          if (_isEmployee = snapshot.data?.get('type') == 'employee')
                             StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection('jobAdverts')
-                                  .orderBy(_orderBy, descending: true)
+                                  .orderBy('date', descending: true)
                                   .snapshots()
                                   .map((snapshot) => snapshot),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 return (!snapshot.hasData)
                                     ? const Center(
                                         child: CircularProgressIndicator(),
                                       )
                                     : RefreshIndicator(
                                         onRefresh: () async {
-                                          await Future.delayed(
-                                              const Duration(seconds: 1));
+                                          await Future.delayed(const Duration(seconds: 1));
                                         },
                                         child: ListView.builder(
                                           shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
+                                          physics: const NeverScrollableScrollPhysics(),
                                           itemCount: snapshot.data?.docs.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            var data = snapshot
-                                                .data?.docs[index]
-                                                .data() as Map<String, dynamic>;
-
+                                          itemBuilder: (BuildContext context, int index) {
+                                            var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
                                             return Card(
                                               clipBehavior: Clip.antiAlias,
-                                              margin:
-                                                  const EdgeInsets.all(16.0),
+                                              margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
                                               child: Column(
                                                 children: [
                                                   ListTile(
-                                                    leading:
-                                                        const Icon(Icons.topic),
-                                                    trailing: Text(data['date']
-                                                        .toString()
-                                                        .substring(0, 10)),
-                                                    title: Text(data['title']),
-                                                    subtitle: Text(
-                                                      "Maaş : ${data['minSalary']} TL - "
-                                                      "${data['maxSalary']} TL",
+                                                    leading: const Icon(Icons.topic),
+                                                    title: Text(
+                                                      data['title'],
                                                       style: const TextStyle(
-                                                          color: Colors.grey),
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
                                                     ),
+                                                    subtitle: Text(
+                                                        "Kategori: ${data['category']}\n${data['date'].toString().substring(0, 10)}"),
                                                   ),
                                                   Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16.0),
+                                                    padding: const EdgeInsets.all(16.0),
                                                     child: Text(
-                                                      data['description'],
-                                                    ),
+                                                        "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}..."),
                                                   ),
-                                                  ButtonBar(
-                                                    alignment: MainAxisAlignment
-                                                        .spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          const Text(
-                                                              "Kategori:"),
-                                                          Text(
-                                                            data['category'],
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Text(data['userName']),
-                                                    ],
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      FirebaseFirestore.instance
-                                                          .collection(
-                                                              'jobAdverts')
-                                                          .doc(data['id']);
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              DetailsView(
-                                                            docID: snapshot
-                                                                .data
-                                                                ?.docs[index]
-                                                                .id,
+                                                  data['applications']
+                                                          .toString()
+                                                          .contains((FirebaseAuth.instance.currentUser?.uid).toString())
+                                                      ? TextButton(
+                                                          onPressed: null,
+                                                          style: ButtonStyle(
+                                                            backgroundColor: MaterialStateProperty.all(Colors.grey),
+                                                          ),
+                                                          child: const Text(
+                                                            'Başvuru Yapıldı',
+                                                            style: TextStyle(color: Colors.white),
+                                                          ),
+                                                        )
+                                                      : TextButton(
+                                                          onPressed: () {
+                                                            FirebaseFirestore.instance
+                                                                .collection('jobAdverts')
+                                                                .doc(data['id']);
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (_) => DetailsView(
+                                                                  docID: snapshot.data?.docs[index].id,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          style: ButtonStyle(
+                                                            backgroundColor: MaterialStateProperty.all(Colors.red),
+                                                          ),
+                                                          child: const Text(
+                                                            'Detay Sayfası',
+                                                            style: TextStyle(color: Colors.white),
                                                           ),
                                                         ),
-                                                      );
-                                                    },
-                                                    style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(Colors.red),
-                                                    ),
-                                                    child: const Text(
-                                                      'Başvuru Yap',
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ),
                                                   const SizedBox(
                                                     height: 10,
                                                   )
@@ -216,98 +184,60 @@ class _HomePageState extends State<HomePage> {
                             StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection('jobAdverts')
-                                  .where('userId',
-                                      isEqualTo: AuthService.firebase()
-                                          .currentUser
-                                          ?.uid)
+                                  .where('userId', isEqualTo: AuthService.firebase().currentUser?.uid)
+                                  .orderBy('date', descending: true)
                                   .snapshots()
                                   .map((snapshot) => snapshot),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 return (!snapshot.hasData)
                                     ? const Center(
                                         child: CircularProgressIndicator(),
                                       )
                                     : ListView.builder(
                                         shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
+                                        physics: const NeverScrollableScrollPhysics(),
                                         itemCount: snapshot.data?.docs.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          var data = snapshot.data?.docs[index]
-                                              .data() as Map<String, dynamic>;
+                                        itemBuilder: (BuildContext context, int index) {
+                                          var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
                                           return Card(
                                             clipBehavior: Clip.antiAlias,
-                                            margin: const EdgeInsets.all(16.0),
+                                            margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
                                             child: Column(
                                               children: [
                                                 ListTile(
-                                                  leading:
-                                                      const Icon(Icons.topic),
-                                                  trailing: Text(data['date']
-                                                      .toString()
-                                                      .substring(0, 10)),
-                                                  title: Text(data['title']),
-                                                  subtitle: Text(
-                                                    "Maaş : ${data['minSalary']} TL - "
-                                                    "${data['maxSalary']} TL",
+                                                  leading: const Icon(Icons.topic),
+                                                  title: Text(
+                                                    data['title'],
                                                     style: const TextStyle(
-                                                        color: Colors.grey),
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
                                                   ),
+                                                  subtitle: Text(
+                                                      "Kategori: ${data['category']}\n${data['date'].toString().substring(0, 10)}"),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
+                                                  padding: const EdgeInsets.all(16.0),
                                                   child: Text(
-                                                    data['description'],
-                                                  ),
-                                                ),
-                                                ButtonBar(
-                                                  alignment: MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        const Text("Kategori:"),
-                                                        Text(
-                                                          data['category'],
-                                                          style: const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Text(data['userName']),
-                                                  ],
+                                                      "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}..."),
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    FirebaseFirestore.instance
-                                                        .collection(
-                                                            'jobAdverts')
-                                                        .doc(data['id']);
+                                                    FirebaseFirestore.instance.collection('jobAdverts').doc(data['id']);
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            DetailsView(
-                                                          docID: snapshot.data
-                                                              ?.docs[index].id,
+                                                        builder: (_) => EditFormView(
+                                                          docID: snapshot.data?.docs[index].id,
                                                         ),
                                                       ),
                                                     );
                                                   },
                                                   style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(Colors.red),
+                                                    backgroundColor: MaterialStateProperty.all(Colors.red),
                                                   ),
                                                   child: const Text(
                                                     'Ilanı Düzenle',
-                                                    style: TextStyle(
-                                                        color: Colors.white),
+                                                    style: TextStyle(color: Colors.white),
                                                   ),
                                                 ),
                                                 const SizedBox(

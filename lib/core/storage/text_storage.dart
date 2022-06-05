@@ -15,6 +15,11 @@ class ValidateTexts {
   static String phoneNumberNotValid = 'Lütfen geçerli bir telefon numarası giriniz.';
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
   static String passwordCharacter = 'Şifrenizde en az bir özel karakter olmalıdır.';
+  static String descriptionLength = 'Açıklama en az 50 karakter olmalıdır.';
+  static String titleLength = 'Başlık en az 10 karakter olmalıdır.';
+  static String addressLenght = "Adres en az 15 karakter olmalıdır.";
+  static String emptySalaryField = "Boş bırakılamaz.";
+  static String emptyField = "Bu alan boş bırakılamaz.";
 }
 
 class AuthStatusTexts {
