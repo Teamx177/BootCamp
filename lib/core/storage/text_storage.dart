@@ -44,7 +44,7 @@ class AuthStatusTexts {
 class HintTexts {
   static String cityHint = 'Şehir';
   static String nameHint = 'İsminiz';
-  static String phoneNumberHint = 'Telefon No: 5554443322';
+  static String phoneNumberHint = '5554443322';
   static String emailHint = 'email@adres.com';
   static String passwordHint = 'Şifreniz';
   static String passwordControlHint = 'Şifrenizi tekrar giriniz';

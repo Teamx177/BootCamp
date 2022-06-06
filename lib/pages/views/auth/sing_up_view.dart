@@ -222,9 +222,7 @@ class _SingUpViewState extends State<SingUpView> {
         value: _userType,
         decoration: const InputDecoration(
           prefixIcon: Icon(Icons.supervised_user_circle_rounded),
-          prefixText: "Kullanıcı Tipi: ",
-          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 12),
-          constraints: BoxConstraints(maxWidth: 300),
+          labelText: 'Kullanıcı Tipi',
         ),
         items: _userTypes.map((String items) {
           return DropdownMenuItem(
@@ -248,9 +246,7 @@ class _SingUpViewState extends State<SingUpView> {
         value: _city,
         decoration: const InputDecoration(
           prefixIcon: Icon(Icons.location_on),
-          prefixText: "Şehir: ",
-          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 12),
-          constraints: BoxConstraints(maxWidth: 300),
+          labelText: 'Şehir',
         ),
         items: DropdownTexts.cities.map((String items) {
           return DropdownMenuItem(

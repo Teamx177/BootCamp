@@ -101,8 +101,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updateEmail(snapshot, context),
                                   SizedBox(height: ProjectPadding.inputBoxHeight),
-                                  _updatePhone(snapshot, context),
-                                  SizedBox(height: ProjectPadding.inputBoxHeight),
+                                  // _updatePhone(snapshot, context),
+                                  // SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updatePassword(context),
                                   SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updateCity(snapshot, context),
@@ -430,43 +430,43 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
-  Row _updatePhone(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
-    String phone = '${snapshot.data?.get('phone')}';
-    return Row(
-      children: [
-        Expanded(
-          flex: 85,
-          child: PhoneFormField(
-            enabled: false,
-            labelText: phone.substring(3),
-            validator: ValidationConstants.phoneValidator,
-            onChanged: (value) {
-              setState(() {
-                _phoneController.text = value;
-              });
-            },
-          ),
-        ),
-        Expanded(
-          flex: 15,
-          child: IconButton(
-            icon: const Icon(Icons.edit_outlined),
-            onPressed: () async {
-              showUpdatePhoneDialog(
-                  context: context,
-                  phoneController: _phoneController,
-                  onPressed: () async {
-                    await AuthService.firebase()
-                        .updatePhone(('+90${_phoneController.text}'), context)
-                        .then((value) => const CircularProgressIndicator.adaptive())
-                        .then((value) => Navigator.pop(context));
-                  });
-            },
-          ),
-        ),
-      ],
-    );
-  }
+  // Row _updatePhone(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
+  //   String phone = '${snapshot.data?.get('phone')}';
+  //   return Row(
+  //     children: [
+  //       Expanded(
+  //         flex: 85,
+  //         child: PhoneFormField(
+  //           enabled: false,
+  //           labelText: phone.substring(3),
+  //           validator: ValidationConstants.phoneValidator,
+  //           onChanged: (value) {
+  //             setState(() {
+  //               _phoneController.text = value;
+  //             });
+  //           },
+  //         ),
+  //       ),
+  //       Expanded(
+  //         flex: 15,
+  //         child: IconButton(
+  //           icon: const Icon(Icons.edit_outlined),
+  //           onPressed: () async {
+  //             showUpdatePhoneDialog(
+  //                 context: context,
+  //                 phoneController: _phoneController,
+  //                 onPressed: () async {
+  //                   await AuthService.firebase()
+  //                       .updatePhone(('+90${_phoneController.text}'), context)
+  //                       .then((value) => const CircularProgressIndicator.adaptive())
+  //                       .then((value) => Navigator.pop(context));
+  //                 });
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   @override
   void dispose() {

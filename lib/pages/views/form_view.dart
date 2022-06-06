@@ -69,25 +69,31 @@ class _JobFormViewState extends State<JobFormView> {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.black,
-        centerTitle: true,
-        title: Column(
-          children: [const SizedBox(height: 25), Text('İş İlanı Oluştur ${_index + 1}/2')],
-        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: 30,
+                ),
                 Form(
                   key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      _index == 0 ? pageOne() : pageTwo(),
-                    ],
+                  child: Card(
+                    child: Container(
+                      height: 650,
+                      child: Padding(
+                        padding: ProjectPadding.cardPadding,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            _index == 0 ? pageOne() : pageTwo(),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -101,8 +107,11 @@ class _JobFormViewState extends State<JobFormView> {
   Column pageOne() {
     return Column(
       children: [
+        Text('İş İlanı Oluştur ${_index + 1}/2',style: TextStyle(
+          fontSize: 20
+        ),),
         const SizedBox(
-          height: 25,
+          height: 45,
         ),
         DropdownButtonFormField(
           value: _category,
@@ -215,6 +224,9 @@ class _JobFormViewState extends State<JobFormView> {
   Column pageTwo() {
     return Column(
       children: [
+        Text('İş İlanı Oluştur ${_index + 1}/2',style: TextStyle(
+          fontSize: 20
+        ),),
         const SizedBox(
           height: 25,
         ),
@@ -292,7 +304,8 @@ class _JobFormViewState extends State<JobFormView> {
             OutlinedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  if (int.parse(_maxSalaryController.text) > int.parse(_minSalaryController.text)) {
+                  if (int.parse(_maxSalaryController.text) >
+                      int.parse(_minSalaryController.text)) {
                     FirebaseFirestore.instance
                         .collection("jobAdverts")
                         .doc()
@@ -314,10 +327,12 @@ class _JobFormViewState extends State<JobFormView> {
                           'applications': FieldValue.arrayUnion([])
                         })
                         .then((value) => load())
-                        .then((_) => showSuccessDialog(context, "İlan başarıyla paylaşıldı")
-                            .then((_) => Navigator.pop(context)));
+                        .then((_) =>
+                            showSuccessDialog(context, "İlan başarıyla paylaşıldı")
+                                .then((_) => Navigator.pop(context)));
                   } else {
-                    showErrorDialog(context, "Minimum ücret Maksimum ücret'ten büyük olamaz!");
+                    showErrorDialog(
+                        context, "Minimum ücret Maksimum ücret'ten büyük olamaz!");
                   }
                 }
               },

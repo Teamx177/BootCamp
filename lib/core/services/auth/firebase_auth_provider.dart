@@ -55,7 +55,6 @@ class FirebaseAuthprovider implements AuthProvider {
                         await FirebaseAuth.instance.currentUser
                             ?.linkWithCredential(credential)
                             .then((value) => showOkToast(text: AuthStatusTexts.successRegister));
-                        await FirebaseAuth.instance.currentUser?.updatePhoneNumber(credential);
                         await FirebaseAuth.instance.currentUser?.reload().then((value) => router.go('/home'));
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'invalid-verification-id') {

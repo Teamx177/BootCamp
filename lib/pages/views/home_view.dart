@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hireme/core/models/user.dart';
 import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/themes/lib_color_schemes.g.dart';
 import 'package:hireme/core/themes/padding.dart';
 import 'package:hireme/core/themes/text_theme.dart';
 import 'package:hireme/pages/views/details_view.dart';
@@ -31,7 +32,10 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    _userData = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots();
+    _userData = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .snapshots();
     userName = '';
     _isEmployee = false;
     super.initState();
@@ -50,14 +54,8 @@ class _HomeViewState extends State<HomeView> {
               userName = '\n ${snapshot.data?.get('name')}';
               _isEmployee = snapshot.data?.get('type') == 'employee';
               return (!snapshot.hasData)
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset('assets/images/no_result.png'),
-                          const Text('Herhangi bir başvuru bulunamadı.'),
-                        ],
-                      ),
+                  ? const Center(
+                      child: CircularProgressIndicator(),
                     )
                   : SingleChildScrollView(
                       child: Column(
@@ -82,7 +80,10 @@ class _HomeViewState extends State<HomeView> {
                               const Spacer(),
                               snapshot.data?.get('type') == 'employee'
                                   ? const SizedBox.shrink()
-                                  : IconButton(
+                                  : FloatingActionButton(
+                                mini: true,
+                                backgroundColor: Colors.deepPurpleAccent.shade200,
+                                child: const Icon(Icons.add_rounded),
                                       onPressed: () {
                                         Navigator.of(context).push(
                                           MaterialPageRoute<void>(
@@ -92,8 +93,7 @@ class _HomeViewState extends State<HomeView> {
                                             fullscreenDialog: true,
                                           ),
                                         );
-                                      },
-                                      icon: const Icon(Icons.add))
+                                      },)
                             ],
                           ),
                           const SizedBox(
@@ -115,24 +115,39 @@ class _HomeViewState extends State<HomeView> {
                                   .orderBy('date', descending: true)
                                   .snapshots()
                                   .map((snapshot) => snapshot),
-                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                return (!snapshot.hasData)
-                                    ? const Center(
-                                        child: CircularProgressIndicator(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
+                                    ? Center(
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.50,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset('assets/images/no_result.png'),
+                                              const Text(
+                                                  'Aktif bir ilan bulunamadı.'),
+                                            ],
+                                          ),
+                                        ),
                                       )
                                     : RefreshIndicator(
                                         onRefresh: () async {
-                                          await Future.delayed(const Duration(seconds: 1));
+                                          await Future.delayed(
+                                              const Duration(seconds: 1));
                                         },
                                         child: ListView.builder(
                                           shrinkWrap: true,
                                           physics: const NeverScrollableScrollPhysics(),
                                           itemCount: snapshot.data?.docs.length,
                                           itemBuilder: (BuildContext context, int index) {
-                                            var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
+                                            var data = snapshot.data?.docs[index].data()
+                                                as Map<String, dynamic>;
                                             return Card(
                                               clipBehavior: Clip.antiAlias,
-                                              margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 16.0, top: 12.0),
                                               child: Column(
                                                 children: [
                                                   ListTile(
@@ -153,43 +168,57 @@ class _HomeViewState extends State<HomeView> {
                                                   ),
                                                   data['applications']
                                                           .toString()
-                                                          .contains((FirebaseAuth.instance.currentUser?.uid).toString())
+                                                          .contains((FirebaseAuth.instance
+                                                                  .currentUser?.uid)
+                                                              .toString())
                                                       ? Align(
-                                                          alignment: const Alignment(0.9, 0.0),
+                                                          alignment:
+                                                              const Alignment(0.9, 0.0),
                                                           child: TextButton(
                                                             onPressed: null,
                                                             style: ButtonStyle(
-                                                              backgroundColor: MaterialStateProperty.all(Colors.grey),
+                                                              backgroundColor:
+                                                                  MaterialStateProperty
+                                                                      .all(Colors.grey),
                                                             ),
                                                             child: const Text(
                                                               'Başvuru Yapıldı',
-                                                              style: TextStyle(color: Colors.white),
+                                                              style: TextStyle(
+                                                                  color: Colors.white),
                                                             ),
                                                           ),
                                                         )
                                                       : Align(
-                                                          alignment: const Alignment(0.9, 0.0),
+                                                          alignment:
+                                                              const Alignment(0.9, 0.0),
                                                           child: TextButton(
                                                             onPressed: () {
                                                               FirebaseFirestore.instance
-                                                                  .collection('jobAdverts')
+                                                                  .collection(
+                                                                      'jobAdverts')
                                                                   .doc(data['id']);
                                                               Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
-                                                                  builder: (_) => DetailsView(
-                                                                    docID: snapshot.data?.docs[index].id,
+                                                                  builder: (_) =>
+                                                                      DetailsView(
+                                                                    docID: snapshot.data
+                                                                        ?.docs[index].id,
                                                                   ),
                                                                 ),
                                                               );
                                                             },
                                                             style: ButtonStyle(
                                                               backgroundColor:
-                                                                  MaterialStateProperty.all(Colors.deepPurple[300]),
+                                                                  MaterialStateProperty
+                                                                      .all(Colors
+                                                                              .deepPurple[
+                                                                          300]),
                                                             ),
                                                             child: const Text(
                                                               'Detay Sayfası',
-                                                              style: TextStyle(color: Colors.white),
+                                                              style: TextStyle(
+                                                                  color: Colors.white),
                                                             ),
                                                           ),
                                                         ),
@@ -208,21 +237,35 @@ class _HomeViewState extends State<HomeView> {
                             StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection('jobAdverts')
-                                  .where('userId', isEqualTo: AuthService.firebase().currentUser?.uid)
+                                  .where('userId',
+                                      isEqualTo: AuthService.firebase().currentUser?.uid)
                                   .orderBy('date', descending: true)
                                   .snapshots()
                                   .map((snapshot) => snapshot),
-                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                return (!snapshot.hasData)
-                                    ? const Center(
-                                        child: CircularProgressIndicator(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
+                                    ? Center(
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.50,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset('assets/images/no_result.png'),
+                                              const Text(
+                                                  'Yayınladığınız bir ilan bulunmamaktadır.'),
+                                            ],
+                                          ),
+                                        ),
                                       )
                                     : ListView.builder(
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
                                         itemCount: snapshot.data?.docs.length,
                                         itemBuilder: (BuildContext context, int index) {
-                                          var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
+                                          var data = snapshot.data?.docs[index].data()
+                                              as Map<String, dynamic>;
                                           return Card(
                                             clipBehavior: Clip.antiAlias,
                                             margin: const EdgeInsets.only(
@@ -258,18 +301,21 @@ class _HomeViewState extends State<HomeView> {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (_) => EditFormView(
-                                                            docID: snapshot.data?.docs[index].id,
+                                                            docID: snapshot
+                                                                .data?.docs[index].id,
                                                           ),
                                                         ),
                                                       );
                                                     },
                                                     style: ButtonStyle(
                                                       backgroundColor:
-                                                          MaterialStateProperty.all(Colors.deepPurple[300]),
+                                                          MaterialStateProperty.all(
+                                                              Colors.deepPurple[300]),
                                                     ),
                                                     child: const Text(
                                                       'Ilanı Düzenle',
-                                                      style: TextStyle(color: Colors.white),
+                                                      style:
+                                                          TextStyle(color: Colors.white),
                                                     ),
                                                   ),
                                                 ),

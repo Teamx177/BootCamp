@@ -111,14 +111,21 @@ class _LoginViewState extends State<LoginView> {
                               ],
                             ),
                             Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 _goToForgot(context),
                                 const Spacer(),
-                                TextButton(
-                                  onPressed: () async {
-                                    context.push('/forgotPassword');
-                                  },
-                                  child: Text(AuthStatusTexts.forgotPassword),
+                                Expanded(
+                                  flex: 50,
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      context.push('/forgotPassword');
+                                    },
+                                    child: Text(
+                                      AuthStatusTexts.forgotPassword,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -153,13 +160,17 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  TextButton _goToForgot(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        context.push('/register');
-      },
-      child: Text(
-        AuthStatusTexts.noAccount,
+  Expanded _goToForgot(BuildContext context) {
+    return Expanded(
+      flex: 50,
+      child: TextButton(
+        onPressed: () {
+          context.push('/register');
+        },
+        child: Text(
+          AuthStatusTexts.noAccount,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }

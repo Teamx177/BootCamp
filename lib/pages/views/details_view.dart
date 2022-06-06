@@ -102,7 +102,7 @@ class _DetailsViewState extends State<DetailsView> {
                                 child: TextButton(
                                     autofocus: true,
                                     style: TextButton.styleFrom(
-                                        backgroundColor: _selectedIndex == 0 ? Colors.green : null),
+                                        backgroundColor: _selectedIndex == 0 ? Colors.deepPurple[300] : null),
                                     onPressed: () async {
                                       setState(() {
                                         _selectedIndex = 0;
@@ -113,7 +113,7 @@ class _DetailsViewState extends State<DetailsView> {
                                 flex: 25,
                                 child: TextButton(
                                     style: TextButton.styleFrom(
-                                        backgroundColor: _selectedIndex == 1 ? Colors.green : null),
+                                        backgroundColor: _selectedIndex == 1 ? Colors.deepPurple[300] : null),
                                     onPressed: () {
                                       setState(() {
                                         _selectedIndex = 1;
@@ -124,7 +124,7 @@ class _DetailsViewState extends State<DetailsView> {
                                 flex: 25,
                                 child: TextButton(
                                     style: TextButton.styleFrom(
-                                        backgroundColor: _selectedIndex == 2 ? Colors.green : null),
+                                        backgroundColor: _selectedIndex == 2 ? Colors.deepPurple[300] : null),
                                     onPressed: () {
                                       setState(() {
                                         _selectedIndex = 2;
@@ -134,70 +134,94 @@ class _DetailsViewState extends State<DetailsView> {
                           ],
                         ),
                         SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius : BorderRadius.circular(10),
+                            color: Colors.blueGrey.shade200
+                          ),
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height * 0.33,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: (_selectedIndex == 0)
-                                ? Text(snapshot.data?.get('description'))
-                                : (_selectedIndex == 1)
-                                    ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const Text(
-                                                "Ücret",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                          child: Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: (_selectedIndex == 0)
+                                  ? Text(snapshot.data?.get('description'),style: TextStyle(
+                                color: Colors.black,
+                              ),)
+                                  : (_selectedIndex == 1)
+                                      ? Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Text(
+                                                  "Ücret",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                  "${snapshot.data?.get('minSalary')} TL - ${snapshot.data?.get('maxSalary')} TL"),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              const Text(
-                                                "Aranan Cinsiyet",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                                Text(
+                                                    "${snapshot.data?.get('minSalary')} TL - ${snapshot.data?.get('maxSalary')} TL",style: TextStyle(
+                                color: Colors.black,
+                              ),),
+                                                const SizedBox(
+                                                  height: 10,
                                                 ),
+                                                const Text(
+                                                  "Aranan Cinsiyet",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Text("${snapshot.data?.get('gender')}",style: TextStyle(
+                                color: Colors.black,
+                              ),),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      : Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Text(
+                                              "Açık Adres",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
                                               ),
-                                              Text("${snapshot.data?.get('gender')}"),
-                                            ],
-                                          ),
-                                        ],
-                                      )
-                                    : Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Text(
-                                            "Açık Adres",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
                                             ),
-                                          ),
-                                          Text("${snapshot.data?.get('fullAddress')}"),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          const Text(
-                                            "Telefon Numarası",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                            Text("${snapshot.data?.get('fullAddress')}",style: TextStyle(
+                                color: Colors.black,
+                              ),),
+                                            const SizedBox(
+                                              height: 10,
                                             ),
-                                          ),
-                                          Text("${snapshot.data?.get('phone').toString().substring(3, 13)}"),
-                                        ],
-                                      ),
+                                            const Text(
+                                              "Telefon Numarası",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            Text("${snapshot.data?.get('phone').toString().substring(3, 13)}",style: TextStyle(
+                                color: Colors.black,
+                              ),),
+                                          ],
+                                        ),
+                            ),
                           ),
                         ),
                         const SizedBox(
-                          height: 40,
+                          height: 25,
                         ),
                         _userType == "employee" &&
                                 !snapshot.data!
