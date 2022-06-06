@@ -170,6 +170,26 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
+![1654534212819](https://user-images.githubusercontent.com/100482891/172208779-c75d87f6-5d6a-4ca4-a16c-933aa37440d5.jpg)
+![1654534900619](https://user-images.githubusercontent.com/100482891/172209598-7fbad8fd-6189-4375-95d5-9acb5e509210.jpg)
+![1654534900595](https://user-images.githubusercontent.com/100482891/172209621-3f3ed365-7d5c-4bcd-9fe0-4d62f8d2375b.jpg)
+![1654534900658](https://user-images.githubusercontent.com/100482891/172209658-2c9c6c86-c96c-4051-97e3-38a5d0e6e1cd.jpg)
+![1654534900648](https://user-images.githubusercontent.com/100482891/172209674-23532716-6284-4a0a-ba0c-d7e5781672cd.jpg)
+![1654534900632](https://user-images.githubusercontent.com/100482891/172210087-bf194eac-f9f2-4fd0-a41c-f6a02a229a40.jpg)
+![1654534212807](https://user-images.githubusercontent.com/100482891/172210154-6c1e89a4-ed33-4a8c-b565-68a5dd894cbd.jpg)
+![WhatsApp Image 2022-06-06 at 20 12 18](https://user-images.githubusercontent.com/100482891/172211168-d66e5c04-a6a7-4236-a119-3993713d7855.jpeg)
+![1654534212704](https://user-images.githubusercontent.com/100482891/172211264-74675490-34c8-4bbe-b050-03ffc2b25673.jpg)
+![WhatsApp Image 2022-06-06 at 20 12 19](https://user-images.githubusercontent.com/100482891/172211276-7c16db09-9d5c-4cd7-84b4-0d232b97957a.jpeg)
+![1654534212723](https://user-images.githubusercontent.com/100482891/172211381-18b7564d-3982-4deb-889d-98cf6f4cce0f.jpg)
+İş Arayan için: ![1654534212664](https://user-images.githubusercontent.com/100482891/172211628-32675f26-fd34-4a3d-9375-f0bfc3680afa.jpg)
+İşveren için: ![1654534212633](https://user-images.githubusercontent.com/100482891/172211682-f5a50377-2b90-4b74-8c8e-84345e2c0756.jpg)
+![1654534212642](https://user-images.githubusercontent.com/100482891/172211721-68f7d45f-3ba7-4725-bf07-49112356e842.jpg)
+![1654534212778](https://user-images.githubusercontent.com/100482891/172211783-8d422054-522c-46b1-9046-cbf4caa7e3ed.jpg)
+![1654534212761](https://user-images.githubusercontent.com/100482891/172211790-105d13ed-2b7d-45d6-8221-f1bbb8f0edba.jpg)
+![1654534212740](https://user-images.githubusercontent.com/100482891/172211813-bf6b2ee3-a44a-425f-9dc8-2b531de605c4.jpg)
+![1654534212675](https://user-images.githubusercontent.com/100482891/172211868-fc62d995-597b-439f-b8cb-d6e4ccda88af.jpg)
+![1654534212687](https://user-images.githubusercontent.com/100482891/172211882-1bc64998-1ae2-462d-9014-8f87c2cf386c.jpg)
+
 
 
 
