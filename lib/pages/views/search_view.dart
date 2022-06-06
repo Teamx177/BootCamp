@@ -34,14 +34,6 @@ class _SearchViewState extends State<SearchView> {
     FirebaseFirestore.instance.collection('jobAdverts').snapshots();
   }
 
-  getCategory() {
-    var a = FirebaseFirestore.instance
-        .collection('jobAdverts')
-        .doc()
-        .snapshots()
-        .where((event) => event.data()?['category']);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

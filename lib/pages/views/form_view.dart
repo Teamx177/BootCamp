@@ -68,26 +68,32 @@ class _JobFormViewState extends State<JobFormView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.black,
-        centerTitle: true,
-        title: Column(
-          children: [const SizedBox(height: 25), Text('İş İlanı Oluştur ${_index + 1}/2')],
-        ),
-      ),
+          // backgroundColor: Colors.black,
+          ),
       body: SingleChildScrollView(
         child: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 30,
+                ),
                 Form(
                   key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      _index == 0 ? pageOne() : pageTwo(),
-                    ],
+                  child: Card(
+                    child: SizedBox(
+                      height: 650,
+                      child: Padding(
+                        padding: ProjectPadding.cardPadding,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            _index == 0 ? pageOne() : pageTwo(),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -101,8 +107,12 @@ class _JobFormViewState extends State<JobFormView> {
   Column pageOne() {
     return Column(
       children: [
+        Text(
+          'İş İlanı Oluştur ${_index + 1}/2',
+          style: const TextStyle(fontSize: 20),
+        ),
         const SizedBox(
-          height: 25,
+          height: 45,
         ),
         DropdownButtonFormField(
           value: _category,
@@ -215,6 +225,10 @@ class _JobFormViewState extends State<JobFormView> {
   Column pageTwo() {
     return Column(
       children: [
+        Text(
+          'İş İlanı Oluştur ${_index + 1}/2',
+          style: const TextStyle(fontSize: 20),
+        ),
         const SizedBox(
           height: 25,
         ),

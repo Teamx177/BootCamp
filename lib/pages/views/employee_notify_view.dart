@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hireme/core/themes/padding.dart';
 
 import '../../core/services/auth/auth_service.dart';
+import '../../core/storage/dialog_storage.dart';
 
 class EmployeeNotifyView extends StatefulWidget {
   const EmployeeNotifyView({
@@ -24,36 +25,34 @@ class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
         centerTitle: true,
         title: const Text('Bildirimler'),
       ),
-      body: Padding(
-          padding: ProjectPadding.pagePaddingHorizontal,
-          child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('employeeNotifications')
-                .where('employeeId', isEqualTo: AuthService.firebase().currentUser?.uid)
-                .snapshots()
-                .map((snapshot) => snapshot),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset('assets/images/no_result.png'),
-                          const Text('Herhangi bir bildirim bulunamadı.'),
-                        ],
-                      ),
-                    )
-                  : RefreshIndicator(
-                      onRefresh: () async {
-                        await Future.delayed(const Duration(seconds: 1));
-                      },
-                      child: ListView.builder(
+      body: SingleChildScrollView(
+        child: Padding(
+            padding: ProjectPadding.pagePaddingHorizontal,
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('employeeNotifications')
+                  .where('employeeId', isEqualTo: AuthService.firebase().currentUser?.uid)
+                  .snapshots()
+                  .map((snapshot) => snapshot),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
+                    ? Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset('assets/images/no_result.png'),
+                            const Text('Herhangi bir bildirim bulunamadı.'),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
                           return Card(
+                            color: Colors.blueGrey.shade200,
                             clipBehavior: Clip.antiAlias,
                             margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
                             child: Column(
@@ -64,12 +63,14 @@ class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
                                 ListTile(
                                   leading: data['isApproved']
                                       ? const Icon(
-                                          Icons.check,
-                                          color: Colors.green,
+                                          Icons.check_circle_rounded,
+                                          color: Color(0xFF139A2F),
+                                          size: 40,
                                         )
                                       : const Icon(
-                                          Icons.close,
-                                          color: Colors.red,
+                                          Icons.cancel_rounded,
+                                          color: Color(0xFFDF2935),
+                                          size: 40,
                                         ),
                                   title: Text(
                                     "${data['jobTitle']}",
@@ -85,19 +86,23 @@ class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
                                         "Telefon: ${data['employerPhone'].toString().substring(3, 13)}\n"
                                         "E-posta: ${data['employerEmail']}\n\n"
                                         "${data['isApproved'] ? 'Başvurunuz Onaylandı.' : 'Başvurunuz Reddedildi.'}")),
-                                TextButton(
-                                  onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection('employeeNotifications')
-                                        .doc(snapshot.data?.docs[index].id)
-                                        .delete();
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.deepOrangeAccent),
-                                  ),
-                                  child: const Text(
-                                    'Bildirimi Sil',
-                                    style: TextStyle(color: Colors.white),
+                                Align(
+                                  alignment: const Alignment(0.85, 0),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection('employeeNotifications')
+                                          .doc(snapshot.data?.docs[index].id)
+                                          .delete()
+                                          .then((_) => showOkToast(text: 'Bildirim kaldırıldı.'));
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(Colors.deepPurple.shade300),
+                                    ),
+                                    child: const Text(
+                                      'Bildirimi Kaldır',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -107,10 +112,10 @@ class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
                             ),
                           );
                         },
-                      ),
-                    );
-            },
-          )),
+                      );
+              },
+            )),
+      ),
     );
   }
 }

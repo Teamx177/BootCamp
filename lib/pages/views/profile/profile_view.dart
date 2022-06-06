@@ -108,21 +108,19 @@ class _ProfileViewState extends State<ProfileView> {
                         },
                       )),
                 _customContainer(
-                    child: TextButton.icon(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(UpdateTexts.deleteAccount),
-                            content: Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: ProjectPadding.inputPaddingBottom,
-                                    child: EmailFormField(
+                  child: TextButton.icon(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(UpdateTexts.deleteAccount),
+                              content: Form(
+                                key: _formKey,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    EmailFormField(
                                       controller: null,
                                       hintText: HintTexts.emailHint,
                                       onChanged: (value) {
@@ -131,86 +129,88 @@ class _ProfileViewState extends State<ProfileView> {
                                         });
                                       },
                                     ),
-                                  ),
-                                  PasswordFormField(
-                                    validator: ValidationConstants.loginPasswordValidator,
-                                    hintText: HintTexts.passwordHint,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _passwordController.text = value;
-                                      });
-                                    },
-                                  ),
-                                ],
+                                    PasswordFormField(
+                                      validator: ValidationConstants.loginPasswordValidator,
+                                      hintText: HintTexts.passwordHint,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _passwordController.text = value;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            actions: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(AuthStatusTexts.cancel),
-                                  ),
-                                  TextButton(
-                                    onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        try {
-                                          var credential = EmailAuthProvider.credential(
-                                              email: _emailController.text, password: _passwordController.text);
-                                          await FirebaseAuth.instance.currentUser
-                                              ?.reauthenticateWithCredential(credential)
-                                              .then((_) async {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    title: Text(UpdateTexts.confirmDeleteAccount),
-                                                    actions: [
-                                                      TextButton(
-                                                          onPressed: () {
-                                                            Navigator.pop(context);
-                                                          },
-                                                          child: Text(UpdateTexts.no)),
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            await FirebaseFirestore.instance
-                                                                .collection('users')
-                                                                .doc(FirebaseAuth.instance.currentUser?.uid)
-                                                                .delete()
-                                                                .then((_) {
-                                                              FirebaseAuth.instance.currentUser?.delete();
-                                                            });
-                                                            if (FirebaseAuth.instance.currentUser == null) {
-                                                              router.go('/');
-                                                            }
-                                                          },
-                                                          child: Text(UpdateTexts.yes)),
-                                                    ],
-                                                  );
-                                                });
-                                          });
-                                        } catch (e) {
-                                          showErrorDialog(context, e.toString());
+                              actions: [
+                                Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(AuthStatusTexts.cancel),
+                                    ),
+                                    const Spacer(),
+                                    TextButton(
+                                      onPressed: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          try {
+                                            var credential = EmailAuthProvider.credential(
+                                                email: _emailController.text, password: _passwordController.text);
+                                            await FirebaseAuth.instance.currentUser
+                                                ?.reauthenticateWithCredential(credential)
+                                                .then((_) async {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text(UpdateTexts.confirmDeleteAccount),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(context);
+                                                            },
+                                                            child: Text(UpdateTexts.no)),
+                                                        TextButton(
+                                                            style: TextButton.styleFrom(primary: Colors.red),
+                                                            onPressed: () async {
+                                                              await FirebaseFirestore.instance
+                                                                  .collection('users')
+                                                                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                                                                  .delete();
+                                                              await FirebaseAuth.instance.currentUser?.delete();
+                                                              if (FirebaseAuth.instance.currentUser == null) {
+                                                                router.go('/');
+                                                              } else {
+                                                                showErrorDialog(
+                                                                    context, 'Hesap silinirken bir hata olustu');
+                                                              }
+                                                            },
+                                                            child: Text(UpdateTexts.yes)),
+                                                      ],
+                                                    );
+                                                  });
+                                            });
+                                          } catch (e) {
+                                            showErrorDialog(context, e.toString());
+                                          }
                                         }
-                                      }
-                                    },
-                                    child: Text(AuthStatusTexts.confirm),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  label: Text(UpdateTexts.delete),
-                  icon: const Icon(Icons.delete_forever),
-                )),
+                                      },
+                                      child: Text(AuthStatusTexts.confirm),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    label: Text(UpdateTexts.delete),
+                    icon: const Icon(Icons.delete_forever),
+                  ),
+                ),
                 _customContainer(
                   child: TextButton.icon(
                       onPressed: () async {

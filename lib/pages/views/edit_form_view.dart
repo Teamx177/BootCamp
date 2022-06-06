@@ -19,7 +19,7 @@ class _EditFormViewState extends State<EditFormView> {
   late String _category = "Temizlik";
   late String _shift = "1 Gün";
   late String _gender = "Erkek";
-  late String _city = "ANKARA";
+  late String _city = "Ankara";
   late int _index = 0;
 
   final _formKey = GlobalKey<FormState>();
@@ -67,25 +67,31 @@ class _EditFormViewState extends State<EditFormView> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         // backgroundColor: Colors.black,
-        centerTitle: true,
-        title: Column(
-          children: [const SizedBox(height: 25), Text('İlanı Düzenle ${_index + 1}/2')],
-        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 30,
+                ),
                 Form(
                   key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      _index == 0 ? pageOne() : pageTwo(),
-                    ],
+                  child: Card(
+                    child: SizedBox(
+                      height: 650,
+                      child: Padding(
+                        padding: ProjectPadding.cardPadding,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            _index == 0 ? pageOne() : pageTwo(),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -99,8 +105,12 @@ class _EditFormViewState extends State<EditFormView> {
   Column pageOne() {
     return Column(
       children: [
+        Text(
+          'İlanı Düzenle ${_index + 1}/2',
+          style: const TextStyle(fontSize: 20),
+        ),
         const SizedBox(
-          height: 25,
+          height: 45,
         ),
         DropdownButtonFormField(
           value: _category,
@@ -213,6 +223,10 @@ class _EditFormViewState extends State<EditFormView> {
   Column pageTwo() {
     return Column(
       children: [
+        Text(
+          'İlanı Düzenle ${_index + 1}/2',
+          style: const TextStyle(fontSize: 20),
+        ),
         const SizedBox(
           height: 25,
         ),

@@ -1,15 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart'
-    show
-        ConfirmationResult,
-        EmailAuthProvider,
-        FirebaseAuth,
-        FirebaseAuthException,
-        PhoneAuthCredential,
-        PhoneAuthProvider,
-        User;
+import 'package:firebase_auth/firebase_auth.dart' show EmailAuthProvider, FirebaseAuth, FirebaseAuthException;
 import 'package:flutter/material.dart';
 import 'package:hireme/core/services/auth/auth_exceptions.dart';
 import 'package:hireme/core/services/auth/auth_provider.dart';
@@ -142,7 +134,7 @@ class FirebaseAuthprovider implements AuthProvider {
       }
     }
   }
-
+// Its buggy we tryed
   // @override
   // Future<User?> phoneLogin({
   //   required String phoneNumber,

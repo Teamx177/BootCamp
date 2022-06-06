@@ -103,7 +103,7 @@ class _MainViewState extends State<MainView> {
               Icons.home,
             ),
             // backgroundColor: Colors.,
-            selectedColor: darkColorScheme.primary,
+            selectedColor: const Color(0xFFC2C2C2),
             title: const Text(
               'Anasayfa',
               style: TextStyle(fontSize: 12),
@@ -113,7 +113,7 @@ class _MainViewState extends State<MainView> {
             icon: const Icon(
               Icons.search,
             ),
-            selectedColor: Colors.green,
+            selectedColor: const Color(0xFF7EC895),
             backgroundColor: Colors.amber,
             title: const Text(
               'Arama',
@@ -123,19 +123,27 @@ class _MainViewState extends State<MainView> {
           AnimatedBarItems(
               icon: _userType == "employee"
                   ? Badge(
+                      badgeColor: const Color(0xFFDF2935),
                       animationType: BadgeAnimationType.scale,
                       showBadge: _employeeNofiticationCount != null && _employeeNofiticationCount! > 0,
-                      badgeContent: Text(_employeeNofiticationCount.toString()),
+                      badgeContent: Text(
+                        _employeeNofiticationCount.toString(),
+                        style: const TextStyle(color: Colors.white),
+                      ),
                       child: const Icon(Icons.notifications),
                     )
                   : Badge(
+                      badgeColor: const Color(0xFFDF2935),
                       animationType: BadgeAnimationType.scale,
                       showBadge: _employerNofiticationCount != null && _employerNofiticationCount! > 0,
-                      badgeContent: Text(_employerNofiticationCount.toString()),
+                      badgeContent: Text(
+                        _employerNofiticationCount.toString(),
+                        style: const TextStyle(color: Colors.white),
+                      ),
                       child: const Icon(Icons.notifications),
                     ),
               backgroundColor: Colors.amber,
-              selectedColor: Colors.blueAccent,
+              selectedColor: Colors.deepPurple.shade200,
               title: const Text(
                 'Bildirimler',
                 style: TextStyle(fontSize: 12),
@@ -145,7 +153,7 @@ class _MainViewState extends State<MainView> {
                 Icons.person,
               ),
               backgroundColor: Colors.amber,
-              selectedColor: Colors.redAccent,
+              selectedColor: Colors.blueAccent.shade100,
               title: const Text(
                 'Profilim',
                 style: TextStyle(fontSize: 12),

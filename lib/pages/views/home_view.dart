@@ -50,14 +50,8 @@ class _HomeViewState extends State<HomeView> {
               userName = '\n ${snapshot.data?.get('name')}';
               _isEmployee = snapshot.data?.get('type') == 'employee';
               return (!snapshot.hasData)
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset('assets/images/no_result.png'),
-                          const Text('Herhangi bir başvuru bulunamadı.'),
-                        ],
-                      ),
+                  ? const Center(
+                      child: CircularProgressIndicator(),
                     )
                   : SingleChildScrollView(
                       child: Column(
@@ -82,7 +76,10 @@ class _HomeViewState extends State<HomeView> {
                               const Spacer(),
                               snapshot.data?.get('type') == 'employee'
                                   ? const SizedBox.shrink()
-                                  : IconButton(
+                                  : FloatingActionButton(
+                                      mini: true,
+                                      backgroundColor: Colors.deepPurpleAccent.shade200,
+                                      child: const Icon(Icons.add_rounded),
                                       onPressed: () {
                                         Navigator.of(context).push(
                                           MaterialPageRoute<void>(
@@ -93,7 +90,7 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                         );
                                       },
-                                      icon: const Icon(Icons.add))
+                                    )
                             ],
                           ),
                           const SizedBox(
@@ -116,9 +113,19 @@ class _HomeViewState extends State<HomeView> {
                                   .snapshots()
                                   .map((snapshot) => snapshot),
                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                return (!snapshot.hasData)
-                                    ? const Center(
-                                        child: CircularProgressIndicator(),
+                                return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
+                                    ? Center(
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.50,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset('assets/images/no_result.png'),
+                                              const Text('Aktif bir ilan bulunamadı.'),
+                                            ],
+                                          ),
+                                        ),
                                       )
                                     : RefreshIndicator(
                                         onRefresh: () async {
@@ -213,9 +220,19 @@ class _HomeViewState extends State<HomeView> {
                                   .snapshots()
                                   .map((snapshot) => snapshot),
                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                return (!snapshot.hasData)
-                                    ? const Center(
-                                        child: CircularProgressIndicator(),
+                                return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
+                                    ? Center(
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.50,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset('assets/images/no_result.png'),
+                                              const Text('Yayınladığınız bir ilan bulunmamaktadır.'),
+                                            ],
+                                          ),
+                                        ),
                                       )
                                     : ListView.builder(
                                         shrinkWrap: true,

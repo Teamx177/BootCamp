@@ -448,22 +448,24 @@ class _EditProfileViewState extends State<EditProfileView> {
           ),
         ),
         Expanded(
-          flex: 15,
-          child: IconButton(
-            icon: const Icon(Icons.edit_outlined),
-            onPressed: () async {
-              showUpdatePhoneDialog(
-                  context: context,
-                  phoneController: _phoneController,
-                  onPressed: () async {
-                    //   await AuthService.firebase()
-                    //       .updatePhone(('+90${_phoneController.text}'), context)
-                    //       .then((value) => const CircularProgressIndicator.adaptive())
-                    //       .then((value) => Navigator.pop(context));
-                  });
-            },
-          ),
-        ),
+            flex: 15,
+            child: IconButton(
+                icon: const Icon(Icons.edit_outlined),
+                onPressed: () async {
+                  showUpdatePhoneDialog(
+                      context: context,
+                      phoneController: _phoneController,
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(snapshot.data?.id)
+                            .update({'phone': '+90${_phoneController.text}'})
+                            .then((value) => showOkToast(text: UpdateTexts.phoneNumberUpdateSuccess))
+                            .then(
+                              (value) => Navigator.pop(context),
+                            );
+                      });
+                }))
       ],
     );
   }

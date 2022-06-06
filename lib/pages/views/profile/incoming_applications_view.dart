@@ -43,7 +43,7 @@ class _IncomingApplicationsViewState extends State<IncomingApplicationsView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('Gelen Başvurularım'),
+        title: const Text('Gelen Başvurularım'),
       ),
       body: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,

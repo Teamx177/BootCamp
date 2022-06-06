@@ -13,11 +13,11 @@ Takım 177
 
 ## Ürün İsmi
 
---**H**uman **R**esource **M**anagement **S**ystem--
+   HIRE me
 
 ## Ürün Açıklaması
 
-- HRMS uygulamamız ile iş arayanlar ve işe en uygun çalışanı seçmek isteyen işverenleri
+- HIRE me uygulamamız ile iş arayanlar ve işe en uygun çalışanı seçmek isteyen işverenleri
   buluşturuyoruz. İşe alım sürecindeki zaman alan prosedürleri de ortadan kaldırarak hem iş adayı
   hem de işveren için daha verimli bir ortam yaratmayı amaçlıyoruz
 
@@ -25,8 +25,8 @@ Takım 177
 
 - İş ilanlarını sektörlere göre sınıflandırma
 - İş başvurusunda bulunan kişileri iletişim bilgileri ile görüntüleme
-- İş ilanını, ilan sahibinin belirlediği maksimum maaş ile görüntüleme
-- İş adayı ve işveren adına yapılan değerlendirmeleri görüntüleme
+- İş ilanını, ilan sahibinin belirlediği minimum ve maksimum maaş ile görüntüleme
+
 
 ## Hedef Kitle
 
@@ -142,7 +142,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 - **Sprint Notları**: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
 
-- **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan
+- **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan (Backlog'daki arama kısmı oluştur ve profil sayfası oluştur görevlerinin toplam puanı)
 
 - **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2. sprint için 130, 3. sprint için ise 70 puan olarak dağıtılmasına karar verildi.
 
@@ -157,6 +157,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![3](https://user-images.githubusercontent.com/100482891/172007773-c88b471e-8844-4a39-8d60-ff8084cf3f39.jpg)
 ![4](https://user-images.githubusercontent.com/100482891/172007778-e236f904-797d-4515-ba72-be610706dae0.jpg)
 ![5](https://user-images.githubusercontent.com/100482891/172007785-ca48f456-5deb-4234-a6f0-63599e9cdb16.jpg)
+![bc0a886e-cad1-4a58-9a4b-8a0ae45100f4](https://user-images.githubusercontent.com/100482891/172212538-e4a6aaae-a979-49c1-95b6-39284117ae60.jpg)
+
 
 
 - **Sprint board update**: Sprint board screenshotları:
@@ -167,19 +169,41 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![Kanban Framework6](https://user-images.githubusercontent.com/100482891/172007856-0c51154e-d3c8-4a85-9f34-084d8acd2c14.jpg)
 ![Kanban Framework7](https://user-images.githubusercontent.com/100482891/172007859-7840bc62-7349-4bee-9eb5-165f1864442e.jpg)
 ![Kanban Framework8](https://user-images.githubusercontent.com/100482891/172007860-bbab16d9-111e-47e2-abaf-1ae18d421bb1.jpg)
+![Kanban Framework8](https://user-images.githubusercontent.com/100482891/172213353-de44db57-c622-4868-8d4d-de5716bbcea5.jpg)
+
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
+![1654534212819](https://user-images.githubusercontent.com/100482891/172208779-c75d87f6-5d6a-4ca4-a16c-933aa37440d5.jpg)
+![1654534900619](https://user-images.githubusercontent.com/100482891/172209598-7fbad8fd-6189-4375-95d5-9acb5e509210.jpg)
+![1654534900595](https://user-images.githubusercontent.com/100482891/172209621-3f3ed365-7d5c-4bcd-9fe0-4d62f8d2375b.jpg)
+![1654534900658](https://user-images.githubusercontent.com/100482891/172209658-2c9c6c86-c96c-4051-97e3-38a5d0e6e1cd.jpg)
+![1654534900648](https://user-images.githubusercontent.com/100482891/172209674-23532716-6284-4a0a-ba0c-d7e5781672cd.jpg)
+![1654534900632](https://user-images.githubusercontent.com/100482891/172210087-bf194eac-f9f2-4fd0-a41c-f6a02a229a40.jpg)
+![1654534212807](https://user-images.githubusercontent.com/100482891/172210154-6c1e89a4-ed33-4a8c-b565-68a5dd894cbd.jpg)
+![WhatsApp Image 2022-06-06 at 20 12 18](https://user-images.githubusercontent.com/100482891/172211168-d66e5c04-a6a7-4236-a119-3993713d7855.jpeg)
+![1654534212704](https://user-images.githubusercontent.com/100482891/172211264-74675490-34c8-4bbe-b050-03ffc2b25673.jpg)
+![WhatsApp Image 2022-06-06 at 20 12 19](https://user-images.githubusercontent.com/100482891/172211276-7c16db09-9d5c-4cd7-84b4-0d232b97957a.jpeg)
+![1654534212723](https://user-images.githubusercontent.com/100482891/172211381-18b7564d-3982-4deb-889d-98cf6f4cce0f.jpg)
+İş Arayan için: ![1654534212664](https://user-images.githubusercontent.com/100482891/172211628-32675f26-fd34-4a3d-9375-f0bfc3680afa.jpg)
+İşveren için: ![1654534212633](https://user-images.githubusercontent.com/100482891/172211682-f5a50377-2b90-4b74-8c8e-84345e2c0756.jpg)
+![1654534212642](https://user-images.githubusercontent.com/100482891/172211721-68f7d45f-3ba7-4725-bf07-49112356e842.jpg)
+![1654534212778](https://user-images.githubusercontent.com/100482891/172211783-8d422054-522c-46b1-9046-cbf4caa7e3ed.jpg)
+![1654534212761](https://user-images.githubusercontent.com/100482891/172211790-105d13ed-2b7d-45d6-8221-f1bbb8f0edba.jpg)
+![1654534212740](https://user-images.githubusercontent.com/100482891/172211813-bf6b2ee3-a44a-425f-9dc8-2b531de605c4.jpg)
+![1654534212675](https://user-images.githubusercontent.com/100482891/172211868-fc62d995-597b-439f-b8cb-d6e4ccda88af.jpg)
+![1654534212687](https://user-images.githubusercontent.com/100482891/172211882-1bc64998-1ae2-462d-9014-8f87c2cf386c.jpg)
 
 
 
-- **Sprint Review**: Alınan Kararlar: 
 
+- **Sprint Review**: Alınan Kararlar: Uygulamaya mesajlaşma kısmı eklenilebilir. Sektör başlıkları çoğaltılabilr. Hizmet verenlerin kalitesi daha önceki işlerinde aldıkları gerçek müşteri yorumları ve yıldızlı değerlendirmeler ile görülebilir. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
 
 
 - **Sprint Retrospective**:
 
   - Ekip olarak herkes geliştirmeye katkıda bulundu.
-  - Ekip dinamiği güçlüydü.
+  - Ekip dinamiği orta seviyedeydi. İlerideki projelerde bu dinamiği güçlü kılmak adına yapılabilinecek şey, iş dışında da görüntülü konuşmalar hatta belki buluşmalar     gerçekleştirerek ekip üyelerinin birbiri ile daha fazla kaynaşmasını sağlamak olabilir.
   - Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi mantığı kabul edildi.
+  
 
