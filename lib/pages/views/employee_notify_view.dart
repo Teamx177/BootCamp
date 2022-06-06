@@ -37,12 +37,16 @@ class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
                     ? Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset('assets/images/no_result.png'),
-                            const Text('Herhangi bir bildirim bulunamadı.'),
-                          ],
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.7,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset('assets/images/no_result.png'),
+                              const Text('Herhangi bir bildirim bulunamadı.'),
+                            ],
+                          ),
                         ),
                       )
                     : ListView.builder(
@@ -76,16 +80,21 @@ class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
                                     "${data['jobTitle']}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
+                                      color: Colors.black
                                     ),
                                   ),
-                                  subtitle: Text("${data['jobCity']} / ${data['jobCategory']}"),
+                                  subtitle: Text("${data['jobCity']} / ${data['jobCategory']}",style: TextStyle(
+                                      color: Colors.black
+                                    ),),
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text("İsim: ${data['employerName']}\n"
                                         "Telefon: ${data['employerPhone'].toString().substring(3, 13)}\n"
                                         "E-posta: ${data['employerEmail']}\n\n"
-                                        "${data['isApproved'] ? 'Başvurunuz Onaylandı.' : 'Başvurunuz Reddedildi.'}")),
+                                        "${data['isApproved'] ? 'Başvurunuz Onaylandı.' : 'Başvurunuz Reddedildi.'}",style: TextStyle(
+                                      color: Colors.black
+                                    ),)),
                                 Align(
                                   alignment: const Alignment(0.85, 0),
                                   child: TextButton(

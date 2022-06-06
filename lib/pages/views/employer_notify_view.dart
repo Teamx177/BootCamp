@@ -37,12 +37,16 @@ class _EmployerNotifyViewState extends State<EmployerNotifyView> {
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 return (!snapshot.hasData || snapshot.data!.docs.isEmpty)
                     ? Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset('assets/images/no_result.png'),
-                            const Text('Herhangi bir bildirim bulunamadı.'),
-                          ],
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.7,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset('assets/images/no_result.png'),
+                              const Text('Herhangi bir bildirim bulunamadı.'),
+                            ],
+                          ),
                         ),
                       )
                     : RefreshIndicator(
@@ -54,7 +58,8 @@ class _EmployerNotifyViewState extends State<EmployerNotifyView> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
+                            var data =
+                                snapshot.data?.docs[index].data() as Map<String, dynamic>;
                             return Card(
                               color: Colors.blueGrey.shade200,
                               clipBehavior: Clip.antiAlias,
@@ -68,12 +73,16 @@ class _EmployerNotifyViewState extends State<EmployerNotifyView> {
                                     title: Icon(
                                       Icons.notification_important_rounded,
                                       size: 40,
+                                      color: Color(0xFF373737),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text(
                                       "${data['employeeName']} adlı kullanıcı, ${data['jobCategory']} kategorisinde yer alan ${data['jobTitle']} başlıklı ilanınıza başvuru yaptı.",
+                                      style: TextStyle(
+                                      color: Colors.black
+                                    ),
                                     ),
                                   ),
                                   Align(
@@ -84,10 +93,12 @@ class _EmployerNotifyViewState extends State<EmployerNotifyView> {
                                             .collection('employerNotifications')
                                             .doc(snapshot.data?.docs[index].id)
                                             .delete()
-                                            .then((_) => showOkToast(text: 'Bildirim kaldırıldı.'));
+                                            .then((_) => showOkToast(
+                                                text: 'Bildirim kaldırıldı.'));
                                       },
                                       style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(Colors.deepPurple.shade300),
+                                        backgroundColor: MaterialStateProperty.all(
+                                            Colors.deepPurple.shade300),
                                       ),
                                       child: const Text(
                                         'Bildirimi Kaldır',

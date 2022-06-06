@@ -134,7 +134,7 @@ Future<void> showUpdatePhoneDialog({
         ),
         TextButton(
           onPressed: onPressed,
-          child: const Text("Gönder"),
+          child: const Text("Kaydet"),
         ),
       ],
     ),

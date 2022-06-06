@@ -130,7 +130,8 @@ class _ProfileViewState extends State<ProfileView> {
                                       },
                                     ),
                                     PasswordFormField(
-                                      validator: ValidationConstants.loginPasswordValidator,
+                                      validator:
+                                          ValidationConstants.loginPasswordValidator,
                                       hintText: HintTexts.passwordHint,
                                       onChanged: (value) {
                                         setState(() {
@@ -147,19 +148,20 @@ class _ProfileViewState extends State<ProfileView> {
                                     const SizedBox(
                                       width: 15,
                                     ),
+                                    const Spacer(),
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
                                       child: Text(AuthStatusTexts.cancel),
                                     ),
-                                    const Spacer(),
                                     TextButton(
                                       onPressed: () async {
                                         if (_formKey.currentState!.validate()) {
                                           try {
                                             var credential = EmailAuthProvider.credential(
-                                                email: _emailController.text, password: _passwordController.text);
+                                                email: _emailController.text,
+                                                password: _passwordController.text);
                                             await FirebaseAuth.instance.currentUser
                                                 ?.reauthenticateWithCredential(credential)
                                                 .then((_) async {
@@ -167,7 +169,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                   context: context,
                                                   builder: (context) {
                                                     return AlertDialog(
-                                                      title: Text(UpdateTexts.confirmDeleteAccount),
+                                                      title: Text(UpdateTexts
+                                                          .confirmDeleteAccount),
                                                       actions: [
                                                         TextButton(
                                                             onPressed: () {
@@ -175,18 +178,27 @@ class _ProfileViewState extends State<ProfileView> {
                                                             },
                                                             child: Text(UpdateTexts.no)),
                                                         TextButton(
-                                                            style: TextButton.styleFrom(primary: Colors.red),
+                                                            style: TextButton.styleFrom(
+                                                                primary: Colors.red),
                                                             onPressed: () async {
-                                                              await FirebaseFirestore.instance
+                                                              await FirebaseFirestore
+                                                                  .instance
                                                                   .collection('users')
-                                                                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                                                                  .doc(FirebaseAuth
+                                                                      .instance
+                                                                      .currentUser
+                                                                      ?.uid)
                                                                   .delete();
-                                                              await FirebaseAuth.instance.currentUser?.delete();
-                                                              if (FirebaseAuth.instance.currentUser == null) {
+                                                              await FirebaseAuth
+                                                                  .instance.currentUser
+                                                                  ?.delete();
+                                                              if (FirebaseAuth.instance
+                                                                      .currentUser ==
+                                                                  null) {
                                                                 router.go('/');
                                                               } else {
-                                                                showErrorDialog(
-                                                                    context, 'Hesap silinirken bir hata olustu');
+                                                                showErrorDialog(context,
+                                                                    'Hesap silinirken bir hata olustu');
                                                               }
                                                             },
                                                             child: Text(UpdateTexts.yes)),
@@ -218,7 +230,8 @@ class _ProfileViewState extends State<ProfileView> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text('Çıkış yapmak istediğinize emin misiniz?'),
+                                title:
+                                    const Text('Çıkış yapmak istediğinize emin misiniz?'),
                                 actions: [
                                   TextButton(
                                       onPressed: () {
