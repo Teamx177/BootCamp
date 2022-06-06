@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/services/auth/auth_user.dart';
+import 'package:hireme/core/services/auth/auth_user.dart';
 
 abstract class AuthProvider {
   AuthUser? get currentUser;
@@ -30,8 +30,6 @@ abstract class AuthProvider {
   });
   Future<User?> updatePhone(String phoneNumber, BuildContext context);
   Future<void> updateDisplayName(String displayName, BuildContext context);
-  Future<void> updateEmail(BuildContext context, String newEmail,
-      String currentEmail, String currentPassword);
-  Future<void> updatePassword(BuildContext context, String email,
-      String currentPassword, String newPassword);
+  Future<void> updateEmail(BuildContext context, String newEmail, String currentEmail, String currentPassword);
+  Future<void> updatePassword(BuildContext context, String email, String currentPassword, String newPassword);
 }

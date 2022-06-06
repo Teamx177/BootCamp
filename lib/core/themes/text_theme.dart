@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final TextTheme textTheme = TextTheme(
+final TextTheme textThemes = TextTheme(
   headline1: GoogleFonts.rubik(
     fontSize: 96,
     fontWeight: FontWeight.w300,
@@ -23,8 +23,8 @@ final TextTheme textTheme = TextTheme(
     fontWeight: FontWeight.normal,
   ),
   headline6: GoogleFonts.rubik(
-    fontSize: 20,
-    fontWeight: FontWeight.w300,
+    fontSize: 18,
+    fontWeight: FontWeight.normal,
   ),
   subtitle1: GoogleFonts.rubik(
     fontSize: 16,

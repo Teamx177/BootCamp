@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/storage/validation_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/storage/validation_storage.dart';
 
 @immutable
 class EmailFormField extends StatelessWidget {
@@ -239,8 +239,7 @@ class ConfirmPasswordFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ConfirmPasswordFormField> createState() =>
-      _ConfirmPasswordFormFieldState();
+  State<ConfirmPasswordFormField> createState() => _ConfirmPasswordFormFieldState();
 }
 
 class _ConfirmPasswordFormFieldState extends State<ConfirmPasswordFormField> {

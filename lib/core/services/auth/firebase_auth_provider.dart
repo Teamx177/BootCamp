@@ -12,12 +12,12 @@ import 'package:firebase_auth/firebase_auth.dart'
         User;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/core/services/auth/auth_exceptions.dart';
-import 'package:hrms/core/services/auth/auth_provider.dart';
-import 'package:hrms/core/services/auth/auth_user.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
+import 'package:hireme/core/managers/route_manager.dart';
+import 'package:hireme/core/services/auth/auth_exceptions.dart';
+import 'package:hireme/core/services/auth/auth_provider.dart';
+import 'package:hireme/core/services/auth/auth_user.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
 
 class FirebaseAuthprovider implements AuthProvider {
   String? verificationId;
@@ -60,23 +60,23 @@ class FirebaseAuthprovider implements AuthProvider {
                     // ToDO make throws showtoast
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'invalid-verification-id') {
-                      showOkToast(text: ErrorTexts.invalidVerificationId);
+                      await showErrorDialog(context, ErrorTexts.invalidVerificationId);
                     } else if (e.code == 'provider-already-linked') {
-                      showOkToast(text: ErrorTexts.credentialAlreadyLinked);
+                      await showErrorDialog(context, ErrorTexts.credentialAlreadyLinked);
                     } else if (e.code == 'email-already-in-use') {
-                      showOkToast(text: ErrorTexts.emailAlreadyUse);
+                      await showErrorDialog(context, ErrorTexts.emailAlreadyUse);
                     } else if (e.code == 'invalid-verification-code') {
-                      showOkToast(text: ErrorTexts.invalidVerificationCode);
+                      await showErrorDialog(context, ErrorTexts.invalidVerificationCode);
                     } else if (e.code == 'credential-already-in-use') {
-                      showOkToast(text: ErrorTexts.credentialAlreadyUse);
+                      await showErrorDialog(context, ErrorTexts.credentialAlreadyUse);
                     } else if (e.code == 'too-many-requests') {
-                      showOkToast(text: ErrorTexts.tooManyRequests);
+                      await showErrorDialog(context, ErrorTexts.tooManyRequests);
                     } else if (e.code == 'internal-error') {
-                      showOkToast(text: ErrorTexts.internalError);
+                      await showErrorDialog(context, ErrorTexts.internalError);
                     } else if (e.code == 'network-request-failed') {
-                      showOkToast(text: ErrorTexts.networkError);
+                      await showErrorDialog(context, ErrorTexts.networkError);
                     } else {
-                      showOkToast(text: ErrorTexts.error);
+                      await showErrorDialog(context, ErrorTexts.error);
                     }
                   }
                 }
@@ -391,6 +391,7 @@ class FirebaseAuthprovider implements AuthProvider {
               if (user != null) {
                 router.go('/home');
               }
+              showOkToast(text: 'Giriş yapıldı');
             },
           );
         }),

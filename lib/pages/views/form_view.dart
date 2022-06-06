@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/storage/validation_storage.dart';
-import 'package:hrms/core/themes/padding.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/storage/validation_storage.dart';
+import 'package:hireme/core/themes/padding.dart';
 
 import '../../core/storage/dialog_storage.dart';
 import '../../core/storage/firebase.dart';

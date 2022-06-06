@@ -1,34 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hrms/core/services/auth/auth_exceptions.dart';
-import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/string_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/themes/dark_theme.dart';
-import 'package:hrms/core/themes/light_theme.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/auth/widgets/form_field.dart';
-
-// class BackgroundImage extends StatelessWidget {
-//   Widget child;
-
-//   BackgroundImage({Key? key, required this.child}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: MediaQuery.of(context).size.height,
-//       width: MediaQuery.of(context).size.width,
-//       decoration: const BoxDecoration(
-//         image: DecorationImage(
-//           image: AssetImage('assets/images/d.png'),
-//         ),
-//       ),
-//       child: child,
-//     );
-//   }
-// }
+import 'package:hireme/core/services/auth/auth_exceptions.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/core/themes/text_theme.dart';
+import 'package:hireme/pages/views/auth/widgets/form_field.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
   const ForgotPasswordForm({Key? key}) : super(key: key);
@@ -61,16 +39,13 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               ),
               Text(
                 AuthStatusTexts.forgotPassword,
-                style: darkMode
-                    ? DarkTheme().theme.textTheme.headline5
-                    : LightTheme().theme.textTheme.headline5,
+                style: textThemes.headline5,
               ),
               const SizedBox(
                 height: 30,
               ),
               EmailFormField(
                 controller: _emailController,
-                onChanged: (value) => userMail = value,
               ),
               const SizedBox(
                 height: 20,
@@ -92,10 +67,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                       await AuthService.firebase().sendPasswordReset(
                         email: email,
                       );
-                      await showSuccessDialog(
-                        context,
-                        AuthStatusTexts.forgotPassword,
-                      );
+                      showOkToast(
+                          text:
+                              'Şifrenizi sıfırlamanız için mail gönderildi. Lütfen mailinizi ve spam klasörünü kontrol ediniz.');
                     } on UserNotFoundAuthException {
                       await showErrorDialog(
                         context,

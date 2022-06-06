@@ -1,12 +1,11 @@
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:hrms/core/storage/text_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
 
 class ValidationConstants {
   static MultiValidator singUpPasswordValidator = MultiValidator([
     RequiredValidator(errorText: ValidateTexts.emptyPassword),
     MinLengthValidator(8, errorText: ValidateTexts.passwordLenght),
-    PatternValidator(r'(?=.*?[#?!@$%^&*-.])',
-        errorText: ValidateTexts.passwordCharacter)
+    PatternValidator(r'(?=.*?[#?!@$%^&*-.])', errorText: ValidateTexts.passwordCharacter)
   ]);
 
   static MultiValidator descriptionValidator = MultiValidator([
@@ -24,7 +23,7 @@ class ValidationConstants {
     MinLengthValidator(15, errorText: ValidateTexts.addressLenght),
   ]);
 
-   static MultiValidator salaryValidator = MultiValidator([
+  static MultiValidator salaryValidator = MultiValidator([
     RequiredValidator(errorText: ValidateTexts.emptySalaryField),
   ]);
 
@@ -46,8 +45,7 @@ class ValidationConstants {
   static MultiValidator phoneValidator = MultiValidator(
     [
       RequiredValidator(errorText: ValidateTexts.emptyPhoneNumber),
-      PatternValidator(r'^5(?:9)?[0-9]{9}$',
-          errorText: ValidateTexts.phoneNumberNotValid),
+      PatternValidator(r'^5(?:9)?[0-9]{9}$', errorText: ValidateTexts.phoneNumberNotValid),
     ],
   );
 

@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/models/user.dart';
-import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/details_view.dart';
-import 'package:hrms/pages/views/edit_form_view.dart';
-import 'package:hrms/pages/views/form_view.dart';
+import 'package:hireme/core/models/user.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/pages/views/details_view.dart';
+import 'package:hireme/pages/views/edit_form_view.dart';
+import 'package:hireme/pages/views/form_view.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, currentUserType}) : super(key: key);
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key, currentUserType}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeViewState extends State<HomeView> {
   late final _userData;
   late String userName = '';
   late bool _isEmployee;

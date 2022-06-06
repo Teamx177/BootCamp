@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/pages/views/details_view.dart';
+import 'package:hireme/pages/views/details_view.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -78,6 +78,49 @@ class _SearchViewState extends State<SearchView> {
                               )));
                         },
                         child: const Text('Temizlik')),
+                    OutlinedButton(
+                        onPressed: () {
+                          print(snapshot.data?.docs.map((e) => e.get(
+                                'category',
+                              )));
+                        },
+                        child: const Text('Tadilat')),
+                    OutlinedButton(
+                        onPressed: () {
+                          print(snapshot.data?.docs.map((e) => e.get(
+                                'category',
+                              )));
+                        },
+                        child: const Text('Nakliyat')),
+                    OutlinedButton(
+                        onPressed: () {
+                          print(snapshot.data?.docs.map((e) => e.get(
+                                'category',
+                              )));
+                        },
+                        child: const Text('Tamir')),
+                    OutlinedButton(
+                        onPressed: () {
+                          print(snapshot.data?.docs.map((e) => e.get(
+                                'category',
+                              )));
+                        },
+                        child: const Text('Özel Ders')),
+                    OutlinedButton(
+                        onPressed: () {
+                          print(snapshot.data?.docs.map((e) => e.get(
+                                'category',
+                              )));
+                        },
+                        child: const Text('Sağlık')),
+                    OutlinedButton(
+                        onPressed: () {
+                          print(snapshot.data?.docs.map((e) => e.get(
+                                'category',
+                              )));
+                        },
+                        child: const Text('Düğün')),
+                    const OutlinedButton(onPressed: null, child: Text('Diğer')),
                   ],
                 );
               }),

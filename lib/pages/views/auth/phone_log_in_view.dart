@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/storage/string_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/auth/widgets/form_field.dart';
+import 'package:hireme/core/managers/route_manager.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/storage/string_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/pages/views/auth/widgets/form_field.dart';
 
 class PhoneLoginView extends StatefulWidget {
   const PhoneLoginView({Key? key}) : super(key: key);
@@ -128,10 +128,8 @@ class _PhoneLoginViewState extends State<PhoneLoginView> {
         onPressed: () async {
           final phoneNumber = ('+90${_phoneController.text}');
           if (_formKey.currentState!.validate()) {
-            await AuthService.firebase()
-                .phoneLogin(phoneNumber: phoneNumber, context: context);
+            await AuthService.firebase().phoneLogin(phoneNumber: phoneNumber, context: context);
           }
-
           final user = AuthService.firebase().currentUser;
           if (user != null) {
             router.go('/home');
@@ -141,15 +139,15 @@ class _PhoneLoginViewState extends State<PhoneLoginView> {
           });
         },
         child: _isLoading
-            ? Container(
+            ? Text(AuthStatusTexts.signIn)
+            : Container(
                 width: 24,
                 height: 24,
                 padding: const EdgeInsets.all(2.0),
                 child: const CircularProgressIndicator(
                   strokeWidth: 3,
                 ),
-              )
-            : Text(AuthStatusTexts.signIn),
+              ),
       ),
     );
   }

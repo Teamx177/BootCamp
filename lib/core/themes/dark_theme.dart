@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hireme/core/themes/lib_color_schemes.g.dart';
+import 'package:hireme/core/themes/text_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hrms/core/themes/lib_color_schemes.g.dart';
-import 'package:hrms/core/themes/text_theme.dart';
 
 class DarkTheme {
   ThemeData theme = ThemeData(
@@ -70,7 +70,7 @@ class DarkTheme {
       ),
     ),
     useMaterial3: true,
-    textTheme: textTheme,
+    textTheme: textThemes,
   );
 }
 

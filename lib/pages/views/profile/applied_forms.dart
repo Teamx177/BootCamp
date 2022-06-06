@@ -3,9 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/dark_theme.dart';
-import 'package:hrms/core/themes/light_theme.dart';
-import 'package:hrms/core/themes/padding.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/core/themes/text_theme.dart';
 
 import '../details_view.dart';
 
@@ -24,18 +23,14 @@ class _AppliedsViewState extends State<AppliedsView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('Başvurularım',
-            style: darkMode
-                ? DarkTheme().theme.textTheme.headline5
-                : LightTheme().theme.textTheme.headline5),
+        title: Text('Başvurularım', style: textThemes.headline6),
       ),
       body: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('jobAdverts')
-                .where("applications",
-                    arrayContains: FirebaseAuth.instance.currentUser?.uid)
+                .where("applications", arrayContains: FirebaseAuth.instance.currentUser?.uid)
                 .snapshots()
                 .map((snapshot) => snapshot),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -52,8 +47,7 @@ class _AppliedsViewState extends State<AppliedsView> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (BuildContext context, int index) {
-                          var data =
-                              snapshot.data?.docs[index].data() as Map<String, dynamic>;
+                          var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
                           return Card(
                             clipBehavior: Clip.antiAlias,
                             margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
@@ -76,9 +70,7 @@ class _AppliedsViewState extends State<AppliedsView> {
                                         "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}...")),
                                 TextButton(
                                   onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection('jobAdverts')
-                                        .doc(data['id']);
+                                    FirebaseFirestore.instance.collection('jobAdverts').doc(data['id']);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -89,8 +81,7 @@ class _AppliedsViewState extends State<AppliedsView> {
                                     );
                                   },
                                   style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(Colors.red),
+                                    backgroundColor: MaterialStateProperty.all(Colors.red),
                                   ),
                                   child: const Text(
                                     'Detay Sayfası',

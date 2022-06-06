@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/core/models/user.dart';
-import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/storage/validation_storage.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/auth/widgets/form_field.dart';
+import 'package:hireme/core/managers/route_manager.dart';
+import 'package:hireme/core/models/user.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/storage/validation_storage.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/pages/views/auth/widgets/form_field.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({
@@ -82,17 +82,14 @@ class _EditProfileViewState extends State<EditProfileView> {
                       .collection('users')
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    _emailController.value = _emailController.value
-                        .copyWith(text: snapshot.data?.get('email'));
+                  builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    _emailController.value = _emailController.value.copyWith(text: snapshot.data?.get('email'));
                     return !snapshot.hasData
                         ? const Center(child: CircularProgressIndicator())
                         : Card(
                             borderOnForeground: true,
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
+                              padding: const EdgeInsets.symmetric(horizontal: 15),
                               child: Column(
                                 children: [
                                   const SizedBox(
@@ -108,20 +105,15 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updateName(snapshot, context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updateEmail(snapshot, context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updatePhone(snapshot, context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updatePassword(context),
-                                  SizedBox(
-                                      height: ProjectPadding.inputBoxHeight),
+                                  SizedBox(height: ProjectPadding.inputBoxHeight),
                                   _updateCity(snapshot, context),
                                   const SizedBox(height: 10),
                                   ElevatedButton(
@@ -172,14 +164,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                             PasswordFormField(
                               labelText: HintTexts.currentPassword,
                               controller: _passwordController,
-                              validator:
-                                  ValidationConstants.loginPasswordValidator,
+                              validator: ValidationConstants.loginPasswordValidator,
                             ),
                             PasswordFormField(
                               labelText: HintTexts.newPassword,
                               controller: _newPasswordController,
-                              validator:
-                                  ValidationConstants.loginPasswordValidator,
+                              validator: ValidationConstants.loginPasswordValidator,
                             ),
                           ],
                         ),
@@ -195,8 +185,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                             onPressed: () async {
                               if (_passwordKey.currentState!.validate()) {
                                 final email = _emailController.value.text;
-                                final currentPassword =
-                                    _passwordController.text;
+                                final currentPassword = _passwordController.text;
                                 final newPassword = _newPasswordController.text;
 
                                 await AuthService.firebase().updatePassword(
@@ -205,8 +194,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   currentPassword,
                                   newPassword,
                                 );
-                                showOkToast(
-                                    text: UpdateTexts.passwordUpdateSuccess);
+                                showOkToast(text: UpdateTexts.passwordUpdateSuccess);
                               }
                             },
                             child: Text(AuthStatusTexts.confirm)),
@@ -220,8 +208,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
-  Row _updateName(
-      AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
+  Row _updateName(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -274,8 +261,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       TextButton(
                         onPressed: () async {
                           if (_nameController.text.isNotEmpty) {
-                            await AuthService.firebase().updateDisplayName(
-                                _nameController.text, context);
+                            await AuthService.firebase().updateDisplayName(_nameController.text, context);
                             showOkToast(text: UpdateTexts.nameUpdateSuccess);
                           } else {
                             await showErrorDialog(
@@ -297,8 +283,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
-  Row _updateEmail(
-      AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
+  Row _updateEmail(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -335,8 +320,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                             controller: _passwordController,
                             obscureText: true,
                             hintText: HintTexts.passwordHint,
-                            validator:
-                                ValidationConstants.loginPasswordValidator,
+                            validator: ValidationConstants.loginPasswordValidator,
                           ),
                         ],
                       ),
@@ -354,8 +338,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                           final newEmail = _newEmailController.text;
                           final password = _passwordController.text;
                           if (_emailKey.currentState!.validate()) {
-                            AuthService.firebase().updateEmail(
-                                context, newEmail, email, password);
+                            AuthService.firebase().updateEmail(context, newEmail, email, password);
                           }
                           final user = FirebaseAuth.instance.currentUser?.email;
                           if (email == user) {
@@ -375,8 +358,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
-  Row _updateCity(
-      AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
+  Row _updateCity(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -433,10 +415,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(snapshot.data?.id)
-                              .update({'city': _city});
+                          FirebaseFirestore.instance.collection('users').doc(snapshot.data?.id).update({'city': _city});
                           showOkToast(text: UpdateTexts.cityUpdateSuccess);
                         },
                         child: Text(AuthStatusTexts.confirm),
@@ -452,8 +431,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
-  Row _updatePhone(
-      AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
+  Row _updatePhone(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, BuildContext context) {
     String phone = '${snapshot.data?.get('phone')}';
     return Row(
       children: [
@@ -473,17 +451,14 @@ class _EditProfileViewState extends State<EditProfileView> {
         Expanded(
           flex: 15,
           child: IconButton(
-            icon: !updatePhone
-                ? const Icon(Icons.edit_outlined)
-                : const Icon(Icons.save_as_outlined),
+            icon: !updatePhone ? const Icon(Icons.edit_outlined) : const Icon(Icons.save_as_outlined),
             onPressed: () async {
               showUpdatePhoneDialog(
                   context: context,
                   phoneController: _phoneController,
                   onPressed: () async {
                     if (_phoneKey.currentState!.validate()) {
-                      await AuthService.firebase().updatePhone(
-                          ('+90${_phoneController.text}'), context);
+                      await AuthService.firebase().updatePhone(('+90${_phoneController.text}'), context);
                       showOkToast(text: UpdateTexts.phoneNumberUpdateSuccess);
                     }
                   });

@@ -1,4 +1,4 @@
-package com.hrmst177.hrms
+package com.hireme.com
 
 import io.flutter.embedding.android.FlutterActivity
 

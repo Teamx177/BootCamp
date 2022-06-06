@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/dark_theme.dart';
-import 'package:hrms/core/themes/light_theme.dart';
+import 'package:hireme/core/themes/text_theme.dart';
 
 class FavoritesView extends StatefulWidget {
   const FavoritesView({Key? key}) : super(key: key);
@@ -14,10 +13,7 @@ class _FavoritesViewState extends State<FavoritesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favoriler',
-            style: darkMode
-                ? DarkTheme().theme.textTheme.headline5
-                : LightTheme().theme.textTheme.headline5),
+        title: Text('Favoriler', style: textThemes.headline5),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -48,8 +44,7 @@ class _FavoritesViewState extends State<FavoritesView> {
                         TextButton(
                           onPressed: () {},
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.red),
+                            backgroundColor: MaterialStateProperty.all(Colors.red),
                           ),
                           child: const Text(
                             'Başvuru Yap',

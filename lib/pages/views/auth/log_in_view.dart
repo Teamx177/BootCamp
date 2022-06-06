@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hireme/core/managers/route_manager.dart';
+import 'package:hireme/core/services/auth/auth_exceptions.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/storage/validation_storage.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/pages/views/auth/widgets/form_field.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/core/services/auth/auth_exceptions.dart';
-import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/string_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/storage/validation_storage.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/auth/widgets/form_field.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -163,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
       controller: _passwordController,
       hintText: HintTexts.passwordHint,
       validator: ValidationConstants.loginPasswordValidator,
-      onChanged: (value) => userPassword = value,
+      // onChanged: (value) => _passwordController.text = value,
       textInputAction: TextInputAction.done,
     );
   }
@@ -172,7 +171,6 @@ class _LoginViewState extends State<LoginView> {
     return EmailFormField(
       controller: _emailController,
       hintText: HintTexts.emailHint,
-      onChanged: (value) => userMail = value,
     );
   }
 

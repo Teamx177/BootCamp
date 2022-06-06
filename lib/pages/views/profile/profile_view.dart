@@ -1,16 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hireme/core/managers/route_manager.dart';
+import 'package:hireme/core/services/auth/auth_exceptions.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/firebase.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/themes/lib_color_schemes.g.dart';
+import 'package:hireme/core/themes/padding.dart';
 import 'package:hive/hive.dart';
-import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/core/services/auth/auth_exceptions.dart';
-import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/themes/lib_color_schemes.g.dart';
-import 'package:hrms/core/themes/padding.dart';
-
-import '../../../core/storage/firebase.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);

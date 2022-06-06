@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/auth/widgets/forgot_password_view_widgets.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/pages/views/auth/widgets/forgot_password_view_widgets.dart';
 
 class ForgotView extends StatefulWidget {
   const ForgotView({Key? key}) : super(key: key);

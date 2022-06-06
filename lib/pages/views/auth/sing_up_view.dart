@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hrms/core/services/auth/auth_exceptions.dart';
-import 'package:hrms/core/services/auth/auth_service.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/string_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/storage/validation_storage.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/auth/widgets/form_field.dart';
+import 'package:hireme/core/services/auth/auth_exceptions.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/storage/validation_storage.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/pages/views/auth/widgets/form_field.dart';
 
 class SingUpView extends StatefulWidget {
   const SingUpView({Key? key}) : super(key: key);
@@ -24,8 +23,7 @@ class _SingUpViewState extends State<SingUpView> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController =
-      TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
   late bool _isButtonEnabled;
   late int _index;
   late String _selectedGender;
@@ -164,9 +162,7 @@ class _SingUpViewState extends State<SingUpView> {
       child: RichText(
         text: TextSpan(
             style: TextStyle(
-              color: _index == 0
-                  ? const Color.fromARGB(255, 244, 67, 54)
-                  : Colors.grey,
+              color: _index == 0 ? const Color.fromARGB(255, 244, 67, 54) : Colors.grey,
               fontSize: _index == 0 ? 27 : 16,
             ),
             children: [
@@ -198,9 +194,7 @@ class _SingUpViewState extends State<SingUpView> {
       child: Text(
         "2",
         style: TextStyle(
-          color: _index == 1 || _isButtonEnabled
-              ? const Color.fromARGB(255, 244, 67, 54)
-              : Colors.grey,
+          color: _index == 1 || _isButtonEnabled ? const Color.fromARGB(255, 244, 67, 54) : Colors.grey,
           fontSize: _index == 1 ? 27 : 16,
         ),
       ),
@@ -300,7 +294,6 @@ class _SingUpViewState extends State<SingUpView> {
       padding: ProjectPadding.inputPaddingVertical,
       child: NameFormField(
         controller: _nameController,
-        onChanged: (value) => userName = value,
       ),
     );
   }
@@ -311,7 +304,6 @@ class _SingUpViewState extends State<SingUpView> {
       child: EmailFormField(
         hintText: HintTexts.emailHint,
         controller: _emailController,
-        onChanged: (value) => userMail = value,
       ),
     );
   }
@@ -321,7 +313,6 @@ class _SingUpViewState extends State<SingUpView> {
       padding: ProjectPadding.inputPaddingVertical,
       child: PhoneFormField(
         controller: _phoneNumberController,
-        onChanged: (value) => userPhoneNumber = value,
       ),
     );
   }
@@ -332,7 +323,6 @@ class _SingUpViewState extends State<SingUpView> {
       child: PasswordFormField(
         hintText: HintTexts.passwordHint,
         controller: _passwordController,
-        onChanged: (value) => userPassword = value,
         validator: ValidationConstants.singUpPasswordValidator,
       ),
     );
@@ -348,12 +338,11 @@ class _SingUpViewState extends State<SingUpView> {
           if (value == null || value.isEmpty) {
             return ValidateTexts.emptyPasswordControl;
           }
-          if (value != userPassword) {
+          if (value != _passwordController.text) {
             return ValidateTexts.passwordNotMatch;
           }
           return null;
         },
-        onChanged: (value) => userPasswordConfirm = value,
       ),
     );
   }
@@ -381,10 +370,7 @@ class _SingUpViewState extends State<SingUpView> {
               password: password,
               phoneNumber: phoneNumber,
             );
-            await FirebaseFirestore.instance
-                .collection("users")
-                .doc(FirebaseAuth.instance.currentUser?.uid)
-                .set({
+            await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set({
               'id': user.uid,
               "name": name,
               "email": email,

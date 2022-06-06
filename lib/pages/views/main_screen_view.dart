@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/lib_color_schemes.g.dart';
-import 'package:hrms/pages/views/home_view.dart';
-import 'package:hrms/pages/views/profile/profile_view.dart';
-import 'package:hrms/pages/views/search_view.dart';
+import 'package:hireme/core/themes/lib_color_schemes.g.dart';
+import 'package:hireme/pages/views/home_view.dart';
+import 'package:hireme/pages/views/profile/profile_view.dart';
+import 'package:hireme/pages/views/search_view.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import 'notify_view.dart';
@@ -20,7 +20,7 @@ class _MainViewState extends State<MainView> {
 
   List<Widget> tabPages() {
     return <Widget>[
-      const HomePage(),
+      const HomeView(),
       const SearchView(),
       const NotifyView(),
       const ProfileView(),

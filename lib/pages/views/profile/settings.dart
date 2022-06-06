@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/core/storage/dialog_storage.dart';
-import 'package:hrms/core/storage/text_storage.dart';
-import 'package:hrms/core/storage/validation_storage.dart';
-import 'package:hrms/core/themes/padding.dart';
-import 'package:hrms/pages/views/auth/widgets/form_field.dart';
+import 'package:hireme/core/managers/route_manager.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/text_storage.dart';
+import 'package:hireme/core/storage/validation_storage.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/pages/views/auth/widgets/form_field.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -24,9 +25,22 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    bool value;
+    var darkMode = Hive.box('themeData').get('darkmode', defaultValue: false);
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        actions: [
+          IconButton(
+              icon: Icon(
+                darkMode ? Icons.light_mode : Icons.dark_mode,
+              ),
+              onPressed: () {
+                setState(() {
+                  value = !darkMode;
+                  Hive.box('themeData').put('darkmode', value);
+                });
+              }),
+        ],
       ),
       body: Padding(
         padding: ProjectPadding.pagePaddingHorizontal,
@@ -96,8 +110,7 @@ class _SettingsViewState extends State<SettingsView> {
                                     },
                                   ),
                                   PasswordFormField(
-                                    validator: ValidationConstants
-                                        .loginPasswordValidator,
+                                    validator: ValidationConstants.loginPasswordValidator,
                                     hintText: HintTexts.passwordHint,
                                     onChanged: (value) {
                                       setState(() {
@@ -122,65 +135,43 @@ class _SettingsViewState extends State<SettingsView> {
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         try {
-                                          var credential =
-                                              EmailAuthProvider.credential(
-                                                  email: _emailController.text,
-                                                  password:
-                                                      _passwordController.text);
-                                          await FirebaseAuth
-                                              .instance.currentUser
-                                              ?.reauthenticateWithCredential(
-                                                  credential)
+                                          var credential = EmailAuthProvider.credential(
+                                              email: _emailController.text, password: _passwordController.text);
+                                          await FirebaseAuth.instance.currentUser
+                                              ?.reauthenticateWithCredential(credential)
                                               .then((_) async {
-                                            showDialog(
+                                            await showDialog(
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
-                                                    title: Text(UpdateTexts
-                                                        .confirmDeleteAccount),
+                                                    title: Text(UpdateTexts.confirmDeleteAccount),
                                                     actions: [
                                                       TextButton(
                                                           onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
+                                                            Navigator.pop(context);
                                                           },
-                                                          child: Text(
-                                                              UpdateTexts.no)),
+                                                          child: Text(UpdateTexts.no)),
                                                       TextButton(
                                                           onPressed: () async {
-                                                            await FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'users')
-                                                                .doc(FirebaseAuth
-                                                                    .instance
-                                                                    .currentUser
-                                                                    ?.uid)
+                                                            await FirebaseFirestore.instance
+                                                                .collection('users')
+                                                                .doc(FirebaseAuth.instance.currentUser?.uid)
                                                                 .delete();
-                                                            await FirebaseAuth
-                                                                .instance
-                                                                .currentUser
-                                                                ?.delete();
-                                                            if (FirebaseAuth
-                                                                    .instance
-                                                                    .currentUser ==
-                                                                null) {
+                                                            await FirebaseAuth.instance.currentUser?.delete();
+                                                            if (FirebaseAuth.instance.currentUser == null) {
                                                               router.go('/');
                                                             } else {
                                                               showErrorDialog(
-                                                                  context,
-                                                                  'Hesap silinirken bir hata olustu');
+                                                                  context, 'Hesap silinirken bir hata olustu');
                                                             }
                                                           },
-                                                          child: Text(
-                                                              UpdateTexts.yes)),
+                                                          child: Text(UpdateTexts.yes)),
                                                     ],
                                                   );
                                                 });
                                           });
                                         } catch (e) {
-                                          showErrorDialog(
-                                              context, e.toString());
+                                          showErrorDialog(context, e.toString());
                                         }
                                       }
                                     },
@@ -192,8 +183,8 @@ class _SettingsViewState extends State<SettingsView> {
                           );
                         });
                   },
-                  label: Text(UpdateTexts.delete),
-                  icon: const Icon(Icons.delete_forever),
+                  label: Text(UpdateTexts.delete, style: const TextStyle(color: Colors.red)),
+                  icon: const Icon(Icons.delete_forever, color: Colors.red),
                 ),
               ),
             ],

@@ -2,11 +2,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/dark_theme.dart';
-import 'package:hrms/core/themes/light_theme.dart';
-import 'package:hrms/core/themes/padding.dart';
-
-import '../details_view.dart';
+import 'package:hireme/core/services/auth/auth_service.dart';
+import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/core/themes/text_theme.dart';
 
 class IncomingApplicationsView extends StatefulWidget {
   const IncomingApplicationsView({
@@ -23,17 +21,14 @@ class _IncomingApplicationsViewState extends State<IncomingApplicationsView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('Başvurularım',
-            style: darkMode ? DarkTheme().theme.textTheme.headline5 : LightTheme().theme.textTheme.headline5),
+        title: Text('Gelen Başvurularım', style: textThemes.headline5),
       ),
       body: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection('jobAdverts')
-                .where(
-                  "applications",
-                )
+                .collection('applications')
+                .where("employerId", isEqualTo: AuthService.firebase().currentUser?.uid)
                 .snapshots()
                 .map((snapshot) => snapshot),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -64,35 +59,21 @@ class _IncomingApplicationsViewState extends State<IncomingApplicationsView> {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  subtitle: Text(
-                                      "Kategori: ${data['category']}\n${data['date'].toString().substring(0, 10)}"),
+                                  subtitle: Text("Kategori: ${data['category']}"),
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text(
-                                        "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}...")),
-                                TextButton(
-                                  onPressed: () {
-                                    FirebaseFirestore.instance.collection('jobAdverts').doc(data['id']);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => DetailsView(
-                                          docID: snapshot.data?.docs[index].id,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.red),
-                                  ),
-                                  child: const Text(
-                                    'Detay Sayfası',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
+                                        "İsim: ${data['userName']}\nTelefon: ${data['userPhone']}\nŞehir: ${data['userCity']}")),
                                 const SizedBox(
                                   height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    TextButton(onPressed: () {}, child: const Text("Onayla")),
+                                    TextButton(onPressed: () {}, child: const Text("Reddet")),
+                                  ],
                                 )
                               ],
                             ),

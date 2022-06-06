@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/core/managers/route_manager.dart';
-import 'package:hrms/pages/views/auth/widgets/form_field.dart';
+import 'package:hireme/pages/views/auth/widgets/form_field.dart';
 import 'package:oktoast/oktoast.dart';
 
 import '../managers/route_manager.dart';

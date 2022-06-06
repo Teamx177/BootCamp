@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hrms/pages/views/auth/forgot_password_view.dart';
-import 'package:hrms/pages/views/auth/log_in_view.dart';
-import 'package:hrms/pages/views/auth/phone_log_in_view.dart';
-import 'package:hrms/pages/views/auth/sing_up_view.dart';
-import 'package:hrms/pages/views/details_view.dart';
-import 'package:hrms/pages/views/loading.dart';
-import 'package:hrms/pages/views/main_screen_view.dart';
-import 'package:hrms/pages/views/profile/applied_forms.dart';
-import 'package:hrms/pages/views/profile/edit_profile_view.dart';
-import 'package:hrms/pages/views/profile/favorites_view.dart';
-import 'package:hrms/pages/views/profile/incoming_applications_view.dart';
-import 'package:hrms/pages/views/profile/profile_view.dart';
-import 'package:hrms/pages/views/profile/settings.dart';
-import 'package:hrms/pages/views/search_view.dart';
-import 'package:hrms/pages/views/splash_view.dart';
+import 'package:hireme/pages/views/auth/forgot_password_view.dart';
+import 'package:hireme/pages/views/auth/log_in_view.dart';
+import 'package:hireme/pages/views/auth/phone_log_in_view.dart';
+import 'package:hireme/pages/views/auth/sing_up_view.dart';
+import 'package:hireme/pages/views/details_view.dart';
+import 'package:hireme/pages/views/loading.dart';
+import 'package:hireme/pages/views/main_screen_view.dart';
+import 'package:hireme/pages/views/profile/applied_forms.dart';
+import 'package:hireme/pages/views/profile/edit_profile_view.dart';
+import 'package:hireme/pages/views/profile/favorites_view.dart';
+import 'package:hireme/pages/views/profile/incoming_applications_view.dart';
+import 'package:hireme/pages/views/profile/profile_view.dart';
+import 'package:hireme/pages/views/profile/settings.dart';
+import 'package:hireme/pages/views/search_view.dart';
+import 'package:hireme/pages/views/splash_view.dart';
 
 final router = GoRouter(
   initialLocation: '/splash',

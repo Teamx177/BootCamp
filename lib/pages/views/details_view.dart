@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms/core/themes/padding.dart';
+import 'package:hireme/core/themes/padding.dart';
 
 import '../../core/storage/dialog_storage.dart';
 import '../../core/storage/firebase.dart';
@@ -18,6 +18,11 @@ class DetailsView extends StatefulWidget {
 class _DetailsViewState extends State<DetailsView> {
   late int _selectedIndex;
   String? _userType;
+  String? _userGender;
+  String? _userEmail;
+  String? _userPhone;
+  String? _userName;
+  String? _userCity;
 
   @override
   void initState() {
@@ -32,6 +37,11 @@ class _DetailsViewState extends State<DetailsView> {
       var userType = doc.data();
       setState(() {
         _userType = userType?['type'];
+        _userGender = userType?['gender'];
+        _userEmail = userType?['email'];
+        _userPhone = userType?['phone'];
+        _userName = userType?['name'];
+        _userCity = userType?['city'];
       });
     });
   }
@@ -200,6 +210,20 @@ class _DetailsViewState extends State<DetailsView> {
                                       .update({
                                         'applications': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
                                       })
+                                      .then((_) {
+                                        FirebaseFirestore.instance.collection("applications").doc().set({
+                                          'userName': _userName,
+                                          'userID': FirebaseAuth.instance.currentUser?.uid,
+                                          'userGender': _userGender,
+                                          'userPhone': _userPhone,
+                                          'userEmail': _userEmail,
+                                          'userCity': _userCity,
+                                          'title': snapshot.data?.get('title'),
+                                          'category': snapshot.data?.get('category'),
+                                          'employerId': snapshot.data?.get('userId'),
+                                          'jobAdvertID': widget.docID,
+                                        });
+                                      })
                                       .then((_) => showSuccessDialog(context, "Başvurunuz alındı."))
                                       .then(
                                         (value) {
@@ -210,7 +234,7 @@ class _DetailsViewState extends State<DetailsView> {
                                 child: const Text('Başvur'),
                               )
                             : _userType == "employer"
-                                ? Text("")
+                                ? const Text("")
                                 : const ElevatedButton(
                                     onPressed: null,
                                     child: Text('Başvuru Yapıldı'),

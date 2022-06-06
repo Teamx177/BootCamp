@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:hrms/core/services/auth/auth_provider.dart';
-import 'package:hrms/core/services/auth/auth_user.dart';
-import 'package:hrms/core/services/auth/firebase_auth_provider.dart';
+import 'package:hireme/core/services/auth/auth_provider.dart';
+import 'package:hireme/core/services/auth/auth_user.dart';
+import 'package:hireme/core/services/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider provider;
@@ -78,15 +78,13 @@ class AuthService implements AuthProvider {
       );
 
   @override
-  Future<User?> updatePhone(String phoneNumber, BuildContext context) =>
-      provider.updatePhone(phoneNumber, context);
+  Future<User?> updatePhone(String phoneNumber, BuildContext context) => provider.updatePhone(phoneNumber, context);
 
   @override
   Future<void> updateDisplayName(String displayName, BuildContext context) =>
       provider.updateDisplayName(displayName, context);
   @override
-  Future<void> updateEmail(BuildContext context, String newEmail,
-          String currentEmail, String currentPassword) =>
+  Future<void> updateEmail(BuildContext context, String newEmail, String currentEmail, String currentPassword) =>
       provider.updateEmail(
         context,
         newEmail,
@@ -94,7 +92,6 @@ class AuthService implements AuthProvider {
         currentPassword,
       );
   @override
-  Future<void> updatePassword(BuildContext context, String email,
-          String currentPassword, String newPassword) =>
+  Future<void> updatePassword(BuildContext context, String email, String currentPassword, String newPassword) =>
       provider.updatePassword(context, email, currentPassword, newPassword);
 }
