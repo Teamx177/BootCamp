@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hireme/core/services/auth/auth_provider.dart';
 import 'package:hireme/core/services/auth/auth_user.dart';
@@ -14,16 +13,12 @@ class AuthService implements AuthProvider {
 
   @override
   Future<AuthUser> createUser({
-    required BuildContext context,
     required String email,
     required String password,
-    required String phoneNumber,
   }) =>
       provider.createUser(
-        context: context,
         email: email,
         password: password,
-        phoneNumber: phoneNumber,
       );
 
   @override
@@ -56,19 +51,6 @@ class AuthService implements AuthProvider {
       provider.sendPasswordReset(
         email: email,
       );
-
-  @override
-  Future<User?> phoneLogin({
-    required String phoneNumber,
-    required BuildContext context,
-  }) =>
-      provider.phoneLogin(
-        phoneNumber: phoneNumber,
-        context: context,
-      );
-
-  @override
-  Future<User?> updatePhone(String phoneNumber, BuildContext context) => provider.updatePhone(phoneNumber, context);
 
   @override
   Future<void> updateDisplayName(String displayName, BuildContext context) =>

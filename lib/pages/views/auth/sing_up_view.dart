@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hireme/core/managers/route_manager.dart';
 import 'package:hireme/core/services/auth/auth_exceptions.dart';
 import 'package:hireme/core/services/auth/auth_service.dart';
 import 'package:hireme/core/storage/dialog_storage.dart';
@@ -380,10 +381,8 @@ class _SingUpViewState extends State<SingUpView> {
           try {
             await AuthService.firebase()
                 .createUser(
-                  context: context,
                   email: email,
                   password: password,
-                  phoneNumber: phoneNumber,
                 )
                 .then((value) => _load());
             await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set({
@@ -397,6 +396,9 @@ class _SingUpViewState extends State<SingUpView> {
               "picture": "assets/images/userPics/user$randomNumber.png"
             });
             await AuthService.firebase().sendEmailVerification();
+            if (FirebaseAuth.instance.currentUser != null) {
+              router.go('/home');
+            }
           } on EmailAlreadyInUseAuthException {
             await showErrorDialog(
               context,

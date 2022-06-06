@@ -188,9 +188,6 @@ class _ProfileViewState extends State<ProfileView> {
                                                             });
                                                             if (FirebaseAuth.instance.currentUser == null) {
                                                               router.go('/');
-                                                            } else {
-                                                              showErrorDialog(
-                                                                  context, 'Hesap silinirken bir hata olustu');
                                                             }
                                                           },
                                                           child: Text(UpdateTexts.yes)),

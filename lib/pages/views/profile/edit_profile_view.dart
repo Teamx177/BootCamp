@@ -456,10 +456,10 @@ class _EditProfileViewState extends State<EditProfileView> {
                   context: context,
                   phoneController: _phoneController,
                   onPressed: () async {
-                    await AuthService.firebase()
-                        .updatePhone(('+90${_phoneController.text}'), context)
-                        .then((value) => const CircularProgressIndicator.adaptive())
-                        .then((value) => Navigator.pop(context));
+                    //   await AuthService.firebase()
+                    //       .updatePhone(('+90${_phoneController.text}'), context)
+                    //       .then((value) => const CircularProgressIndicator.adaptive())
+                    //       .then((value) => Navigator.pop(context));
                   });
             },
           ),

@@ -10,9 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart'
         PhoneAuthCredential,
         PhoneAuthProvider,
         User;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hireme/core/managers/route_manager.dart';
 import 'package:hireme/core/services/auth/auth_exceptions.dart';
 import 'package:hireme/core/services/auth/auth_provider.dart';
 import 'package:hireme/core/services/auth/auth_user.dart';
@@ -20,78 +18,19 @@ import 'package:hireme/core/storage/dialog_storage.dart';
 import 'package:hireme/core/storage/text_storage.dart';
 
 class FirebaseAuthprovider implements AuthProvider {
-  String? verificationId;
+  // String? verificationId;
   @override
   Future<AuthUser> createUser({
-    required BuildContext context,
     required String email,
     required String password,
-    required String phoneNumber,
   }) async {
     try {
-      TextEditingController codeController = TextEditingController();
       await FirebaseAuth.instance
-          .verifyPhoneNumber(
-              timeout: const Duration(seconds: 60),
-              phoneNumber: phoneNumber,
-              verificationCompleted: (PhoneAuthCredential credential) {},
-              verificationFailed: (FirebaseAuthException e) {
-                showOkToast(text: e.message.toString());
-              },
-              codeSent: ((
-                String verificationId,
-                int? resendToken,
-              ) async {
-                showOTPDialog(
-                    codeController: codeController,
-                    context: context,
-                    onPressed: () async {
-                      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                        verificationId: verificationId,
-                        smsCode: codeController.text.trim(),
-                      );
-
-                      try {
-                        await FirebaseAuth.instance.currentUser
-                            ?.linkWithCredential(credential)
-                            .then((value) => showOkToast(text: AuthStatusTexts.successRegister));
-                        await FirebaseAuth.instance.currentUser?.updatePhoneNumber(credential);
-                        await FirebaseAuth.instance.currentUser?.reload().then((value) => router.go('/home'));
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'invalid-verification-id') {
-                          await showErrorDialog(context, ErrorTexts.invalidVerificationId);
-                        } else if (e.code == 'provider-already-linked') {
-                          await showErrorDialog(context, ErrorTexts.credentialAlreadyLinked);
-                        } else if (e.code == 'email-already-in-use') {
-                          await showErrorDialog(context, ErrorTexts.emailAlreadyUse);
-                        } else if (e.code == 'invalid-verification-code') {
-                          await showErrorDialog(context, ErrorTexts.invalidVerificationCode);
-                        } else if (e.code == 'credential-already-in-use') {
-                          await showErrorDialog(context, ErrorTexts.credentialAlreadyUse);
-                        } else if (e.code == 'too-many-requests') {
-                          await showErrorDialog(context, ErrorTexts.tooManyRequests);
-                        } else if (e.code == 'internal-error') {
-                          await showErrorDialog(context, ErrorTexts.internalError);
-                        } else if (e.code == 'network-request-failed') {
-                          await showErrorDialog(context, ErrorTexts.networkError);
-                        } else if (e.code == 'operation-not-allowed') {
-                          await showErrorDialog(context, ErrorTexts.notAllowed);
-                        } else {
-                          await showErrorDialog(context, ErrorTexts.error);
-                        }
-                      }
-                    });
-              }),
-              codeAutoRetrievalTimeout: (String verificationId) {
-                verificationId = verificationId;
-              })
-          .then((value) => FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: email,
-                password: password,
-              ));
-      if (FirebaseAuth.instance.currentUser?.phoneNumber != null) {
-        router.go('/home');
-      }
+          .createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .then((value) => showOkToast(text: AuthStatusTexts.successRegister));
       final user = currentUser;
       if (user != null) {
         return user;
@@ -204,191 +143,191 @@ class FirebaseAuthprovider implements AuthProvider {
     }
   }
 
-  @override
-  Future<User?> phoneLogin({
-    required String phoneNumber,
-    required BuildContext context,
-  }) async {
-    //Web can't be good for use
-    TextEditingController codeController = TextEditingController();
-    if (kIsWeb) {
-      ConfirmationResult result = await FirebaseAuth.instance.signInWithPhoneNumber(phoneNumber);
-      showOTPDialog(
-        codeController: codeController,
-        context: context,
-        onPressed: () async {
-          PhoneAuthCredential credential = PhoneAuthProvider.credential(
-            verificationId: result.verificationId,
-            smsCode: codeController.text.trim(),
-          );
-          await FirebaseAuth.instance.signInWithCredential(credential);
-          Navigator.of(context).pop();
-        },
-      );
-    } else {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        timeout: const Duration(seconds: 60),
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) {},
-        verificationFailed: (FirebaseAuthException e) {
-          showErrorDialog(context, e.message.toString());
-        },
-        codeSent: ((
-          String verificationId,
-          int? resendToken,
-        ) async {
-          showOTPDialog(
-            codeController: codeController,
-            context: context,
-            onPressed: () async {
-              PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                verificationId: verificationId,
-                smsCode: codeController.text.trim(),
-              );
-              try {
-                await FirebaseAuth.instance
-                    .signInWithCredential(credential)
-                    .then((value) => showOkToast(text: AuthStatusTexts.loginSucces));
-                router.pop();
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'invalid-verification-id') {
-                  await showErrorDialog(
-                    context,
-                    ErrorTexts.invalidVerificationId,
-                  );
-                } else if (e.code == 'provider-already-linked') {
-                  await showErrorDialog(
-                    context,
-                    ErrorTexts.credentialAlreadyLinked,
-                  );
-                } else if (e.code == 'email-already-in-use') {
-                  await showErrorDialog(
-                    context,
-                    ErrorTexts.emailAlreadyUse,
-                  );
-                } else if (e.code == 'invalid-verification-code') {
-                  await showErrorDialog(
-                    context,
-                    ErrorTexts.invalidVerificationCode,
-                  );
-                } else if (e.code == 'credential-already-in-use') {
-                  await showErrorDialog(context, ErrorTexts.credentialAlreadyUse);
-                } else if (e.code == 'too-many-requests') {
-                  await showErrorDialog(
-                    context,
-                    ErrorTexts.tooManyRequests,
-                  );
-                } else if (e.code == 'internal-error') {
-                  await showErrorDialog(
-                    context,
-                    ErrorTexts.internalError,
-                  );
-                } else if (e.code == 'network-request-failed') {
-                  await showErrorDialog(
-                    context,
-                    ErrorTexts.networkError,
-                  );
-                } else {
-                  await showErrorDialog(
-                    context,
-                    (e.toString()),
-                  );
-                }
-              }
-              final user = FirebaseAuth.instance.currentUser;
-              if (user != null) {
-                router.go('/home');
-              }
-              showOkToast(text: 'Giriş yapıldı');
-            },
-          );
-        }),
-        codeAutoRetrievalTimeout: (String verificationId) {
-          verificationId = verificationId;
-        },
-      );
-    }
-    var user = FirebaseAuth.instance.currentUser;
-    await user?.reload();
-    return user;
-  }
+  // @override
+  // Future<User?> phoneLogin({
+  //   required String phoneNumber,
+  //   required BuildContext context,
+  // }) async {
+  //   //Web can't be good for use
+  //   TextEditingController codeController = TextEditingController();
+  //   if (kIsWeb) {
+  //     ConfirmationResult result = await FirebaseAuth.instance.signInWithPhoneNumber(phoneNumber);
+  //     showOTPDialog(
+  //       codeController: codeController,
+  //       context: context,
+  //       onPressed: () async {
+  //         PhoneAuthCredential credential = PhoneAuthProvider.credential(
+  //           verificationId: result.verificationId,
+  //           smsCode: codeController.text.trim(),
+  //         );
+  //         await FirebaseAuth.instance.signInWithCredential(credential);
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   } else {
+  //     await FirebaseAuth.instance.verifyPhoneNumber(
+  //       timeout: const Duration(seconds: 60),
+  //       phoneNumber: phoneNumber,
+  //       verificationCompleted: (PhoneAuthCredential credential) {},
+  //       verificationFailed: (FirebaseAuthException e) {
+  //         showErrorDialog(context, e.message.toString());
+  //       },
+  //       codeSent: ((
+  //         String verificationId,
+  //         int? resendToken,
+  //       ) async {
+  //         showOTPDialog(
+  //           codeController: codeController,
+  //           context: context,
+  //           onPressed: () async {
+  //             PhoneAuthCredential credential = PhoneAuthProvider.credential(
+  //               verificationId: verificationId,
+  //               smsCode: codeController.text.trim(),
+  //             );
+  //             try {
+  //               await FirebaseAuth.instance
+  //                   .signInWithCredential(credential)
+  //                   .then((value) => showOkToast(text: AuthStatusTexts.loginSucces));
+  //               router.pop();
+  //             } on FirebaseAuthException catch (e) {
+  //               if (e.code == 'invalid-verification-id') {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   ErrorTexts.invalidVerificationId,
+  //                 );
+  //               } else if (e.code == 'provider-already-linked') {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   ErrorTexts.credentialAlreadyLinked,
+  //                 );
+  //               } else if (e.code == 'email-already-in-use') {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   ErrorTexts.emailAlreadyUse,
+  //                 );
+  //               } else if (e.code == 'invalid-verification-code') {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   ErrorTexts.invalidVerificationCode,
+  //                 );
+  //               } else if (e.code == 'credential-already-in-use') {
+  //                 await showErrorDialog(context, ErrorTexts.credentialAlreadyUse);
+  //               } else if (e.code == 'too-many-requests') {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   ErrorTexts.tooManyRequests,
+  //                 );
+  //               } else if (e.code == 'internal-error') {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   ErrorTexts.internalError,
+  //                 );
+  //               } else if (e.code == 'network-request-failed') {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   ErrorTexts.networkError,
+  //                 );
+  //               } else {
+  //                 await showErrorDialog(
+  //                   context,
+  //                   (e.toString()),
+  //                 );
+  //               }
+  //             }
+  //             final user = FirebaseAuth.instance.currentUser;
+  //             if (user != null) {
+  //               router.go('/home');
+  //             }
+  //             showOkToast(text: 'Giriş yapıldı');
+  //           },
+  //         );
+  //       }),
+  //       codeAutoRetrievalTimeout: (String verificationId) {
+  //         verificationId = verificationId;
+  //       },
+  //     );
+  //   }
+  //   var user = FirebaseAuth.instance.currentUser;
+  //   await user?.reload();
+  //   return user;
+  // }
 
-  @override
-  Future<User?> updatePhone(String phoneNumber, BuildContext context) async {
-    TextEditingController codeController = TextEditingController();
-    var user = FirebaseAuth.instance.currentUser;
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        timeout: const Duration(seconds: 120),
-        phoneNumber: phoneNumber,
-        verificationCompleted: (credential) async {},
-        verificationFailed: (FirebaseAuthException e) {
-          showErrorDialog(context, e.message.toString());
-        },
-        codeSent: ((
-          String verificationId,
-          int? resendToken,
-        ) async {
-          showOTPDialog(
-              codeController: codeController,
-              context: context,
-              onPressed: () async {
-                try {
-                  PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                    verificationId: verificationId,
-                    smsCode: codeController.text.trim(),
-                  );
-                  await user
-                      ?.updatePhoneNumber(credential)
-                      .then((value) => showOkToast(text: UpdateTexts.phoneNumberUpdateSuccess));
-                  final userDoc = FirebaseFirestore.instance.collection('users').doc(user?.uid);
-                  await userDoc.update({
-                    'phone': phoneNumber,
-                  });
-                  Navigator.pop(context);
-                } on FirebaseAuthException catch (e) {
-                  if (e.code == 'invalid-verification-id') {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.invalidVerificationId,
-                    );
-                  } else if (e.code == 'invalid-verification-code') {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.invalidVerificationCode,
-                    );
-                  } else if (e.code == 'credential-already-in-use') {
-                    await showErrorDialog(context, ErrorTexts.credentialAlreadyUse);
-                  } else if (e.code == 'too-many-requests') {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.tooManyRequests,
-                    );
-                  } else if (e.code == 'internal-error') {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.internalError,
-                    );
-                  } else if (e.code == 'network-request-failed') {
-                    await showErrorDialog(
-                      context,
-                      ErrorTexts.networkError,
-                    );
-                  } else {
-                    await showErrorDialog(
-                      context,
-                      (e.toString()),
-                    );
-                  }
-                }
-              });
-        }),
-        codeAutoRetrievalTimeout: (String verificationId) {
-          verificationId = verificationId;
-        });
+  // @override
+  // Future<User?> updatePhone(String phoneNumber, BuildContext context) async {
+  //   TextEditingController codeController = TextEditingController();
+  //   var user = FirebaseAuth.instance.currentUser;
+  //   await FirebaseAuth.instance.verifyPhoneNumber(
+  //       timeout: const Duration(seconds: 120),
+  //       phoneNumber: phoneNumber,
+  //       verificationCompleted: (credential) async {},
+  //       verificationFailed: (FirebaseAuthException e) {
+  //         showErrorDialog(context, e.message.toString());
+  //       },
+  //       codeSent: ((
+  //         String verificationId,
+  //         int? resendToken,
+  //       ) async {
+  //         showOTPDialog(
+  //             codeController: codeController,
+  //             context: context,
+  //             onPressed: () async {
+  //               try {
+  //                 PhoneAuthCredential credential = PhoneAuthProvider.credential(
+  //                   verificationId: verificationId,
+  //                   smsCode: codeController.text.trim(),
+  //                 );
+  //                 await user
+  //                     ?.updatePhoneNumber(credential)
+  //                     .then((value) => showOkToast(text: UpdateTexts.phoneNumberUpdateSuccess));
+  //                 final userDoc = FirebaseFirestore.instance.collection('users').doc(user?.uid);
+  //                 await userDoc.update({
+  //                   'phone': phoneNumber,
+  //                 });
+  //                 Navigator.pop(context);
+  //               } on FirebaseAuthException catch (e) {
+  //                 if (e.code == 'invalid-verification-id') {
+  //                   await showErrorDialog(
+  //                     context,
+  //                     ErrorTexts.invalidVerificationId,
+  //                   );
+  //                 } else if (e.code == 'invalid-verification-code') {
+  //                   await showErrorDialog(
+  //                     context,
+  //                     ErrorTexts.invalidVerificationCode,
+  //                   );
+  //                 } else if (e.code == 'credential-already-in-use') {
+  //                   await showErrorDialog(context, ErrorTexts.credentialAlreadyUse);
+  //                 } else if (e.code == 'too-many-requests') {
+  //                   await showErrorDialog(
+  //                     context,
+  //                     ErrorTexts.tooManyRequests,
+  //                   );
+  //                 } else if (e.code == 'internal-error') {
+  //                   await showErrorDialog(
+  //                     context,
+  //                     ErrorTexts.internalError,
+  //                   );
+  //                 } else if (e.code == 'network-request-failed') {
+  //                   await showErrorDialog(
+  //                     context,
+  //                     ErrorTexts.networkError,
+  //                   );
+  //                 } else {
+  //                   await showErrorDialog(
+  //                     context,
+  //                     (e.toString()),
+  //                   );
+  //                 }
+  //               }
+  //             });
+  //       }),
+  //       codeAutoRetrievalTimeout: (String verificationId) {
+  //         verificationId = verificationId;
+  //       });
 
-    await user?.reload();
-    return user;
-  }
+  //   await user?.reload();
+  //   return user;
+  // }
 
   @override
   Future<void> updateDisplayName(String displayName, BuildContext context) async {

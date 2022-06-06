@@ -126,19 +126,19 @@ class _LoginViewState extends State<LoginView> {
                             SizedBox(
                               height: ProjectPadding.inputBoxHeight,
                             ),
-                            const Text('- YA DA -'),
-                            SizedBox(
-                              height: ProjectPadding.inputBoxHeight,
-                            ),
-                            FloatingActionButton(
-                              onPressed: () {
-                                context.push('/phoneLogin');
-                              },
-                              child: const Icon(Icons.phone_iphone_outlined),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            )
+                            // const Text('- YA DA -'),
+                            // SizedBox(
+                            //   height: ProjectPadding.inputBoxHeight,
+                            // ),
+                            // FloatingActionButton(
+                            //   onPressed: () {
+                            //     context.push('/phoneLogin');
+                            //   },
+                            //   child: const Icon(Icons.phone_iphone_outlined),
+                            // ),
+                            // const SizedBox(
+                            //   height: 20,
+                            // )
                           ],
                         ),
                       ),

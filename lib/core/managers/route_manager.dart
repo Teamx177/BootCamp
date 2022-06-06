@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hireme/pages/views/auth/forgot_password_view.dart';
 import 'package:hireme/pages/views/auth/log_in_view.dart';
-import 'package:hireme/pages/views/auth/phone_log_in_view.dart';
 import 'package:hireme/pages/views/auth/sing_up_view.dart';
 import 'package:hireme/pages/views/details_view.dart';
 import 'package:hireme/pages/views/loading.dart';
@@ -56,10 +55,10 @@ final router = GoRouter(
       path: '/forgotPassword',
       builder: (context, state) => const ForgotView(),
     ),
-    GoRoute(
-      path: '/phoneLogin',
-      builder: (context, state) => const PhoneLoginView(),
-    ),
+    // GoRoute(
+    //   path: '/phoneLogin',
+    //   builder: (context, state) => const PhoneLoginView(),
+    // ),
     GoRoute(
       path: '/favorites',
       builder: (context, state) => const FavoritesView(),
