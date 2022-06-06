@@ -142,7 +142,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 - **Sprint Notları**: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
 
-- **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan ( Backlog'daki arama kısmı 
+- **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan (Backlog'daki arama kısmı oluştur ve profil sayfası oluştur görevlerinin toplam puanı)
 
 - **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2. sprint için 130, 3. sprint için ise 70 puan olarak dağıtılmasına karar verildi.
 
