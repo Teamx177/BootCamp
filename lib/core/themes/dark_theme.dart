@@ -37,7 +37,7 @@ class DarkTheme {
       ),
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: Colors.white,
+      color: Colors.black,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: darkColorScheme.tertiary,

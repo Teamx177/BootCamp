@@ -13,14 +13,11 @@ Future<void> showErrorDialog(
     builder: (context) => AlertDialog(
       title: const Text('Bir hata oluştu'),
       content: Text(text),
-      // backgroundColor: const Color.fromRGBO(208, 135, 112, 1),
       actions: <Widget>[
         TextButton(
           child: const Text(
             'Tamam',
-            style: TextStyle(
-                // color: Colors.black87,
-                ),
+            style: TextStyle(),
           ),
           onPressed: () {
             Navigator.of(context).pop();
