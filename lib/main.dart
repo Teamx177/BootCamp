@@ -37,7 +37,7 @@ class Hrms extends StatelessWidget {
           child: MaterialApp.router(
             debugShowCheckedModeBanner: false,
             themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
-            title: 'Hire Me',
+            title: 'HIREme',
             theme: LightTheme().theme,
             darkTheme: DarkTheme().theme,
             routeInformationParser: router.routeInformationParser,

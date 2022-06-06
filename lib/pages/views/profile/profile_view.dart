@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,8 @@ import 'package:hrms/core/themes/lib_color_schemes.g.dart';
 import 'package:hrms/core/themes/padding.dart';
 
 import '../../../core/storage/firebase.dart';
+import '../../../core/storage/validation_storage.dart';
+import '../auth/widgets/form_field.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -20,6 +23,9 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   String? _userType;
   String? _userPic;
 
@@ -98,13 +104,116 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                   )),
             _customContainer(
-                child: TextButton.icon(
-              icon: const Icon(Icons.settings_outlined),
-              label: const Text('Ayarlar'),
-              onPressed: () {
-                context.push('/settings');
-              }, // tema ayarları ayarlara alınabilir.
-            )),
+                child:TextButton.icon(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(UpdateTexts.deleteAccount),
+                            content: Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  EmailFormField(
+                                    controller: null,
+                                    hintText: HintTexts.emailHint,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _emailController.text = value;
+                                      });
+                                    },
+                                  ),
+                                  PasswordFormField(
+                                    validator: ValidationConstants.loginPasswordValidator,
+                                    hintText: HintTexts.passwordHint,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _passwordController.text = value;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(AuthStatusTexts.cancel),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        try {
+                                          var credential = EmailAuthProvider.credential(
+                                              email: _emailController.text,
+                                              password: _passwordController.text);
+                                          await FirebaseAuth.instance.currentUser
+                                              ?.reauthenticateWithCredential(credential)
+                                              .then((_) async {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                        UpdateTexts.confirmDeleteAccount),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Text(UpdateTexts.no)),
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            await FirebaseFirestore
+                                                                .instance
+                                                                .collection('users')
+                                                                .doc(FirebaseAuth.instance
+                                                                    .currentUser?.uid)
+                                                                .delete().then((_) {
+                                                                  FirebaseAuth
+                                                                .instance.currentUser
+                                                                ?.delete();
+                                                            });
+                                                            if (FirebaseAuth.instance
+                                                                    .currentUser ==
+                                                                null) {
+                                                              router.go('/');
+                                                            } else {
+                                                              showErrorDialog(context,
+                                                                  'Hesap silinirken bir hata olustu');
+                                                            }
+                                                          },
+                                                          child: Text(UpdateTexts.yes)),
+                                                    ],
+                                                  );
+                                                });
+                                          });
+                                        } catch (e) {
+                                          showErrorDialog(context, e.toString());
+                                        }
+                                      }
+                                    },
+                                    child: Text(AuthStatusTexts.confirm),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  label: Text(UpdateTexts.delete),
+                  icon: const Icon(Icons.delete_forever),
+                )),
             _customContainer(
               child: TextButton.icon(
                   onPressed: () async {

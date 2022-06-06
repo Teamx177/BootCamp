@@ -13,7 +13,6 @@ import 'package:hrms/pages/views/profile/edit_profile_view.dart';
 import 'package:hrms/pages/views/profile/favorites_view.dart';
 import 'package:hrms/pages/views/profile/incoming_applications_view.dart';
 import 'package:hrms/pages/views/profile/profile_view.dart';
-import 'package:hrms/pages/views/profile/settings.dart';
 import 'package:hrms/pages/views/search_view.dart';
 import 'package:hrms/pages/views/splash_view.dart';
 
@@ -68,10 +67,6 @@ final router = GoRouter(
     GoRoute(
       path: '/applied-jobs',
       builder: (context, state) => const AppliedsView(),
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (context, state) => const SettingsView(),
     ),
     GoRoute(
       path: '/search',

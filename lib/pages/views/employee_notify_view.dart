@@ -79,7 +79,7 @@ class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
                                     ),
                                   ),
                                   subtitle:
-                                      Text("${data['jobCategory']}\n${data['jobCity']}"),
+                                      Text("${data['jobCity']} / ${data['jobCategory']}"),
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.all(16.0),
