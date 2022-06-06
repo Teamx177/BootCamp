@@ -13,11 +13,11 @@ Takım 177
 
 ## Ürün İsmi
 
---**H**uman **R**esource **M**anagement **S**ystem--
+   HIRE me
 
 ## Ürün Açıklaması
 
-- HRMS uygulamamız ile iş arayanlar ve işe en uygun çalışanı seçmek isteyen işverenleri
+- HIRE me uygulamamız ile iş arayanlar ve işe en uygun çalışanı seçmek isteyen işverenleri
   buluşturuyoruz. İşe alım sürecindeki zaman alan prosedürleri de ortadan kaldırarak hem iş adayı
   hem de işveren için daha verimli bir ortam yaratmayı amaçlıyoruz
 
@@ -25,8 +25,8 @@ Takım 177
 
 - İş ilanlarını sektörlere göre sınıflandırma
 - İş başvurusunda bulunan kişileri iletişim bilgileri ile görüntüleme
-- İş ilanını, ilan sahibinin belirlediği maksimum maaş ile görüntüleme
-- İş adayı ve işveren adına yapılan değerlendirmeleri görüntüleme
+- İş ilanını, ilan sahibinin belirlediği minimum ve maksimum maaş ile görüntüleme
+
 
 ## Hedef Kitle
 
