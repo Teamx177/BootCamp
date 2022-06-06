@@ -31,6 +31,7 @@ class _JobFormViewState extends State<JobFormView> {
   late TextEditingController _minSalaryController;
   late TextEditingController _maxSalaryController;
   late String _userName;
+  late String _userPicture;
   late String _phoneNumber;
 
   @override
@@ -50,6 +51,7 @@ class _JobFormViewState extends State<JobFormView> {
       var userType = doc.data();
       _userName = userType?['name'];
       _phoneNumber = userType?['phone'];
+      _userPicture = userType?['picture'];
     });
 
     return _userName;
@@ -214,7 +216,7 @@ class _JobFormViewState extends State<JobFormView> {
         ),
         TextFormField(
           controller: _titleController,
-          maxLength: 50,
+          maxLength: 20,
           decoration: const InputDecoration(
             labelText: 'İlan Başlığı',
           ),
@@ -291,6 +293,7 @@ class _JobFormViewState extends State<JobFormView> {
                     FirebaseFirestore.instance.collection("jobAdverts").doc().set({
                       'userId': FirebaseAuth.instance.currentUser!.uid,
                       'userName': _userName,
+                      'userPicture' : _userPicture,
                       'date': DateTime.now().toString(),
                       'title': _titleController.text,
                       'description': _descriptionController.text,

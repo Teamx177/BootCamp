@@ -1,36 +1,35 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/themes/padding.dart';
 
-import '../details_view.dart';
+import '../../core/services/auth/auth_service.dart';
 
-class AppliedsView extends StatefulWidget {
-  const AppliedsView({
+class EmployeeNotifyView extends StatefulWidget {
+  const EmployeeNotifyView({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AppliedsView> createState() => _AppliedsViewState();
+  State<EmployeeNotifyView> createState() => _EmployeeNotifyViewState();
 }
 
-class _AppliedsViewState extends State<AppliedsView> {
+class _EmployeeNotifyViewState extends State<EmployeeNotifyView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('Başvurularım'),
+        centerTitle: true,
+        title: const Text('Bildirimler'),
       ),
       body: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection('jobAdverts')
-                .where("applications",
-                    arrayContains: FirebaseAuth.instance.currentUser?.uid)
+                .collection('employeeNotifications')
+                .where('employeeId', isEqualTo: AuthService.firebase().currentUser?.uid)
                 .snapshots()
                 .map((snapshot) => snapshot),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -40,7 +39,7 @@ class _AppliedsViewState extends State<AppliedsView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset('assets/images/no_result.png'),
-                          const Text('Herhangi bir başvuru bulunamadı.'),
+                          const Text('Herhangi bir bildirim bulunamadı.'),
                         ],
                       ),
                     )
@@ -60,41 +59,47 @@ class _AppliedsViewState extends State<AppliedsView> {
                             margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
                             child: Column(
                               children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
                                 ListTile(
-                                  leading: const Icon(Icons.topic),
+                                  leading: data['isApproved']
+                                      ? const Icon(
+                                          Icons.check,
+                                          color: Colors.green,
+                                        )
+                                      : const Icon(
+                                          Icons.close,
+                                          color: Colors.red,
+                                        ),
                                   title: Text(
-                                    data['title'],
+                                    "${data['jobTitle']}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  subtitle: Text(
-                                      "Kategori: ${data['category']}\n${data['date'].toString().substring(0, 10)}"),
+                                  subtitle:
+                                      Text("${data['jobCategory']}\n${data['jobCity']}"),
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                        "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}...")),
+                                    child: Text("İsim: ${data['employerName']}\n"
+                                        "Telefon: ${data['employerPhone'].toString().substring(3, 13)}\n"
+                                        "E-posta: ${data['employerEmail']}\n\n"
+                                        "${data['isApproved'] ? 'Başvurunuz Onaylandı.' : 'Başvurunuz Reddedildi.'}")),
                                 TextButton(
                                   onPressed: () {
                                     FirebaseFirestore.instance
-                                        .collection('jobAdverts')
-                                        .doc(data['id']);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => DetailsView(
-                                          docID: snapshot.data?.docs[index].id,
-                                        ),
-                                      ),
-                                    );
+                                        .collection('employeeNotifications')
+                                        .doc(snapshot.data?.docs[index].id)
+                                        .delete();
                                   },
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.red),
+                                        MaterialStateProperty.all(Colors.deepOrangeAccent),
                                   ),
                                   child: const Text(
-                                    'Detay Sayfası',
+                                    'Bildirimi Sil',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),

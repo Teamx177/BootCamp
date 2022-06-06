@@ -8,8 +8,6 @@ import 'package:hrms/pages/views/details_view.dart';
 import 'package:hrms/pages/views/edit_form_view.dart';
 import 'package:hrms/pages/views/form_view.dart';
 
-import '../../core/storage/firebase.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, currentUserType}) : super(key: key);
 
@@ -53,8 +51,14 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               userName = '\n ${snapshot.data?.get('name')}';
               return (!snapshot.hasData)
-                  ? const Center(
-                      child: CircularProgressIndicator(),
+                  ? Center(
+                      child:  Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset('assets/images/no_result.png'),
+                          const Text('Herhangi bir başvuru bulunamadı.'),
+                        ],
+                      ),
                     )
                   : SingleChildScrollView(
                       child: Column(

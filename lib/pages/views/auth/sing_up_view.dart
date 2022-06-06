@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,16 +26,19 @@ class _SingUpViewState extends State<SingUpView> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController =
-      TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
   late bool _isButtonEnabled;
   late int _index;
   late String _selectedGender;
   late String _city;
   late String _userType;
   late List<String> _userTypes;
+  Random random = Random();
+  int? randomNumber;
+
   @override
   void initState() {
+    randomNumber = random.nextInt(16);
     _userType = 'İş Arayan';
     _isButtonEnabled = false;
     _index = 0;
@@ -164,9 +169,7 @@ class _SingUpViewState extends State<SingUpView> {
       child: RichText(
         text: TextSpan(
             style: TextStyle(
-              color: _index == 0
-                  ? const Color.fromARGB(255, 244, 67, 54)
-                  : Colors.grey,
+              color: _index == 0 ? const Color.fromARGB(255, 244, 67, 54) : Colors.grey,
               fontSize: _index == 0 ? 27 : 16,
             ),
             children: [
@@ -395,6 +398,7 @@ class _SingUpViewState extends State<SingUpView> {
               "gender": _selectedGender,
               "city": _city,
               "type": type,
+              "picture" : "assets/images/userPics/user$randomNumber.png"
             });
             // await AuthService.firebase().sendEmailVerification();
           } on EmailAlreadyInUseAuthException {

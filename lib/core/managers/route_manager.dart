@@ -85,7 +85,9 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/incoming-applications',
-      builder: (context, state) => const IncomingApplicationsView(),
+      builder: (context, state) {
+        return IncomingApplicationsView();
+      },
     ),
   ],
   errorPageBuilder: (context, state) => MaterialPage<void>(

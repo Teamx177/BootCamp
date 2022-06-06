@@ -16,7 +16,7 @@ class ValidationConstants {
 
   static MultiValidator titleValidator = MultiValidator([
     RequiredValidator(errorText: ValidateTexts.emptyField),
-    MinLengthValidator(10, errorText: ValidateTexts.titleLength),
+    MinLengthValidator(5, errorText: ValidateTexts.titleLength),
   ]);
 
   static MultiValidator addressValidator = MultiValidator([

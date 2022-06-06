@@ -21,6 +21,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   String? _userType;
+  String? _userPic;
 
   @override
   initState() {
@@ -31,9 +32,10 @@ class _ProfileViewState extends State<ProfileView> {
   Future<void> getUser() async {
     final User? user = auth.currentUser;
     await userRef.doc(user?.uid).get().then((doc) {
-      var userType = doc.data();
+      var data = doc.data();
       setState(() {
-        _userType = userType?['type'];
+        _userType = data?['type'];
+        _userPic = data?['picture'];
       });
     });
   }
@@ -64,11 +66,12 @@ class _ProfileViewState extends State<ProfileView> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const CircleAvatar(
-              // childa image picker gelebilir.
-              radius: 80,
-              backgroundImage: NetworkImage('https://picsum.photos/seed/picsum/200/300'),
-            ),
+            CircleAvatar(
+                          radius: 100,
+                          child: _userPic != null ? Image.asset(
+                            _userPic.toString(),
+                          ) : null,
+                        ),
             _customContainer(
                 child: TextButton.icon(
               icon: const Icon(Icons.edit_outlined),

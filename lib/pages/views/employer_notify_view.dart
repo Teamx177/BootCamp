@@ -1,36 +1,36 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/core/themes/padding.dart';
 
-import '../details_view.dart';
+import '../../core/services/auth/auth_service.dart';
+import '../../core/storage/dialog_storage.dart';
 
-class AppliedsView extends StatefulWidget {
-  const AppliedsView({
+class EmployerNotifyView extends StatefulWidget {
+  const EmployerNotifyView({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AppliedsView> createState() => _AppliedsViewState();
+  State<EmployerNotifyView> createState() => _EmployerNotifyViewState();
 }
 
-class _AppliedsViewState extends State<AppliedsView> {
+class _EmployerNotifyViewState extends State<EmployerNotifyView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text('Başvurularım'),
+        centerTitle: true,
+        title: const Text('Bildirimler'),
       ),
       body: Padding(
           padding: ProjectPadding.pagePaddingHorizontal,
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection('jobAdverts')
-                .where("applications",
-                    arrayContains: FirebaseAuth.instance.currentUser?.uid)
+                .collection('employerNotifications')
+                .where('employerId', isEqualTo: AuthService.firebase().currentUser?.uid)
                 .snapshots()
                 .map((snapshot) => snapshot),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -40,7 +40,7 @@ class _AppliedsViewState extends State<AppliedsView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset('assets/images/no_result.png'),
-                          const Text('Herhangi bir başvuru bulunamadı.'),
+                          const Text('Herhangi bir bildirim bulunamadı.'),
                         ],
                       ),
                     )
@@ -60,41 +60,31 @@ class _AppliedsViewState extends State<AppliedsView> {
                             margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
                             child: Column(
                               children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
                                 ListTile(
-                                  leading: const Icon(Icons.topic),
-                                  title: Text(
-                                    data['title'],
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                      "Kategori: ${data['category']}\n${data['date'].toString().substring(0, 10)}"),
+                                  title: Icon(Icons.warning_rounded),
                                 ),
                                 Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                        "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}...")),
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    "${data['employeeName']} adlı kullanıcı, ${data['jobCategory']} kategorisinde yer alan ${data['jobTitle']} başlıklı ilanınıza başvuru yaptı.",
+                                  ),
+                                ),
                                 TextButton(
                                   onPressed: () {
                                     FirebaseFirestore.instance
-                                        .collection('jobAdverts')
-                                        .doc(data['id']);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => DetailsView(
-                                          docID: snapshot.data?.docs[index].id,
-                                        ),
-                                      ),
-                                    );
+                                        .collection('employerNotifications')
+                                        .doc(snapshot.data?.docs[index].id)
+                                        .delete().then((_) => showSuccessDialog(context,"Bildirim silindi."));
                                   },
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.red),
+                                        MaterialStateProperty.all(Colors.deepOrangeAccent),
                                   ),
                                   child: const Text(
-                                    'Detay Sayfası',
+                                    'Bildirimi Sil',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
