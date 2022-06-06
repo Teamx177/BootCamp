@@ -169,6 +169,8 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 ![Kanban Framework6](https://user-images.githubusercontent.com/100482891/172007856-0c51154e-d3c8-4a85-9f34-084d8acd2c14.jpg)
 ![Kanban Framework7](https://user-images.githubusercontent.com/100482891/172007859-7840bc62-7349-4bee-9eb5-165f1864442e.jpg)
 ![Kanban Framework8](https://user-images.githubusercontent.com/100482891/172007860-bbab16d9-111e-47e2-abaf-1ae18d421bb1.jpg)
+![Kanban Framework8](https://user-images.githubusercontent.com/100482891/172213353-de44db57-c622-4868-8d4d-de5716bbcea5.jpg)
+
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
