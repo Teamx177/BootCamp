@@ -142,7 +142,7 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 - **Sprint Notları**: User Story'ler ve Sub task'ler product backlog'ların içine yazılmıştır. Product backlog item'lara tıklandığında hikayelerin detayları okunabilir.
 
-- **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan
+- **Sprint içinde tamamlanması tahmin edilen puan**: 70 Puan ( Backlog'daki arama kısmı 
 
 - **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 270 puanlık backlog bulunmaktadır. İlk sprint 70 puanla tamamlandığından, geriye kalan 200 puanın 2. sprint için 130, 3. sprint için ise 70 puan olarak dağıtılmasına karar verildi.
 
@@ -197,13 +197,13 @@ Story'ler yapılacak işlere (task'lere) bölünmüştür. Miro Board'daki her b
 
 
 
-- **Sprint Review**: Alınan Kararlar: 
-
+- **Sprint Review**: Alınan Kararlar: Uygulamaya mesajlaşma kısmı eklenilebilir. Sektör başlıkları çoğaltılabilr. Hizmet verenlerin kalitesi daha önceki işlerinde aldıkları gerçek müşteri yorumları ve yıldızlı değerlendirmeler ile görülebilir. Sprint review katılımcıları: Ladin Hastürel, Ceren Altınkeser, Selçuk Söğüt, Burak Kalaycı
 
 
 - **Sprint Retrospective**:
 
   - Ekip olarak herkes geliştirmeye katkıda bulundu.
-  - Ekip dinamiği güçlüydü.
+  - Ekip dinamiği orta seviyedeydi. İlerideki projelerde bu dinamiği güçlü kılmak adına yapılabilinecek şey, iş dışında da görüntülü konuşmalar hatta belki buluşmalar     gerçekleştirerek ekip üyelerinin birbiri ile daha fazla kaynaşmasını sağlamak olabilir.
   - Uygulama açısından akıldan geçen her özelliğin değil geliştiricilerin zaman ve efor kapasitesini aşmayacak özelliklerin eklenilmesi mantığı kabul edildi.
+  
 
