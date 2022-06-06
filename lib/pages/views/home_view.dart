@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hireme/core/models/user.dart';
 import 'package:hireme/core/services/auth/auth_service.dart';
 import 'package:hireme/core/themes/padding.dart';
+import 'package:hireme/core/themes/text_theme.dart';
 import 'package:hireme/pages/views/details_view.dart';
 import 'package:hireme/pages/views/edit_form_view.dart';
 import 'package:hireme/pages/views/form_view.dart';
@@ -47,9 +48,16 @@ class _HomeViewState extends State<HomeView> {
             stream: _userData,
             builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               userName = '\n ${snapshot.data?.get('name')}';
+              _isEmployee = snapshot.data?.get('type') == 'employee';
               return (!snapshot.hasData)
-                  ? const Center(
-                      child: CircularProgressIndicator(),
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset('assets/images/no_result.png'),
+                          const Text('Herhangi bir başvuru bulunamadı.'),
+                        ],
+                      ),
                     )
                   : SingleChildScrollView(
                       child: Column(
@@ -88,6 +96,15 @@ class _HomeViewState extends State<HomeView> {
                                       icon: const Icon(Icons.add))
                             ],
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          _isEmployee
+                              ? Text('Güncel İlanlar', style: textThemes.headline6)
+                              : Text(
+                                  'Yayınladığım ilanlar',
+                                  style: textThemes.headline6,
+                                ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -137,36 +154,43 @@ class _HomeViewState extends State<HomeView> {
                                                   data['applications']
                                                           .toString()
                                                           .contains((FirebaseAuth.instance.currentUser?.uid).toString())
-                                                      ? TextButton(
-                                                          onPressed: null,
-                                                          style: ButtonStyle(
-                                                            backgroundColor: MaterialStateProperty.all(Colors.grey),
-                                                          ),
-                                                          child: const Text(
-                                                            'Başvuru Yapıldı',
-                                                            style: TextStyle(color: Colors.white),
+                                                      ? Align(
+                                                          alignment: const Alignment(0.9, 0.0),
+                                                          child: TextButton(
+                                                            onPressed: null,
+                                                            style: ButtonStyle(
+                                                              backgroundColor: MaterialStateProperty.all(Colors.grey),
+                                                            ),
+                                                            child: const Text(
+                                                              'Başvuru Yapıldı',
+                                                              style: TextStyle(color: Colors.white),
+                                                            ),
                                                           ),
                                                         )
-                                                      : TextButton(
-                                                          onPressed: () {
-                                                            FirebaseFirestore.instance
-                                                                .collection('jobAdverts')
-                                                                .doc(data['id']);
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder: (_) => DetailsView(
-                                                                  docID: snapshot.data?.docs[index].id,
+                                                      : Align(
+                                                          alignment: const Alignment(0.9, 0.0),
+                                                          child: TextButton(
+                                                            onPressed: () {
+                                                              FirebaseFirestore.instance
+                                                                  .collection('jobAdverts')
+                                                                  .doc(data['id']);
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (_) => DetailsView(
+                                                                    docID: snapshot.data?.docs[index].id,
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            );
-                                                          },
-                                                          style: ButtonStyle(
-                                                            backgroundColor: MaterialStateProperty.all(Colors.red),
-                                                          ),
-                                                          child: const Text(
-                                                            'Detay Sayfası',
-                                                            style: TextStyle(color: Colors.white),
+                                                              );
+                                                            },
+                                                            style: ButtonStyle(
+                                                              backgroundColor:
+                                                                  MaterialStateProperty.all(Colors.deepPurple[300]),
+                                                            ),
+                                                            child: const Text(
+                                                              'Detay Sayfası',
+                                                              style: TextStyle(color: Colors.white),
+                                                            ),
                                                           ),
                                                         ),
                                                   const SizedBox(
@@ -201,7 +225,10 @@ class _HomeViewState extends State<HomeView> {
                                           var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
                                           return Card(
                                             clipBehavior: Clip.antiAlias,
-                                            margin: const EdgeInsets.only(bottom: 16.0, top: 12.0),
+                                            margin: const EdgeInsets.only(
+                                              bottom: 16.0,
+                                              top: 12.0,
+                                            ),
                                             child: Column(
                                               children: [
                                                 ListTile(
@@ -220,24 +247,30 @@ class _HomeViewState extends State<HomeView> {
                                                   child: Text(
                                                       "${data['description'].toString().substring(0, data['description'].toString().substring(0, 60).lastIndexOf(" "))}..."),
                                                 ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    FirebaseFirestore.instance.collection('jobAdverts').doc(data['id']);
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (_) => EditFormView(
-                                                          docID: snapshot.data?.docs[index].id,
+                                                Align(
+                                                  alignment: const Alignment(0.9, 0.0),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      FirebaseFirestore.instance
+                                                          .collection('jobAdverts')
+                                                          .doc(data['id']);
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (_) => EditFormView(
+                                                            docID: snapshot.data?.docs[index].id,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  style: ButtonStyle(
-                                                    backgroundColor: MaterialStateProperty.all(Colors.red),
-                                                  ),
-                                                  child: const Text(
-                                                    'Ilanı Düzenle',
-                                                    style: TextStyle(color: Colors.white),
+                                                      );
+                                                    },
+                                                    style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty.all(Colors.deepPurple[300]),
+                                                    ),
+                                                    child: const Text(
+                                                      'Ilanı Düzenle',
+                                                      style: TextStyle(color: Colors.white),
+                                                    ),
                                                   ),
                                                 ),
                                                 const SizedBox(

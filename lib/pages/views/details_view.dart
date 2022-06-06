@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hireme/core/storage/dialog_storage.dart';
+import 'package:hireme/core/storage/firebase.dart';
 import 'package:hireme/core/themes/padding.dart';
-
-import '../../core/storage/dialog_storage.dart';
-import '../../core/storage/firebase.dart';
 
 class DetailsView extends StatefulWidget {
   final String? docID;
@@ -23,6 +22,7 @@ class _DetailsViewState extends State<DetailsView> {
   String? _userPhone;
   String? _userName;
   String? _userCity;
+  String? _userPic;
 
   @override
   void initState() {
@@ -34,14 +34,14 @@ class _DetailsViewState extends State<DetailsView> {
   Future<void> getUser() async {
     final User? user = auth.currentUser;
     await userRef.doc(user?.uid).get().then((doc) {
-      var userType = doc.data();
+      var data = doc.data();
       setState(() {
-        _userType = userType?['type'];
-        _userGender = userType?['gender'];
-        _userEmail = userType?['email'];
-        _userPhone = userType?['phone'];
-        _userName = userType?['name'];
-        _userCity = userType?['city'];
+        _userType = data?['type'];
+        _userGender = data?['gender'];
+        _userEmail = data?['email'];
+        _userPhone = data?['phone'];
+        _userName = data?['name'];
+        _userCity = data?['city'];
       });
     });
   }
@@ -68,9 +68,11 @@ class _DetailsViewState extends State<DetailsView> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.black,
+                        CircleAvatar(
+                          radius: 60,
+                          child: Image.asset(
+                            snapshot.data?.get('userPicture'),
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -213,7 +215,7 @@ class _DetailsViewState extends State<DetailsView> {
                                       .then((_) {
                                         FirebaseFirestore.instance.collection("applications").doc().set({
                                           'userName': _userName,
-                                          'userID': FirebaseAuth.instance.currentUser?.uid,
+                                          'userId': FirebaseAuth.instance.currentUser?.uid,
                                           'userGender': _userGender,
                                           'userPhone': _userPhone,
                                           'userEmail': _userEmail,
@@ -221,7 +223,21 @@ class _DetailsViewState extends State<DetailsView> {
                                           'title': snapshot.data?.get('title'),
                                           'category': snapshot.data?.get('category'),
                                           'employerId': snapshot.data?.get('userId'),
-                                          'jobAdvertID': widget.docID,
+                                          'jobAdvertId': widget.docID,
+                                        });
+                                      })
+                                      .then((_) {
+                                        FirebaseFirestore.instance.collection("employerNotifications").doc().set({
+                                          'employeeName': _userName,
+                                          'employeeId': FirebaseAuth.instance.currentUser?.uid,
+                                          'employeeGender': _userGender,
+                                          'employeePhone': _userPhone,
+                                          'employeeEmail': _userEmail,
+                                          'employeeCity': _userCity,
+                                          'jobTitle': snapshot.data?.get('title'),
+                                          'jobCategory': snapshot.data?.get('category'),
+                                          'employerId': snapshot.data?.get('userId'),
+                                          'jobAdvertId': widget.docID,
                                         });
                                       })
                                       .then((_) => showSuccessDialog(context, "Başvurunuz alındı."))

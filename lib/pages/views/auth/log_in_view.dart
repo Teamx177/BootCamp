@@ -24,10 +24,17 @@ class _LoginViewState extends State<LoginView> {
   String? value;
   late bool isChecked;
   late Box box1;
+  late bool _isLoading;
 
   void createOpenBox() async {
     box1 = await Hive.openBox('logindata');
     getdata();
+  }
+
+  void _load() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
   }
 
   @override
@@ -35,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     isChecked = false;
-    // getdata();
+    _isLoading = false;
     createOpenBox();
     super.initState();
   }
@@ -183,10 +190,12 @@ class _LoginViewState extends State<LoginView> {
           final password = _passwordController.text;
           if (_key.currentState!.validate()) {
             try {
-              await AuthService.firebase().logIn(
-                email: email,
-                password: password,
-              );
+              await AuthService.firebase()
+                  .logIn(
+                    email: email,
+                    password: password,
+                  )
+                  .then((value) => _load());
               const Center(child: CircularProgressIndicator());
               final user = AuthService.firebase().currentUser;
               if (user != null) {
@@ -230,7 +239,16 @@ class _LoginViewState extends State<LoginView> {
             }
           }
         },
-        child: Text(AuthStatusTexts.signIn),
+        child: _isLoading
+            ? Container(
+                width: 24,
+                height: 24,
+                padding: const EdgeInsets.all(2.0),
+                child: const CircularProgressIndicator(
+                  strokeWidth: 3,
+                ),
+              )
+            : Text(AuthStatusTexts.signIn),
       ),
     );
   }

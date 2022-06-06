@@ -24,10 +24,7 @@ abstract class AuthProvider {
     required String phoneNumber,
     required BuildContext context,
   });
-  Future<User?> phoneSingUp({
-    required String phoneNumber,
-    required BuildContext context,
-  });
+
   Future<User?> updatePhone(String phoneNumber, BuildContext context);
   Future<void> updateDisplayName(String displayName, BuildContext context);
   Future<void> updateEmail(BuildContext context, String newEmail, String currentEmail, String currentPassword);

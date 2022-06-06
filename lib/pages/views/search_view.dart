@@ -54,76 +54,9 @@ class _SearchViewState extends State<SearchView> {
           ),
           onChanged: (value) {
             setState(() {
-              if (value.isEmpty) {
-                isListView = false;
-              } else {
-                isListView = true;
-              }
               searchText = value;
             });
           },
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('jobAdverts').where('category').snapshots(),
-              builder: (context, snapshot) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    OutlinedButton(
-                        onPressed: () {
-                          print(snapshot.data?.docs.map((e) => e.get(
-                                'category',
-                              )));
-                        },
-                        child: const Text('Temizlik')),
-                    OutlinedButton(
-                        onPressed: () {
-                          print(snapshot.data?.docs.map((e) => e.get(
-                                'category',
-                              )));
-                        },
-                        child: const Text('Tadilat')),
-                    OutlinedButton(
-                        onPressed: () {
-                          print(snapshot.data?.docs.map((e) => e.get(
-                                'category',
-                              )));
-                        },
-                        child: const Text('Nakliyat')),
-                    OutlinedButton(
-                        onPressed: () {
-                          print(snapshot.data?.docs.map((e) => e.get(
-                                'category',
-                              )));
-                        },
-                        child: const Text('Tamir')),
-                    OutlinedButton(
-                        onPressed: () {
-                          print(snapshot.data?.docs.map((e) => e.get(
-                                'category',
-                              )));
-                        },
-                        child: const Text('Özel Ders')),
-                    OutlinedButton(
-                        onPressed: () {
-                          print(snapshot.data?.docs.map((e) => e.get(
-                                'category',
-                              )));
-                        },
-                        child: const Text('Sağlık')),
-                    OutlinedButton(
-                        onPressed: () {
-                          print(snapshot.data?.docs.map((e) => e.get(
-                                'category',
-                              )));
-                        },
-                        child: const Text('Düğün')),
-                    const OutlinedButton(onPressed: null, child: Text('Diğer')),
-                  ],
-                );
-              }),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(

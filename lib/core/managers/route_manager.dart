@@ -13,7 +13,6 @@ import 'package:hireme/pages/views/profile/edit_profile_view.dart';
 import 'package:hireme/pages/views/profile/favorites_view.dart';
 import 'package:hireme/pages/views/profile/incoming_applications_view.dart';
 import 'package:hireme/pages/views/profile/profile_view.dart';
-import 'package:hireme/pages/views/profile/settings.dart';
 import 'package:hireme/pages/views/search_view.dart';
 import 'package:hireme/pages/views/splash_view.dart';
 
@@ -70,10 +69,6 @@ final router = GoRouter(
       builder: (context, state) => const AppliedsView(),
     ),
     GoRoute(
-      path: '/settings',
-      builder: (context, state) => const SettingsView(),
-    ),
-    GoRoute(
       path: '/search',
       builder: (context, state) => const SearchView(),
     ),
@@ -85,7 +80,9 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/incoming-applications',
-      builder: (context, state) => const IncomingApplicationsView(),
+      builder: (context, state) {
+        return const IncomingApplicationsView();
+      },
     ),
   ],
   errorPageBuilder: (context, state) => MaterialPage<void>(

@@ -19,6 +19,20 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
 
+  late bool _isLoading;
+
+  void _load() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  @override
+  void initState() {
+    _isLoading = false;
+    super.initState();
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -64,12 +78,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                   final email = _emailController.text;
                   if (_formKey.currentState!.validate()) {
                     try {
-                      await AuthService.firebase().sendPasswordReset(
-                        email: email,
-                      );
-                      showOkToast(
-                          text:
-                              'Şifrenizi sıfırlamanız için mail gönderildi. Lütfen mailinizi ve spam klasörünü kontrol ediniz.');
+                      await AuthService.firebase()
+                          .sendPasswordReset(
+                            email: email,
+                          )
+                          .then((value) => _load());
                     } on UserNotFoundAuthException {
                       await showErrorDialog(
                         context,
@@ -113,7 +126,16 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     }
                   }
                 },
-                child: Text(AuthStatusTexts.send),
+                child: _isLoading
+                    ? Container(
+                        width: 24,
+                        height: 24,
+                        padding: const EdgeInsets.all(2.0),
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 3,
+                        ),
+                      )
+                    : Text(AuthStatusTexts.send),
               ),
               const SizedBox(
                 height: 30,

@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hireme/core/managers/route_manager.dart';
 import 'package:hireme/core/services/auth/auth_exceptions.dart';
 import 'package:hireme/core/services/auth/auth_service.dart';
 import 'package:hireme/core/storage/dialog_storage.dart';
@@ -30,9 +33,21 @@ class _SingUpViewState extends State<SingUpView> {
   late String _city;
   late String _userType;
   late List<String> _userTypes;
+  Random random = Random();
+  int? randomNumber;
+  late bool _isLoading;
+
+  void _load() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
   @override
   void initState() {
+    randomNumber = random.nextInt(16);
     _userType = 'İş Arayan';
+    _isLoading = false;
     _isButtonEnabled = false;
     _index = 0;
     _selectedGender = 'male';
@@ -364,22 +379,28 @@ class _SingUpViewState extends State<SingUpView> {
         var type = _userType == 'İş Veren' ? 'employer' : 'employee';
         if (_userFormKey.currentState!.validate()) {
           try {
-            var user = await AuthService.firebase().createUser(
-              context: context,
-              email: email,
-              password: password,
-              phoneNumber: phoneNumber,
-            );
+            await AuthService.firebase()
+                .createUser(
+                  context: context,
+                  email: email,
+                  password: password,
+                  phoneNumber: phoneNumber,
+                )
+                .then((value) => _load());
+            if (FirebaseAuth.instance.currentUser != null) {
+              router.go('/home');
+            }
             await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set({
-              'id': user.uid,
+              'id': FirebaseAuth.instance.currentUser?.uid,
               "name": name,
               "email": email,
               "phone": phoneNumber,
               "gender": _selectedGender,
               "city": _city,
               "type": type,
+              "picture": "assets/images/userPics/user$randomNumber.png"
             });
-            // await AuthService.firebase().sendEmailVerification();
+            await AuthService.firebase().sendEmailVerification();
           } on EmailAlreadyInUseAuthException {
             await showErrorDialog(
               context,
@@ -423,9 +444,18 @@ class _SingUpViewState extends State<SingUpView> {
           }
         }
       },
-      child: Text(
-        AuthStatusTexts.signUp,
-      ),
+      child: _isLoading
+          ? Container(
+              width: 24,
+              height: 24,
+              padding: const EdgeInsets.all(2.0),
+              child: const CircularProgressIndicator(
+                strokeWidth: 3,
+              ),
+            )
+          : Text(
+              AuthStatusTexts.signUp,
+            ),
     );
   }
 

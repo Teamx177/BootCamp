@@ -218,7 +218,7 @@ class _EditFormViewState extends State<EditFormView> {
         ),
         TextFormField(
           controller: _titleController,
-          maxLength: 50,
+          maxLength: 20,
           decoration: const InputDecoration(
             labelText: 'İlan Başlığı',
           ),

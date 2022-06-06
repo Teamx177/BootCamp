@@ -147,5 +147,6 @@ Future<void> showUpdatePhoneDialog({
 void showOkToast({
   required String text,
 }) {
-  showToast(text, position: ToastPosition.bottom, backgroundColor: Colors.black45);
+  showToast(text,
+      position: ToastPosition.bottom, backgroundColor: Colors.black45, duration: const Duration(seconds: 3));
 }

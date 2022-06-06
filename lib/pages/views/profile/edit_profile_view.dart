@@ -23,7 +23,6 @@ class EditProfileView extends StatefulWidget {
 class _EditProfileViewState extends State<EditProfileView> {
   final _emailKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
-  final _phoneKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _newEmailController;
@@ -31,7 +30,6 @@ class _EditProfileViewState extends State<EditProfileView> {
   late TextEditingController _passwordController;
   late TextEditingController _newPasswordController;
   late String _city = "Ankara";
-  late bool updatePhone;
   late String name;
 
   Stream<UserModel> getUser(String? uid) {
@@ -53,14 +51,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     _phoneController = TextEditingController();
     _passwordController = TextEditingController();
     _newPasswordController = TextEditingController();
-    updatePhone = false;
     super.initState();
-  }
-
-  void editPhone() {
-    setState(() {
-      updatePhone = !updatePhone;
-    });
   }
 
   @override
@@ -162,12 +153,12 @@ class _EditProfileViewState extends State<EditProfileView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             PasswordFormField(
-                              labelText: HintTexts.currentPassword,
+                              hintText: HintTexts.currentPassword,
                               controller: _passwordController,
                               validator: ValidationConstants.loginPasswordValidator,
                             ),
                             PasswordFormField(
-                              labelText: HintTexts.newPassword,
+                              hintText: HintTexts.newPassword,
                               controller: _newPasswordController,
                               validator: ValidationConstants.loginPasswordValidator,
                             ),
@@ -188,13 +179,16 @@ class _EditProfileViewState extends State<EditProfileView> {
                                 final currentPassword = _passwordController.text;
                                 final newPassword = _newPasswordController.text;
 
-                                await AuthService.firebase().updatePassword(
-                                  context,
-                                  email,
-                                  currentPassword,
-                                  newPassword,
-                                );
-                                showOkToast(text: UpdateTexts.passwordUpdateSuccess);
+                                await AuthService.firebase()
+                                    .updatePassword(
+                                      context,
+                                      email,
+                                      currentPassword,
+                                      newPassword,
+                                    )
+                                    .then(
+                                      (value) => Navigator.pop(context),
+                                    );
                               }
                             },
                             child: Text(AuthStatusTexts.confirm)),
@@ -261,8 +255,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                       TextButton(
                         onPressed: () async {
                           if (_nameController.text.isNotEmpty) {
-                            await AuthService.firebase().updateDisplayName(_nameController.text, context);
-                            showOkToast(text: UpdateTexts.nameUpdateSuccess);
+                            await AuthService.firebase().updateDisplayName(_nameController.text, context).then(
+                                  (value) => Navigator.pop(context),
+                                );
                           } else {
                             await showErrorDialog(
                               context,
@@ -338,11 +333,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                           final newEmail = _newEmailController.text;
                           final password = _passwordController.text;
                           if (_emailKey.currentState!.validate()) {
-                            AuthService.firebase().updateEmail(context, newEmail, email, password);
-                          }
-                          final user = FirebaseAuth.instance.currentUser?.email;
-                          if (email == user) {
-                            showOkToast(text: UpdateTexts.emailUpdateSuccess);
+                            AuthService.firebase().updateEmail(context, newEmail, email, password).then(
+                                  (value) => Navigator.pop(context),
+                                );
                           }
                         },
                         child: Text(AuthStatusTexts.confirm),
@@ -415,8 +408,14 @@ class _EditProfileViewState extends State<EditProfileView> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          FirebaseFirestore.instance.collection('users').doc(snapshot.data?.id).update({'city': _city});
-                          showOkToast(text: UpdateTexts.cityUpdateSuccess);
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(snapshot.data?.id)
+                              .update({'city': _city})
+                              .then((value) => showOkToast(text: UpdateTexts.cityUpdateSuccess))
+                              .then(
+                                (value) => Navigator.pop(context),
+                              );
                         },
                         child: Text(AuthStatusTexts.confirm),
                       ),
@@ -438,7 +437,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         Expanded(
           flex: 85,
           child: PhoneFormField(
-            enabled: updatePhone,
+            enabled: false,
             labelText: phone.substring(3),
             validator: ValidationConstants.phoneValidator,
             onChanged: (value) {
@@ -451,16 +450,16 @@ class _EditProfileViewState extends State<EditProfileView> {
         Expanded(
           flex: 15,
           child: IconButton(
-            icon: !updatePhone ? const Icon(Icons.edit_outlined) : const Icon(Icons.save_as_outlined),
+            icon: const Icon(Icons.edit_outlined),
             onPressed: () async {
               showUpdatePhoneDialog(
                   context: context,
                   phoneController: _phoneController,
                   onPressed: () async {
-                    if (_phoneKey.currentState!.validate()) {
-                      await AuthService.firebase().updatePhone(('+90${_phoneController.text}'), context);
-                      showOkToast(text: UpdateTexts.phoneNumberUpdateSuccess);
-                    }
+                    await AuthService.firebase()
+                        .updatePhone(('+90${_phoneController.text}'), context)
+                        .then((value) => const CircularProgressIndicator.adaptive())
+                        .then((value) => Navigator.pop(context));
                   });
             },
           ),

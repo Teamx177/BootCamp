@@ -55,8 +55,10 @@ class FirebaseAuthprovider implements AuthProvider {
                 );
                 if (FirebaseAuth.instance.currentUser != null) {
                   try {
-                    await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
-                    router.pop();
+                    await FirebaseAuth.instance.currentUser
+                        ?.linkWithCredential(credential)
+                        .then((value) => showOkToast(text: AuthStatusTexts.successRegister));
+
                     // ToDO make throws showtoast
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'invalid-verification-id') {
@@ -130,10 +132,12 @@ class FirebaseAuthprovider implements AuthProvider {
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .then((value) => showOkToast(text: AuthStatusTexts.loginSucces));
 
       final users = currentUser;
       if (users != null) {
@@ -162,9 +166,9 @@ class FirebaseAuthprovider implements AuthProvider {
   Future<void> logOut() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      return await FirebaseAuth.instance.signOut();
+      return await FirebaseAuth.instance.signOut().then((value) => showOkToast(text: 'Başarıyla çıkış yapıldı'));
     } else {
-      throw UserNotLoggedInException();
+      showOkToast(text: "Çıkış yapılırken bir sorunla karşılaşıldı");
     }
   }
 
@@ -172,7 +176,7 @@ class FirebaseAuthprovider implements AuthProvider {
   Future<void> sendEmailVerification() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      await user.sendEmailVerification();
+      await user.sendEmailVerification().then((value) => showOkToast(text: AuthStatusTexts.passwordResetSend));
     } else {
       throw UserNotLoggedInException();
     }
@@ -183,9 +187,11 @@ class FirebaseAuthprovider implements AuthProvider {
     required String email,
   }) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(
-        email: email,
-      );
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(
+            email: email,
+          )
+          .then((value) => showOkToast(text: AuthStatusTexts.passwordResetSend));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         throw UserNotFoundAuthException();
@@ -193,109 +199,6 @@ class FirebaseAuthprovider implements AuthProvider {
         throw GenericAuthException();
       }
     }
-  }
-
-  @override
-  Future<User?> phoneSingUp({
-    required String phoneNumber,
-    required BuildContext context,
-  }) async {
-    //Web can't be good for use
-    TextEditingController codeController = TextEditingController();
-    if (kIsWeb) {
-      ConfirmationResult result = await FirebaseAuth.instance.signInWithPhoneNumber(phoneNumber);
-      showOTPDialog(
-        codeController: codeController,
-        context: context,
-        onPressed: () async {
-          PhoneAuthCredential credential = PhoneAuthProvider.credential(
-            verificationId: result.verificationId,
-            smsCode: codeController.text.trim(),
-          );
-          await FirebaseAuth.instance.signInWithCredential(credential);
-          Navigator.of(context).pop();
-        },
-      );
-    } else {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        timeout: const Duration(seconds: 60),
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) {},
-        verificationFailed: (FirebaseAuthException e) {
-          showErrorDialog(context, e.message.toString());
-        },
-        codeSent: ((
-          String verificationId,
-          int? resendToken,
-        ) async {
-          showOTPDialog(
-              codeController: codeController,
-              context: context,
-              onPressed: () async {
-                PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                  verificationId: verificationId,
-                  smsCode: codeController.text.trim(),
-                );
-                if (FirebaseAuth.instance.currentUser != null) {
-                  try {
-                    await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
-                    router.pop();
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == 'invalid-verification-id') {
-                      await showErrorDialog(
-                        context,
-                        ErrorTexts.invalidVerificationId,
-                      );
-                    } else if (e.code == 'provider-already-linked') {
-                      await showErrorDialog(
-                        context,
-                        ErrorTexts.credentialAlreadyLinked,
-                      );
-                    } else if (e.code == 'email-already-in-use') {
-                      await showErrorDialog(
-                        context,
-                        ErrorTexts.emailAlreadyUse,
-                      );
-                    } else if (e.code == 'invalid-verification-code') {
-                      await showErrorDialog(
-                        context,
-                        ErrorTexts.invalidVerificationCode,
-                      );
-                    } else if (e.code == 'credential-already-in-use') {
-                      await showErrorDialog(context, ErrorTexts.credentialAlreadyUse);
-                    } else if (e.code == 'too-many-requests') {
-                      await showErrorDialog(
-                        context,
-                        ErrorTexts.tooManyRequests,
-                      );
-                    } else if (e.code == 'internal-error') {
-                      await showErrorDialog(
-                        context,
-                        ErrorTexts.internalError,
-                      );
-                    } else if (e.code == 'network-request-failed') {
-                      await showErrorDialog(
-                        context,
-                        ErrorTexts.networkError,
-                      );
-                    } else {
-                      await showErrorDialog(
-                        context,
-                        (e.toString()),
-                      );
-                    }
-                  }
-                }
-              });
-        }),
-        codeAutoRetrievalTimeout: (String verificationId) {
-          verificationId = verificationId;
-        },
-      );
-    }
-    var user = FirebaseAuth.instance.currentUser;
-    await user?.reload();
-    return user;
   }
 
   @override
@@ -340,7 +243,9 @@ class FirebaseAuthprovider implements AuthProvider {
                 smsCode: codeController.text.trim(),
               );
               try {
-                await FirebaseAuth.instance.signInWithCredential(credential);
+                await FirebaseAuth.instance
+                    .signInWithCredential(credential)
+                    .then((value) => showOkToast(text: AuthStatusTexts.loginSucces));
                 router.pop();
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'invalid-verification-id') {
@@ -429,7 +334,9 @@ class FirebaseAuthprovider implements AuthProvider {
                     verificationId: verificationId,
                     smsCode: codeController.text.trim(),
                   );
-                  await user?.updatePhoneNumber(credential);
+                  await user
+                      ?.updatePhoneNumber(credential)
+                      .then((value) => showOkToast(text: UpdateTexts.phoneNumberUpdateSuccess));
                   final userDoc = FirebaseFirestore.instance.collection('users').doc(user?.uid);
                   await userDoc.update({
                     'phone': phoneNumber,
@@ -484,7 +391,7 @@ class FirebaseAuthprovider implements AuthProvider {
   Future<void> updateDisplayName(String displayName, BuildContext context) async {
     try {
       var user = FirebaseAuth.instance.currentUser;
-      await user?.updateDisplayName(displayName);
+      await user?.updateDisplayName(displayName).then((value) => showOkToast(text: UpdateTexts.nameUpdateSuccess));
       final DocumentReference documentReference =
           FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser?.uid);
       return await documentReference.update({
@@ -518,7 +425,7 @@ class FirebaseAuthprovider implements AuthProvider {
       final credential = EmailAuthProvider.credential(email: currentEmail, password: currentPassword);
       final authResult = await FirebaseAuth.instance.currentUser?.reauthenticateWithCredential(credential);
       final user = authResult?.user;
-      await user?.updateEmail(newEmail);
+      await user?.updateEmail(newEmail).then((value) => showOkToast(text: UpdateTexts.emailUpdateSuccess));
       final userDoc = FirebaseFirestore.instance.collection('users').doc(user?.uid);
       await userDoc.update({'email': newEmail});
     } on FirebaseAuthException catch (e) {
@@ -576,7 +483,7 @@ class FirebaseAuthprovider implements AuthProvider {
       final credential = EmailAuthProvider.credential(email: email, password: currentPassword);
       final authResult = await FirebaseAuth.instance.currentUser?.reauthenticateWithCredential(credential);
       final user = authResult?.user;
-      await user?.updatePassword(newPassword);
+      await user?.updatePassword(newPassword).then((value) => showOkToast(text: UpdateTexts.passwordUpdateSuccess));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         await showErrorDialog(

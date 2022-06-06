@@ -58,16 +58,6 @@ class AuthService implements AuthProvider {
       );
 
   @override
-  Future<User?> phoneSingUp({
-    required String phoneNumber,
-    BuildContext? context,
-  }) =>
-      provider.phoneLogin(
-        phoneNumber: phoneNumber,
-        context: context!,
-      );
-
-  @override
   Future<User?> phoneLogin({
     required String phoneNumber,
     required BuildContext context,

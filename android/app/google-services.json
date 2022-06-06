@@ -7,45 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:568059364547:android:a15807eeac5981dcb10e76",
+        "mobilesdk_app_id": "1:568059364547:android:c60d09448bb1a3d3b10e76",
         "android_client_info": {
-          "package_name": "com.example.dailyjob"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "568059364547-pp8qbbu8qitiumiqvb7oav8ivm07ij1r.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDRMMANg79Ix4fswbCCscIzg0aQ8zED-Us"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "568059364547-pp8qbbu8qitiumiqvb7oav8ivm07ij1r.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "568059364547-o6dcplu84nmb4v4vn0lf6ksfi2l3n5gf.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.hrmst177.hrms"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:568059364547:android:709b448581d78305b10e76",
-        "android_client_info": {
-          "package_name": "com.hrmst177.hrms"
+          "package_name": "com.hireme.com"
         }
       },
       "oauth_client": [

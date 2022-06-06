@@ -16,13 +16,14 @@ class ValidateTexts {
   static String passwordLenght = 'Şifre en az 8 karakter olmalıdır.';
   static String passwordCharacter = 'Şifrenizde en az bir özel karakter olmalıdır.';
   static String descriptionLength = 'Açıklama en az 50 karakter olmalıdır.';
-  static String titleLength = 'Başlık en az 10 karakter olmalıdır.';
+  static String titleLength = 'Başlık en az 5 karakter olmalıdır.';
   static String addressLenght = "Adres en az 15 karakter olmalıdır.";
   static String emptySalaryField = "Boş bırakılamaz.";
   static String emptyField = "Bu alan boş bırakılamaz.";
 }
 
 class AuthStatusTexts {
+  static String loginSucces = 'Başarıyla giriş yapıldı.';
   static String signIn = 'Giriş Yap';
   static String signUp = 'Kayıt Ol';
   static String hasAccount = 'Zaten bir hesabınız var mı?';
@@ -36,7 +37,8 @@ class AuthStatusTexts {
   static String send = 'Gönder';
   static String createAnAccount = 'Hesap Oluştur';
   static String exit = 'Çıkış Yap';
-  static String passwordResetSend = 'Girmiş olduğunuz mail adresine şifre sıfırlama linki gönderilmiştir.';
+  static String passwordResetSend =
+      'Şifrenizi sıfırlamanız için mail gönderildi. Lütfen mailinizi ve spam klasörünü kontrol ediniz.';
 }
 
 class HintTexts {
@@ -54,6 +56,7 @@ class HintTexts {
 
 class ErrorTexts {
   static String notAllowed = 'Kullanıcı devre dışı bırakılmış.';
+
   static String error = 'Bir hata oluştu.';
   static String emailAlreadyUse = 'Bu email adresi zaten kullanılıyor.';
   static String emailNotValid = 'Lütfen geçerli bir email adresi giriniz.';
@@ -76,6 +79,7 @@ class ErrorTexts {
 }
 
 class UpdateTexts {
+  static String passwordUpdateError = 'Şifre değiştirilirken hata oluştu.';
   static String passwordUpdate = 'Şifrenizi değiştirmek için bilgilerinizi giriniz';
   static String emailUpdate = 'Email adresinizi değiştirmek için bilgilerinizi giriniz';
   static String nameUpdate = "İsminizi giriniz";

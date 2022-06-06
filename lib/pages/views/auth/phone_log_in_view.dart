@@ -25,9 +25,9 @@ class _PhoneLoginViewState extends State<PhoneLoginView> {
     super.initState();
   }
 
-  void load() {
+  void _load() {
     setState(() {
-      _isLoading = true;
+      _isLoading = !_isLoading;
     });
   }
 
@@ -125,30 +125,28 @@ class _PhoneLoginViewState extends State<PhoneLoginView> {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: ElevatedButton(
-        onPressed: () async {
-          final phoneNumber = ('+90${_phoneController.text}');
-          if (_formKey.currentState!.validate()) {
-            await AuthService.firebase().phoneLogin(phoneNumber: phoneNumber, context: context);
-          }
-          final user = AuthService.firebase().currentUser;
-          if (user != null) {
-            router.go('/home');
-          }
-          setState(() {
-            load();
-          });
-        },
-        child: _isLoading
-            ? Text(AuthStatusTexts.signIn)
-            : Container(
-                width: 24,
-                height: 24,
-                padding: const EdgeInsets.all(2.0),
-                child: const CircularProgressIndicator(
-                  strokeWidth: 3,
-                ),
-              ),
-      ),
+          onPressed: () async {
+            final phoneNumber = ('+90${_phoneController.text}');
+            if (_formKey.currentState!.validate()) {
+              await AuthService.firebase()
+                  .phoneLogin(phoneNumber: phoneNumber, context: context)
+                  .then((value) => _load());
+            }
+            final user = AuthService.firebase().currentUser;
+            if (user != null) {
+              router.go('/home');
+            }
+          },
+          child: _isLoading
+              ? Container(
+                  width: 24,
+                  height: 24,
+                  padding: const EdgeInsets.all(2.0),
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 3,
+                  ),
+                )
+              : Text(AuthStatusTexts.signIn)),
     );
   }
 }

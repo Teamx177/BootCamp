@@ -30,7 +30,9 @@ class _JobFormViewState extends State<JobFormView> {
   late TextEditingController _minSalaryController;
   late TextEditingController _maxSalaryController;
   late String _userName;
+  late String _userPicture;
   late String _phoneNumber;
+  late bool _isLoading;
 
   @override
   initState() {
@@ -39,8 +41,15 @@ class _JobFormViewState extends State<JobFormView> {
     _fullAddressController = TextEditingController();
     _minSalaryController = TextEditingController();
     _maxSalaryController = TextEditingController();
+    _isLoading = false;
     getUser();
     super.initState();
+  }
+
+  load() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
   }
 
   Future<String> getUser() async {
@@ -49,6 +58,7 @@ class _JobFormViewState extends State<JobFormView> {
       var userType = doc.data();
       _userName = userType?['name'];
       _phoneNumber = userType?['phone'];
+      _userPicture = userType?['picture'];
     });
 
     return _userName;
@@ -210,7 +220,7 @@ class _JobFormViewState extends State<JobFormView> {
         ),
         TextFormField(
           controller: _titleController,
-          maxLength: 50,
+          maxLength: 20,
           decoration: const InputDecoration(
             labelText: 'İlan Başlığı',
           ),
@@ -283,23 +293,29 @@ class _JobFormViewState extends State<JobFormView> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   if (int.parse(_maxSalaryController.text) > int.parse(_minSalaryController.text)) {
-                    FirebaseFirestore.instance.collection("jobAdverts").doc().set({
-                      'userId': FirebaseAuth.instance.currentUser!.uid,
-                      'userName': _userName,
-                      'date': DateTime.now().toString(),
-                      'title': _titleController.text,
-                      'description': _descriptionController.text,
-                      'fullAddress': _fullAddressController.text,
-                      'minSalary': _minSalaryController.text,
-                      'maxSalary': _maxSalaryController.text,
-                      'category': _category,
-                      'shift': _shift,
-                      'gender': _gender,
-                      'city': _city,
-                      'phone': _phoneNumber,
-                      'applications': FieldValue.arrayUnion([])
-                    }).then((_) =>
-                        showSuccessDialog(context, "İlan başarıyla paylaşıldı").then((_) => Navigator.pop(context)));
+                    FirebaseFirestore.instance
+                        .collection("jobAdverts")
+                        .doc()
+                        .set({
+                          'userId': FirebaseAuth.instance.currentUser!.uid,
+                          'userName': _userName,
+                          'userPicture': _userPicture,
+                          'date': DateTime.now().toString(),
+                          'title': _titleController.text,
+                          'description': _descriptionController.text,
+                          'fullAddress': _fullAddressController.text,
+                          'minSalary': _minSalaryController.text,
+                          'maxSalary': _maxSalaryController.text,
+                          'category': _category,
+                          'shift': _shift,
+                          'gender': _gender,
+                          'city': _city,
+                          'phone': _phoneNumber,
+                          'applications': FieldValue.arrayUnion([])
+                        })
+                        .then((value) => load())
+                        .then((_) => showSuccessDialog(context, "İlan başarıyla paylaşıldı")
+                            .then((_) => Navigator.pop(context)));
                   } else {
                     showErrorDialog(context, "Minimum ücret Maksimum ücret'ten büyük olamaz!");
                   }
